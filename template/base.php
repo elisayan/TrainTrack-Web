@@ -13,6 +13,7 @@
     
     <footer>
         <a href="chi-siamo.php">Chi siamo</a>
+        <p>Seguici su: </p>
         <a href="https://www.facebook.com/"><img src="./img/facebook.png" alt="Facebook"></a>
         <a href="https://www.instagram.com/"><img src="./img/instagram.png" alt="Instagram"></a>
         <a href="https://x.com/"><img src="./img/x.png" alt="X"></a>
