@@ -1,4 +1,4 @@
 <?php
     require_once 'bootstrap.php';
-    require 'template/base.php';
+    require 'template/base-interna.php';
 ?>
