@@ -15,6 +15,16 @@ body > footer > a > img{
     padding: 5px;
 }
 
+img{
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+}
+
+body > div > div > div > a > img{
+    float: right;
+}
+
 main > section{
     background-color: #fff;
     border-left: 10px solid #000000;
@@ -24,12 +34,12 @@ main > section{
     min-height: 400px;
 }
 
-nav{
+body > div{
     background-color: #b8b8b8;
     border-top: 10px solid #000000;
     border-left: 10px solid #000000;
     border-right: 10px solid #000000;
-    margin: 20px 5% 0;
+    margin: 20px 5% 0 !important;
+    width: auto !important;
     min-height: 20px;
-}
- 
+} 

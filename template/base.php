@@ -12,17 +12,30 @@
     <header>
         <h1>TrainTrack</h1>
     </header>
-    <nav>
-        <a href="index.php">
-            <img src="home.png" alt="home">
-        </a>
-        <a href="login.php">
-            <img src="user.png" alt="login">
-        </a>
-        <a href="cart.php">
-            <img src="cart.png" alt="carrello">
-        </a>
-    </nav>
+
+    <div class="grid-container">
+        <div class="row">
+            <div class="col-2">
+                <div class="row">
+                    <div class="col-6">
+                    <a href="index.php">
+                        <img src="./img/home.png" alt="home">
+                    </a>
+                    </div>
+                    <div class="col-6">
+                    <a href="login.php">
+                        <img src="./img/user.png" alt="login">
+                    </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-10">
+                <a href="cart.php">
+                    <img src="./img/cart.png" alt="carrello">
+                </a>
+            </div>
+        </div>
+    </div>
 
     <main>
     <?php
