@@ -18,6 +18,14 @@
             <li><a href="carrello.php"><img src="./img/cart.png" alt="Cart"></a></li>
         </ul>
     </nav>
+
+    <main>
+        <?php
+        if(isset($templateParams["nome"])){
+            require($templateParams["nome"]);
+        }
+        ?>
+    </main>
     
     <footer>
         <a href="chi-siamo.php">Chi siamo</a>
@@ -28,5 +36,15 @@
         <a href="https://www.linkedin.com/"><img src="./img/linkedin.png" alt="LinkedIn"></a>
         <a href="https://www.youtube.com/"><img src="./img/youtube.png" alt="Youtube"></a>
     </footer>
+
+    <?php
+    if(isset($templateParams["js"])):
+        foreach($templateParams["js"] as $script):
+    ?>
+        <script src="<?php echo $script; ?>"></script>
+    <?php
+        endforeach;
+    endif;
+    ?>
 </body>
 </html>
