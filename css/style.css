@@ -1,18 +1,49 @@
-body > footer > a {
-    font-family: 'Courier New', Courier, monospace;
+body > header > h1 {
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    margin: 0;
 }
 
-body> header, body > footer{
+header{
+    background-color: #eeeeee;
+    padding: 10px;
+    border: 3px, solid, #999999;
+}
+
+body{
+    background-color: #fff !important;
+}
+
+body > footer{
+    font-family: 'Roboto', Arial, sans-serif;
+    background: linear-gradient(to bottom, #fff, #444444);
     text-align: center;
-    background-color: rgb(54, 54, 54);
+    padding: 30px 10px 10px;
+}
+
+body > footer > a{
+    margin-top: 20px;
+    color: #fff;
+    text-decoration: none; 
+}
+
+body > footer > a:hover{
+    color: #0056b3;
+}
+
+body > footer > p{
+    color: #fff;
+    font-weight: bold;
 }
 
 body > footer > a > img{
-    width: 15px;
-    height: 15px;
+    width: 25px;
+    height: 25px;
     background-color: #fff;
     border-radius: 40%;
     padding: 5px;
+    margin: 2px;
 }
 
 img{
@@ -27,19 +58,129 @@ body > div > div > div > a > img{
 
 main > section{
     background-color: #fff;
-    border-left: 10px solid #000000;
-    border-right: 10px solid #000000;
-    border-bottom: 10px solid #000000;
-    margin: 0 5% 20px;
+    border-left: 3px solid #999999;
+    border-right: 3px solid #999999;
+    border-bottom: 3px solid #999999;
+    margin: 0 5% 20px !important;
     min-height: 400px;
 }
 
 body > div{
-    background-color: #b8b8b8;
-    border-top: 10px solid #000000;
-    border-left: 10px solid #000000;
-    border-right: 10px solid #000000;
+    background-color: #eeeeee;
+    border-left: 3px solid #999999;
+    border-right: 3px solid #999999;
+    border-top: 3px solid #999999;
     margin: 20px 5% 0 !important;
     width: auto !important;
-    min-height: 20px;
+    min-height: 30px;
 } 
+
+main > section > form > div > div > div > div > *{
+    margin: 0 0 10px !important;
+}
+
+body > div > div, body > div > div > div > div{
+    min-height: 40px !important;
+    align-items: center;
+    padding: 0px 12px;
+}
+
+.nav{
+    padding: 0 !important;
+}
+
+.col-auto.passenger{
+    padding: 0 !important;
+}
+
+.passengers{
+    padding: 0 !important;
+}
+
+a{
+    align-content: center;
+}
+
+p{
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+main > section > form > div > div > div > div > button{
+    margin-top: 95% !important;
+}
+
+div.row.station{
+    margin-top: 20px;
+}
+
+main > section > form > div > div > div > div > div > div> button{
+padding: 0 !important;
+margin: 0;
+}
+
+label.kid > img{
+    padding: 8px;
+}
+
+.form-control#departure-station{
+    width: 49%;
+    display: inline-block;
+}
+
+.form-control#destination-station{
+    width: 49%;
+    display: inline-block;
+}
+
+label.station{
+    width: 49%;
+}
+
+.passenger{
+    height: 28.2px;
+    width: 28.2px;
+}
+
+.passenger > *{
+    height: 28.2px;
+    width: 28.2px;
+}
+
+.passenger > button > img{
+    padding: 6.5px;
+    width: 25px;
+    height: 25px;
+    vertical-align: top;
+}
+
+
+input#adult{
+    text-align: center;
+}
+
+input#kid{
+    text-align: center;
+}
+
+.form-control{
+    padding-top: 1px !important;
+    padding-bottom: 1px !important;
+}
+
+.row.station{
+    display: flex;
+}
+
+.col-md-6.col-lg-6 {
+    width: 50%;
+}
+
+
+@media screen and (min-width:768px) {
+    
+
+.col-md-6.col-lg-6 > .row{
+    display: inline-flex;
+}
+}

@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title><?php echo $templateParams["titolo"]; ?></title>
-    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <link rel="stylesheet" type="text/css" href="./css/style.css?ts=<?=time()?>&quot" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -15,21 +15,21 @@
 
     <div class="grid-container">
         <div class="row">
-            <div class="col-2">
+            <div class="col-auto me-auto">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-auto me-auto nav">
                     <a href="index.php">
                         <img src="./img/home.png" alt="home">
                     </a>
                     </div>
-                    <div class="col-6">
+                    <div class="col-auto me-auto nav">
                     <a href="login.php">
                         <img src="./img/user.png" alt="login">
                     </a>
                     </div>
                 </div>
             </div>
-            <div class="col-10">
+            <div class="col-auto">
                 <a href="cart.php">
                     <img src="./img/cart.png" alt="carrello">
                 </a>
