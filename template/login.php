@@ -1,5 +1,5 @@
 <form action="#" method="POST">
-    <h1>Login</h1>
+    <h2>Login</h2>
     <p>Inserisci le tue credenziali per accedere</p>
 
     <label for="username">Username:</label>

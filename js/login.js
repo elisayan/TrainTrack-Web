@@ -15,30 +15,6 @@ function generaLoginForm(loginerror = null) {
     return form;
 }
 
-async function getLoginData() {
-    const url = 'api-login.php';
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
-        const json = await response.json();
-        console.log(json);
-        if(json["logineseguito"]){
-        }
-        else{
-            visualizzaLoginForm();
-        }
-
-
-    } catch (error) {
-        console.log(error.message);
-    }
-}
-
-const main = document.querySelector("main");
-getLoginData();  
-
 function visualizzaLoginForm() {
     // Utente NON loggato
     let form = generaLoginForm();
@@ -51,3 +27,10 @@ function visualizzaLoginForm() {
         login(username, password);
     });*/
 }
+
+async function getLoginData() {
+    visualizzaLoginForm();
+}
+
+const main = document.querySelector("main");
+getLoginData();  
