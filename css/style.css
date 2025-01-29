@@ -4,6 +4,19 @@ body > header > h1 {
     text-align: center;
 }
 
+nav ul{
+    list-style: none;
+}
+
+nav ul li{
+    display: inline-block;
+}
+
+nav ul li img{
+    width: 15px;
+    height: 15px;
+}
+
 body > footer{
     font-family: 'Roboto', Arial, sans-serif;
     background: linear-gradient(to bottom, #e0e0e0, #444444);

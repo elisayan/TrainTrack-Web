@@ -10,6 +10,14 @@
     <header>
         <h1>TrainTrack</h1>
     </header>
+
+    <nav>
+        <ul>
+            <li><a href="home.php"><img src="./img/home.png" alt="Home"></a></li>
+            <li><a href="login.php"><img src="./img/user.png" alt="User"></a></li>
+            <li><a href="carrello.php"><img src="./img/cart.png" alt="Cart"></a></li>
+        </ul>
+    </nav>
     
     <footer>
         <a href="chi-siamo.php">Chi siamo</a>
