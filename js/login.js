@@ -1,7 +1,7 @@
 function generaLoginForm(loginerror = null) {
     let form = `
     <form action="#" method="POST">
-    <h3>Login</h3>
+    <h2>Login</h2>
 
     <ul>
         <li>
@@ -17,7 +17,7 @@ function generaLoginForm(loginerror = null) {
             <p>Oppure</p>
         </li>
         <li>
-            <p>Non hai ancora un account? <a href="signup.php">Registrati</a> subito!</p>
+            <p>Non hai ancora un account? <a href="register.php">Registrati</a> subito!</p>
         </li>
     </ul>
     </form>`;

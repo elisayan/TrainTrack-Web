@@ -1,5 +1,5 @@
 <form action="#" method="POST">
-    <h3>Login</h3>
+    <h2>Login</h2>
 
     <ul>
         <li>
@@ -15,7 +15,7 @@
             <p>Oppure</p>
         </li>
         <li>
-            <p>Non hai ancora un account? <a href="signup.php">Registrati</a> subito!</p>
+            <p>Non hai ancora un account? <a href="register.php">Registrati</a> subito!</p>
         </li>
     </ul>
 </form>
