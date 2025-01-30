@@ -1,16 +1,20 @@
 function generaLoginForm(loginerror = null) {
     let form = `
     <form action="#" method="POST">
-    <h1>Login</h1>
-    <p>Inserisci le tue credenziali per accedere</p>
+        <h3>Login</h3>
+        <p>Inserisci le tue credenziali per accedere</p>
 
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-
-    <input type="submit" name="submit" value="Accedi">
+        <ul>
+            <li>
+                <label for="username">Username:</label><input type="text" id="username" name="username" />
+            </li>
+            <li>
+                <label for="password">password:</label><input type="password" id="password" name="password" />
+            </li>
+            <li>
+                <input type="submit" name="submit" value="Accedi"/>
+            </li>
+        </ul>
     </form>`;
     return form;
 }
