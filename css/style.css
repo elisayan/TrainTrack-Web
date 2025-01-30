@@ -75,8 +75,12 @@ body > div{
     min-height: 30px;
 } 
 
-main > section > form > div > div > div > div > *{
+.row.station > div > *, .col-auto.passenger, #datePicker{
     margin: 0 0 10px !important;
+}
+
+.col-md-12.col-lg-8 > .row{
+    margin-bottom: 0px !important;
 }
 
 body > div > div, body > div > div > div > div{
@@ -124,17 +128,17 @@ label.kid > img{
 }
 
 .form-control#departure-station{
-    width: 49%;
+    width: 50%;
     display: inline-block;
 }
 
 .form-control#destination-station{
-    width: 49%;
+    width: 50%;
     display: inline-block;
 }
 
 label.station{
-    width: 49%;
+    width: 48%;
 }
 
 .passenger{
@@ -154,7 +158,6 @@ label.station{
     vertical-align: top;
 }
 
-
 input#adult{
     text-align: center;
 }
@@ -172,10 +175,21 @@ input#kid{
     display: flex;
 }
 
-.col-md-6.col-lg-6 {
+.col-md-6.col-lg-6{
     width: 50%;
 }
 
+.row.adult, .row.kid{
+    margin-left: auto !important;
+}
+
+.service{
+    margin: 0 !important;
+}
+
+button.passenger > img{
+    margin-left: -6px;
+}
 
 @media screen and (min-width:768px) {
     
@@ -183,4 +197,13 @@ input#kid{
 .col-md-6.col-lg-6 > .row{
     display: inline-flex;
 }
+
+.col-md-6.col-lg-6 > .row > .form-control{
+    width: auto;
+}
+
+.col-md-12.col-lg-2 > *{
+    width: fit-content;
+}
+
 }
