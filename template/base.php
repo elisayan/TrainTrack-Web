@@ -8,7 +8,7 @@
 
 <body>
     <header>
-        <h1>TrainTrack</h1>
+        <h1><a href="home.php">TrainTrack</a></h1>
     </header>
 
     <nav>
