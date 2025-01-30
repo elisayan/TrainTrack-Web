@@ -11,5 +11,11 @@
         <li>
             <input type="submit" name="submit" value="Accedi"/>
         </li>
+        <li>
+            <p>Oppure</p>
+        </li>
+        <li>
+            <p>Non hai ancora un account? <a href="signup.php">Registrati</a> subito!</p>
+        </li>
     </ul>
 </form>

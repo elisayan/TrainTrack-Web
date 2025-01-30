@@ -90,6 +90,15 @@ form ul > li > input[type="submit"]:hover {
     background-color: #66b3ff;
 }
 
+form > ul > li > p{
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+form > ul > li > p > a{
+    font-weight: bold;
+    color: #007bff;
+}
+
 body > footer{
     font-family: 'Roboto', Arial, sans-serif;
     background: linear-gradient(to bottom, #e0e0e0, #444444);
