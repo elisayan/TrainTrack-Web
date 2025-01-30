@@ -110,10 +110,6 @@ p{
     padding: 0 !important;
 }
 
-main > section > form > div > div > div > div > button{
-    margin-top: 95% !important;
-}
-
 div.row.station{
     margin-top: 20px;
 }
@@ -189,6 +185,10 @@ input#kid{
 
 button.passenger > img{
     margin-left: -6px;
+}
+
+.search > button{
+    margin-top: 10% !important;
 }
 
 @media screen and (min-width:768px) {
