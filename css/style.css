@@ -107,6 +107,19 @@ form > ul > li > p > a{
     color: #007bff;
 }
 
+.form-control-static {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 8px;
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+.form-label {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
 body > footer{
     font-family: 'Roboto', Arial, sans-serif;
     background: linear-gradient(to bottom, #e0e0e0, #444444);

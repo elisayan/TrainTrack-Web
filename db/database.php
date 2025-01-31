@@ -41,5 +41,14 @@ class DatabaseHelper
         $stmt->bind_param('ssssssssss', $nome, $cognome, $cf, $indirizzo, $telefono, $email, $password, $spesatotale);
         return $stmt->execute();
     }
+
+    public function getUserByEmail($email) {
+        $query = "SELECT * FROM persona WHERE Email = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }
 ?>
