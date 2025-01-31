@@ -10,8 +10,9 @@
                         <label class="station" for="departure-station">Partenza:</label>
                         <input class="form-control" list="datalistStation" id="departure-station" name="departure-station" />
                             <datalist id="datalistStation">
-                                <option value="Bologna"> <!--usare il db-->
-                                <option value="Cesena">
+                                <?php foreach($templateParams["nome_stazioni"] as $stazione): ?>
+                                <option value="<?php echo $stazione["nome_stazioni"]; ?>">
+                                <?php endforeach; ?>
                             </datalist>
                     </div>
 
@@ -19,8 +20,9 @@
                         <label class="station" for="destination-station">Arrivo:</label>
                         <input class="form-control" list="datalistStation" id="destination-station" name="destination-station" />
                             <datalist id="datalistStation">
-                                <option value="Bologna"> <!-- usare il db -->
-                                <option value="Cesena">
+                                <?php foreach($templateParams["nome_stazioni"] as $stazione): ?>
+                                <option value="<?php echo $stazione["nome_stazioni"]; ?>">
+                                <?php endforeach; ?>
                             </datalist>
                     </div>
 
