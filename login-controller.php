@@ -1,7 +1,7 @@
 <?php
 require_once 'bootstrap.php';
 
-if(isset($_POST["email"] && isset($_POST["password"]))){
+if(isset($_POST["email"]) && isset($_POST["password"])){
     $login_result = $dbh->checkLogin($_POST["username"], $_POST["password"]);
     if(count($login_result)==0){
         //Login fallito
@@ -9,6 +9,8 @@ if(isset($_POST["email"] && isset($_POST["password"]))){
     }
     else{
         registerLoggedUser($login_result[0]);
+        header("Location: home.php");
+        exit();
     }
 }
 

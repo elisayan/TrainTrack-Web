@@ -14,7 +14,7 @@ class DatabaseHelper
     public function checkLogin($email, $password){
         $query = "SELECT * FROM persona WHERE email=? AND password=?";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ss',$username, $password);
+        $stmt->bind_param('ss',$email, $password);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -22,12 +22,12 @@ class DatabaseHelper
     }
 
     public function isClient($email){
-        $query = "SELECT tipopersona FROM persona WHERE email = ?"
+        $query = "SELECT tipopersona FROM persona WHERE email = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $email);
         $stmt->execute();
         $result = $stmt->get_result();
-        $result = $result->fetch_all(MYSQLI_ASSOC)[0]["ruolo"];
+        $result = $result->fetch_all(MYSQLI_ASSOC)[0]["tipopersona"];
         if ($result == "cliente") {
             return true;
         }
@@ -36,8 +36,7 @@ class DatabaseHelper
 
     public function registerUser($nome, $cognome, $cf, $indirizzo, $telefono, $email, $password, $spesatotale){
         $query = "INSERT INTO  persona (Nome, Cognome, CF, Indirizzo, Telefono, Email, Password, SpesaTotale, TipoPersona, TipoCliente)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, '0', 'cliente', 'utente')";
-
+                    VALUES (?, ?, ?, ?, ?, ?, ?, 0, 'cliente', 'utente')";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('ssssssssss', $nome, $cognome, $cf, $indirizzo, $telefono, $email, $password, $spesatotale);
         return $stmt->execute();
