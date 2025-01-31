@@ -10,9 +10,8 @@
     }
 
     function registerLoggedUser($user){
-        $_SESSION["email"] = $user["email"];
-        $_SESSION["nome"] = $user["nome"];
-        $_SESSION["tipopersona"] = $user["tipopersona"];
+        $_SESSION["email"] = $user["Email"];
+        $_SESSION["nome"] = $user["Nome"];
+        $_SESSION["tipopersona"] = $user["TipoPersona"];
     }
-    
 ?>

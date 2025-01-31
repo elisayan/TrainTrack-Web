@@ -1,18 +1,21 @@
-/*function visualizzaLoginForm() {
-    // Utente NON loggato
-    main.innerHTML = form;
-    // Gestisco tentativo di login
-    /*document.querySelector("main form").addEventListener("submit", function (event) {
-        event.preventDefault();
-        const username = document.querySelector("#username").value;
-        const password = document.querySelector("#password").value;
-        login(username, password);
-    });*/
-//}
+async function getLoginData() {
+    const url = "login-controller.php";
 
-/*async function getLoginData() {
-    visualizzaLoginForm();
+    try {
+        const response = await fetch(url);
+        if(!response.ok){
+            throw new Error(`Response status: ${response.status}`);
+        }
+        const json = await response.json();
+        console.log(json);
+
+        if(json["logineseguito"]){
+            console.log("login eseguito");
+        }
+    } catch (error) {
+        console.log(error.message);
+    }
 }
 
 const main = document.querySelector("main");
-getLoginData();  */
+getLoginData();
