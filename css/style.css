@@ -206,4 +206,9 @@ button.passenger > img{
     width: fit-content;
 }
 
+
+.station.sub{
+    width: 49%;
+}
+
 }
