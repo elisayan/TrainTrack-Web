@@ -34,11 +34,11 @@ class DatabaseHelper
         return false;
     }
 
-    public function registerUser($nome, $cognome, $cf, $indirizzo, $telefono, $email, $password, $spesatotale){
+    public function registerUser($nome, $cognome, $cf, $indirizzo, $telefono, $email, $password){
         $query = "INSERT INTO  persona (Nome, Cognome, CF, Indirizzo, Telefono, Email, Password, SpesaTotale, TipoPersona, TipoCliente)
                     VALUES (?, ?, ?, ?, ?, ?, ?, 0, 'cliente', 'utente')";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ssssssssss', $nome, $cognome, $cf, $indirizzo, $telefono, $email, $password, $spesatotale);
+        $stmt->bind_param('sssssss', $nome, $cognome, $cf, $indirizzo, $telefono, $email, $password);
         return $stmt->execute();
     }
 
