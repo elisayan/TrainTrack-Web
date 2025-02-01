@@ -60,15 +60,15 @@
             </div>
         </div>
 
-        <div class="col-md-4 mb-5">
+        <div class="col-md-4 mb-5 text-start">
             <div class="d-grid gap-3">
-                <a href="ordini.php" class="btn btn-outline-dark btn-lg shadow-sm fs-6 custom-hover">
+                <a href="ordini.php" class="btn shadow-sm fs-6 custom-hover">
                     <img src="img/order.png" alt="Ordini" class="me-2">I Miei Ordini
                 </a>
-                <a href="notifiche.php" class="btn btn-outline-dark btn-lg shadow-sm fs-6 custom-hover">
+                <a href="notifiche.php" class="btn shadow-sm fs-6 custom-hover">
                     <img src="img/notification.png" alt="Notifiche" class="me-2">Notifiche
                 </a>
-                <a href="buoni-sconto.php" class="btn btn-outline-dark btn-lg shadow-sm fs-6 custom-hover">
+                <a href="buoni-sconto.php" class="btn shadow-sm fs-6 custom-hover">
                     <img src="img/voucher.png" alt="Buoni Sconto" class="me-2">Buoni Sconto
                 </a>
             </div>
