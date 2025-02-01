@@ -17,14 +17,6 @@ if(isset($_POST["nome"], $_POST["cognome"], $_POST["cf"], $_POST["email"], $_POS
             $templateParams["errore_registrazione"] = "La password e la conferma password non coincidono. Controlla e riprova.";
         }
     } else {
-        $userDetails = $dbh->getUserByEmail($_POST["email"]);
-        $templateParams["errore_registrazione"] = "Email già in uso. Scegli un'altra email o accedi.";
-
-        // Stampa direttamente i dettagli dell'utente
-        echo "<h3>Dettagli dell'utente esistente:</h3>";
-        echo "<p>Nome: " . htmlspecialchars($userDetails["nome"]) . "</p>";
-        echo "<p>Cognome: " . htmlspecialchars($userDetails["cognome"]) . "</p>";
-        echo "<p>Email: " . htmlspecialchars($userDetails["email"]) . "</p>";
         $templateParams["errore_registrazione"] = "Email già in uso. Scegli un'altra email o accedi.";
     }
 }
