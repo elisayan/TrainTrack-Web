@@ -133,8 +133,15 @@ form > ul > li > p > a{
     text-decoration: underline;
 }
 
+.container {
+    display: flex;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .sidebar {
-    width: 250px;
+    width: 600px;
     background-color: #f8f9fa;
     padding: 20px;
     height: 100vh;
@@ -154,8 +161,8 @@ form > ul > li > p > a{
     background-color: #e9ecef;
 }
 
-.container {
-    display: flex;
+.content {
+    margin-left: 20px;
 }
 
 body > footer{

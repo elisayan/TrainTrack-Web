@@ -6,7 +6,7 @@
         <a href="cancella_treno.php">Cancella Treno</a>
     </div>
 
-    <div class="content" id="content">
+    <div class="content">
         <?php 
             if(isset($templateParams["azione"])){
                 require($templateParams["azione"]);
