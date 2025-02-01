@@ -120,6 +120,25 @@ form > ul > li > p > a{
     margin-bottom: 8px;
 }
 
+.btn img {
+    width: 24px;
+    height: 24px;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
+.custom-hover:hover {
+    text-decoration: underline;
+    text-decoration-color: black; 
+    text-decoration-thickness: 2px;
+}
+
+.d-grid .btn-outline-dark:hover {
+    background-color: transparent;
+    color: black;
+    text-decoration: underline;
+}
+
 body > footer{
     font-family: 'Roboto', Arial, sans-serif;
     background: linear-gradient(to bottom, #e0e0e0, #444444);

@@ -62,17 +62,14 @@
 
         <div class="col-md-4 mb-5">
             <div class="d-grid gap-3">
-                <a href="biglietti.php" class="btn btn-outline-dark btn-lg shadow-sm fs-6">
-                    <i class="fas fa-ticket-alt"></i> I Miei Biglietti
+                <a href="ordini.php" class="btn btn-outline-dark btn-lg shadow-sm fs-6 custom-hover">
+                    <img src="img/order.png" alt="Ordini" class="me-2">I Miei Ordini
                 </a>
-                <a href="abbonamenti.php" class="btn btn-outline-dark btn-lg shadow-sm fs-6">
-                    <i class="fas fa-calendar-alt"></i> I Miei Abbonamenti
+                <a href="notifiche.php" class="btn btn-outline-dark btn-lg shadow-sm fs-6 custom-hover">
+                    <img src="img/notification.png" alt="Notifiche" class="me-2">Notifiche
                 </a>
-                <a href="notifiche.php" class="btn btn-outline-dark btn-lg shadow-sm fs-6">
-                    <i class="fas fa-bell"></i> Notifiche
-                </a>
-                <a href="buoni-sconto.php" class="btn btn-outline-dark btn-lg shadow-sm fs-6">
-                    <i class="fas fa-tags"></i> Buoni Sconto
+                <a href="buoni-sconto.php" class="btn btn-outline-dark btn-lg shadow-sm fs-6 custom-hover">
+                    <img src="img/voucher.png" alt="Buoni Sconto" class="me-2">Buoni Sconto
                 </a>
             </div>
         </div>
