@@ -61,7 +61,7 @@ body {
     border-radius: 5px;
 }
 
-.sidebar a:hover {
+.sidebar a:hover, .sidebar a:active { /*active to do*/
     background-color: #e9ecef;
 }
 
