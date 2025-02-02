@@ -1,8 +1,10 @@
 <form action="login-controller.php" method="POST">
     <h2>Login</h2>
 
-    <?php if(isset($templateParams["errorelogin"])): ?>
-    <p><?php echo $templateParams["errorelogin"]; ?></p>
+    <?php if (isset($templateParams["errorelogin"])): ?>
+        <div class="alert alert-danger">
+            <strong>Errore:</strong> <?php echo htmlspecialchars($templateParams["errorelogin"]); ?>
+        </div>
     <?php endif; ?>
 
     <ul>
