@@ -1,8 +1,16 @@
 <form action="#" method="post">
     <h2>Registrazione</h2>
 
-    <?php if(isset($templateParams["errore_registrazione"])): ?>
-    <p><?php echo $templateParams["errore_registrazione"]; ?></p>
+    <?php if (isset($templateParams["errore_registrazione"])): ?>
+        <div class="alert alert-danger">
+            <strong>Errore:</strong> <?php echo htmlspecialchars($templateParams["errore_registrazione"]); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($templateParams["successo_registrazione"])): ?>
+        <div class="alert alert-success">
+            <?php echo $templateParams["successo_registrazione"]; ?>
+        </div>
     <?php endif; ?>
 
     <ul>

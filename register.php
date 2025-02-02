@@ -8,8 +8,7 @@ if(isset($_POST["nome"], $_POST["cognome"], $_POST["cf"], $_POST["email"], $_POS
         if($_POST["password"] == $_POST["confirm_password"]) {
             $register_result = $dbh->registerUser($_POST["nome"], $_POST["cognome"], $_POST["cf"], $_POST["indirizzo"], $_POST["telefono"], $_POST["email"], $_POST["password"]);
             if($register_result) {
-                header("Location: login.php");
-                exit();
+                $templateParams["successo_registrazione"] = "Registrazione completata con successo! <a href='login.php'>Accedi ora</a>.";
             } else {
                 $templateParams["errore_registrazione"] = "Si è verificato un errore. Riprova più tardi.";  
             }
