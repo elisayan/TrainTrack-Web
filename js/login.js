@@ -1,21 +1,37 @@
-async function getLoginData() {
-    const url = "login-controller.php";
+async function login(email, password) {
+    const url = 'login-controller.php';
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('password', password);
 
     try {
-        const response = await fetch(url);
-        if(!response.ok){
-            throw new Error(`Response status: ${response.status}`);
-        }
-        const json = await response.json();
-        console.log(json);
+        const response = await fetch(url, {
+            method: "POST",
+            body: formData
+        });
 
-        if(json["logineseguito"]){
-            console.log("login eseguito");
+        if (!response.ok) {
+            throw new Error(`Errore di rete: ${response.status}`);
+        }
+
+        const json = await response.json();
+
+        if (json["logineseguito"]) {
+            console.log("Login riuscito!");
+            window.location.href = "home.php";
+        } else {
+            console.log("Login fallito: " + json["errorelogin"]);
+            //document.getElementById("errorMessage").innerText = json["errorelogin"];
         }
     } catch (error) {
-        console.log(error.message);
+        console.log("Errore durante il login: " + error.message);
     }
 }
 
-const main = document.querySelector("main");
-getLoginData();
+document.getElementById("loginForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    login(email, password);
+});
