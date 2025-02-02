@@ -45,8 +45,8 @@
             <div class="card h-100 shadow hover-effect">
                 <img src="./img/path.png" class="card-img-top p-3 img-card-custom" alt="Ordini">
                 <div class="card-body">
-                    <h5 class="card-title">Ordini</h5>
-                    <p class="text-muted small">Visualizza i tuoi ordini</p>
+                    <h5 class="card-title">Percorsi</h5>
+                    <p class="text-muted small">Visualizza i tuoi percorsi</p>
                 </div>
             </div>
         </a>
