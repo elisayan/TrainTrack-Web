@@ -5,7 +5,6 @@ if(isset($_POST["email"]) && isset($_POST["password"])){
     $login_result = $dbh->checkLogin($_POST["email"], $_POST["password"]);
 
     if(count($login_result)==0){
-        //Login fallito
         $templateParams["errorelogin"] = "Errore! Username o password non validi";
     }
     else{
@@ -23,7 +22,7 @@ if(isUserLoggedIn()){
         exit();
     }
 } else{
-    $templateParams["titolo"]="Traintrack - Login";
+    $templateParams["titolo"]="Traintrack - Home";
     $templateParams["nome"]="template/login.php";
 }
 
