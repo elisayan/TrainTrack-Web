@@ -7,7 +7,6 @@ if (!isset($_SESSION["email"])) {
 
 $templateParams["titolo"]="TrainTrack - Profilo Macchinista";
 $templateParams["nome"]="template/profilo-macchinista.php";
-$templateParams["azione"]="template/aggiungi-percorso.php";
 
 $email = $_SESSION["email"];
 $user=$dbh->getUserByEmail($email);
