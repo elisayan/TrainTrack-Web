@@ -63,7 +63,7 @@
         <div class="col-md-4 mb-5 text-start">
             <div class="d-grid gap-3">
                 <a href="ordini.php" class="btn shadow-sm fs-6 custom-hover">
-                    <img src="img/order.png" alt="Ordini" class="me-2">I Miei Ordini
+                    <img src="img/order.png" alt="Ordini" class="me-2">I Miei Percorsi
                 </a>
                 <a href="notifiche.php" class="btn shadow-sm fs-6 custom-hover">
                     <img src="img/notification.png" alt="Notifiche" class="me-2">Notifiche

@@ -243,6 +243,21 @@
     opacity: 1;
 }
 
+.table-hover tbody tr {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.table-hover tbody tr:hover {
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.table th {
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
 body {
     font-family: 'Roboto', Arial, sans-serif;
     margin: 0;

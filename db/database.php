@@ -50,5 +50,56 @@ class DatabaseHelper
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function getTicketOrders($email) {
+        $query ="
+            SELECT 
+                s.CodServizio AS CodiceOrdine,
+                s.NomePasseggero,
+                s.CognomePasseggero,
+                s.CodPercorso,
+                s.StazionePartenza,
+                s.StazioneArrivo,
+                s.TipoTreno,
+                s.DataPartenza,
+                s.OrarioPartenza,
+                s.Prezzo
+            FROM Servizio s
+            JOIN Persona p ON s.Email = p.Email
+            WHERE p.Email = ?
+            AND s.Durata IS NULL
+        ";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_Param('s', $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+    
+    public function getSubscriptionOrders($email) {
+        $query ="
+            SELECT 
+                    s.CodServizio AS CodiceOrdine,
+                    s.NomePasseggero,
+                    s.CognomePasseggero,
+                    s.StazionePartenza,
+                    s.StazioneArrivo,
+                    s.TipoTreno,
+                    s.DataPartenza AS DataInizioAbbonamento,
+                    s.Durata,
+                    s.Chilometraggio,
+                    t.Prezzo
+                FROM Servizio s
+                JOIN Persona p ON s.Email = p.Email
+                JOIN TipoAbbonamento t ON s.Durata = t.Durata AND s.Chilometraggio = t.Chilometraggio
+                WHERE p.Email = ?
+                AND s.Durata IS NOT NULL
+        ";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_Param('s', $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }
 ?>
