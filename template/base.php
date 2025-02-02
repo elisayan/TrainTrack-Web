@@ -21,7 +21,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropbtn"><img src="./img/user.png" alt="utente"><span>Utente ▾</span></a>
                     <div class="dropdown-content">
-                        <a href="profilo.php">Profilo</a>
+                        <a href="login.php">Profilo</a>
                         <a href="logout.php">Logout</a>
                     </div>
                 </li>
