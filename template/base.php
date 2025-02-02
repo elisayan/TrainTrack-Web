@@ -9,9 +9,11 @@
 </head>
 
 <body>
-    <header>
-        <h1><a href="home.php">TrainTrack</a></h1>
-    </header>
+    <div class="col-12 text-center header-intro">
+        <h2 class="display-4 mb-3">
+            <a href="home.php" class="logo-link">TrainTrack</a>
+        </h2>
+    </div>
 
     <nav>
         <ul>
@@ -42,14 +44,32 @@
         ?>
     </main>
     
-    <footer>
-        <a href="chi-siamo.php">Chi siamo</a>
-        <p>Seguici su: </p>
-        <a href="https://www.facebook.com/"><img src="./img/facebook.png" alt="Facebook"></a>
-        <a href="https://www.instagram.com/"><img src="./img/instagram.png" alt="Instagram"></a>
-        <a href="https://x.com/"><img src="./img/x.png" alt="X"></a>
-        <a href="https://www.linkedin.com/"><img src="./img/linkedin.png" alt="LinkedIn"></a>
-        <a href="https://www.youtube.com/"><img src="./img/youtube.png" alt="Youtube"></a>
+    <footer class="footer-container">
+        <div class="footer-links">
+            <a href="chi-siamo.php" class="footer-link">Chi Siamo</a>
+        </div>
+
+        <div class="social-section">
+            <p class="social-title">Seguici sui social</p>
+            <div class="social-icons">
+                <a href="https://facebook.com" class="social-icon">
+                    <img src="./img/facebook.png" alt="Facebook" class="social-img">
+                </a>
+                <a href="https://instagram.com" class="social-icon">
+                    <img src="./img/instagram.png" alt="Instagram" class="social-img">
+                </a>
+                <a href="https://x.com" class="social-icon">
+                    <img src="./img/x.png" alt="X" class="social-img">
+                </a>
+                <a href="https://linkedin.com" class="social-icon">
+                    <img src="./img/linkedin.png" alt="LinkedIn" class="social-img">
+                </a>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © 2024 TrainTrack - Tutti i diritti riservati
+        </div>
     </footer>
 
     <?php

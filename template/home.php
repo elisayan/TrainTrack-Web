@@ -1,11 +1,11 @@
 <div class="container-fluid text-center">
-    <div class="col-12 mb-3">
-        <h2>Benvenuto su TrainTrack</h2>
-        <p>Prenota i tuoi biglietti, gestisci abbonamenti e controlla i tuoi ordini</p>
+    <div class="col-12 mb-5 text-center">
+        <p class="lead hero-subtitle">Prenota biglietti in un click, gestisci abbonamenti e monitora i tuoi percorsi</p>
+        <div class="decorative-line mx-auto mt-4"></div>
     </div>
 
     <div class="row">
-        <div class="col-6 col-md-3 mb-3">
+        <div class="col-6 col-md-3 mb-5">
             <a href="biglietti.php" class="card-link">
                 <div class="card h-100 shadow hover-effect">
                     <img src="./img/ticket.png" class="card-img-top p-3 img-card-custom" alt="Biglietti">
@@ -17,7 +17,7 @@
             </a>
         </div>
 
-        <div class="col-6 col-md-3 mb-3">
+        <div class="col-6 col-md-3 mb-5">
             <a href="abbonamenti.php" class="card-link">
                 <div class="card h-100 shadow hover-effect">
                     <img src="./img/subscription.png" class="card-img-top p-3 img-card-custom" alt="Abbonamenti">
@@ -29,7 +29,7 @@
             </a>
         </div>
 
-        <div class="col-6 col-md-3 mb-3">
+        <div class="col-6 col-md-3 mb-5">
             <a href="login.php" class="card-link">
                 <div class="card h-100 shadow hover-effect">
                     <img src="./img/profile.png" class="card-img-top p-3 img-card-custom" alt="Profilo">
@@ -41,7 +41,7 @@
             </a>
         </div>
 
-        <div class="col-6 col-md-3 mb-3">
+        <div class="col-6 col-md-3 mb-5">
             <a href="ordini.php" class="card-link">
                 <div class="card h-100 shadow hover-effect">
                     <img src="./img/path.png" class="card-img-top p-3 img-card-custom" alt="Ordini">
