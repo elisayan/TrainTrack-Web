@@ -6,8 +6,6 @@
             <div class="card mb-4 shadow-sm">
                 <div class="card-body">
                     <h3 class="card-title mb-4 fs-5">Informazioni Personali</h3>
-                    <hr>
-
                     <div class="mb-3">
                         <label class="form-label fs-6"><b>Nome:</b></label>
                         <div class="form-control-static fs-6">
