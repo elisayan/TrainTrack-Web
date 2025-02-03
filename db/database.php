@@ -54,7 +54,7 @@ class DatabaseHelper
     public function getTicketOrders($email) {
         $query ="
             SELECT 
-                s.CodServizio AS CodiceOrdine,
+                s.CodServizio,
                 s.NomePasseggero,
                 s.CognomePasseggero,
                 s.CodPercorso,
@@ -79,13 +79,13 @@ class DatabaseHelper
     public function getSubscriptionOrders($email) {
         $query ="
             SELECT 
-                    s.CodServizio AS CodiceOrdine,
+                    s.CodServizio,
                     s.NomePasseggero,
                     s.CognomePasseggero,
                     s.StazionePartenza,
                     s.StazioneArrivo,
                     s.TipoTreno,
-                    s.DataPartenza AS DataInizioAbbonamento,
+                    s.DataPartenza AS DataInizio,
                     s.Durata,
                     s.Chilometraggio,
                     t.Prezzo
