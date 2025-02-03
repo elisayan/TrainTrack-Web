@@ -1,8 +1,13 @@
-<h1 class="mb-4">I miei ordini</h1>
+<h1 class="mb-4">I miei percorsi</h1>
 
 <section class="mb-5">
     <h3 class="mb-3">Biglietti acquistati</h3>
     <?php if (!empty($ticketOrders)): ?>
+        <?php
+        usort($ticketOrders, function($a, $b) {
+            return strcmp($b['CodServizio'], $a['CodServizio']);
+        });
+        ?>
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead class="table-light">
@@ -46,6 +51,11 @@
 <section class="mb-5">
     <h3 class="mb-3">Abbonamenti attivi</h3>
     <?php if (!empty($subscriptionOrders)): ?>
+        <?php
+        usort($subscriptionOrders, function($a, $b) {
+            return strcmp($b['CodServizio'], $a['CodServizio']);
+        });
+        ?>
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead class="table-light">
