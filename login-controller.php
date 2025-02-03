@@ -1,7 +1,7 @@
 <?php
 require_once 'bootstrap.php';
 
-$response = ["logineseguito" => false, "errorelogin" => ""]; // Inizializza la risposta JSON
+$response = ["logineseguito" => false, "errorelogin" => ""];
 
 if (isset($_POST["email"]) && isset($_POST["password"])) {
     $login_result = $dbh->checkLogin($_POST["email"], $_POST["password"]);

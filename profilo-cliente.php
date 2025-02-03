@@ -9,7 +9,7 @@ $templateParams["titolo"]="TrainTrack - Profilo Utente";
 $templateParams["nome"]="template/profilo-cliente.php";
 
 $email = $_SESSION["email"];
-$user=$dbh->getUserByEmail($email);
+$user = $dbh->getUserByEmail($email);
 
 require 'template/base.php';
 ?>

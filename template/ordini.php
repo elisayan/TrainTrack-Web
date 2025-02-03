@@ -1,6 +1,6 @@
-<h1 class="mb-4">I miei percorsi</h1>
+<h1 class="mb-4 mx-3">I miei percorsi</h1>
 
-<section class="mb-5">
+<section class="mb-5 mx-3">
     <h3 class="mb-3">Biglietti acquistati</h3>
     <?php if (!empty($ticketOrders)): ?>
         <?php
@@ -48,8 +48,8 @@
     <?php endif; ?>
 </section>
 
-<section class="mb-5">
-    <h3 class="mb-3">Abbonamenti attivi</h3>
+<section class="mb-5 mx-3">
+    <h3 class="mb-3">Abbonamenti acquistati</h3>
     <?php if (!empty($subscriptionOrders)): ?>
         <?php
         usort($subscriptionOrders, function($a, $b) {
@@ -95,8 +95,6 @@
     <?php endif; ?>
 </section>
 
-<div class="mt-4 text-center">
-    <a href="profilo-cliente.php" class="btn btn-primary">
-        <i class="bi bi-arrow-left me-2"></i>Torna al Profilo
-    </a>
+<div class="mt-4 mb-4 text-center">
+    <a href="profilo-cliente.php" class="btn btn-primary">Torna al Profilo</a>
 </div>
