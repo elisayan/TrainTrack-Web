@@ -124,15 +124,6 @@ class DatabaseHelper
         return $stmt->execute();
     }
 
-    public function segnaNotificaNonLetta($notifica, $email){
-        $query = "UPDATE StatoNotifica SN
-                    SET SN.Letto = FALSE
-                    WHERE SN.CodNotifica = ? AND SN.Email = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_Param('ss', $notifica, $email);
-        return $stmt->execute();
-    }
-
     public function cancellaNotifica($notifica, $email) {
         $query = "DELETE sn 
                   FROM StatoNotifica sn
@@ -140,6 +131,18 @@ class DatabaseHelper
                   AND sn.Email = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('ss', $notifica, $email);
+        return $stmt->execute();
+    }
+
+    public function notificaBenvenuto($email){
+        $query = "INSERT INTO StatoNotifica (CodNotifica, Email)
+                    SELECT 1, Email 
+                    FROM Persona 
+                    WHERE TipoPersona = 'cliente' AND 
+                        TipoCliente = 'utente' AND
+                        Email = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $email);
         return $stmt->execute();
     }
 }

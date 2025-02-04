@@ -9,6 +9,7 @@ if(isset($_POST["nome"], $_POST["cognome"], $_POST["cf"], $_POST["email"], $_POS
             $register_result = $dbh->registerUser($_POST["nome"], $_POST["cognome"], $_POST["cf"], $_POST["indirizzo"], $_POST["telefono"], $_POST["email"], $_POST["password"]);
             if($register_result) {
                 $templateParams["successo_registrazione"] = "Registrazione completata con successo! <a href='login.php'>Accedi ora</a>.";
+                $dbh->notificaBenvenuto($_POST["email"]);
             } else {
                 $templateParams["errore_registrazione"] = "Si è verificato un errore. Riprova più tardi.";  
             }
