@@ -79,27 +79,68 @@ class DatabaseHelper
     public function getSubscriptionOrders($email) {
         $query ="
             SELECT 
-                    s.CodServizio,
-                    s.NomePasseggero,
-                    s.CognomePasseggero,
-                    s.StazionePartenza,
-                    s.StazioneArrivo,
-                    s.TipoTreno,
-                    s.DataPartenza AS DataInizio,
-                    s.Durata,
-                    s.Chilometraggio,
-                    t.Prezzo
-                FROM Servizio s
-                JOIN Persona p ON s.Email = p.Email
-                JOIN TipoAbbonamento t ON s.Durata = t.Durata AND s.Chilometraggio = t.Chilometraggio
-                WHERE p.Email = ?
-                AND s.Durata IS NOT NULL
+                s.CodServizio,
+                s.NomePasseggero,
+                s.CognomePasseggero,
+                s.StazionePartenza,
+                s.StazioneArrivo,
+                s.TipoTreno,
+                s.DataPartenza AS DataInizio,
+                s.Durata,
+                s.Chilometraggio,
+                t.Prezzo
+            FROM Servizio s
+            JOIN Persona p ON s.Email = p.Email
+            JOIN TipoAbbonamento t ON s.Durata = t.Durata AND s.Chilometraggio = t.Chilometraggio
+            WHERE p.Email = ?
+            AND s.Durata IS NOT NULL
         ";
         $stmt = $this->db->prepare($query);
         $stmt->bind_Param('s', $email);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getNotificheByUtente($email) {
+        $query = "SELECT n.CodNotifica, n.Descrizione, sn.Letto
+                    FROM Notifica n
+                    JOIN StatoNotifica sn ON n.CodNotifica = sn.CodNotifica
+                    JOIN Persona p ON sn.Email = p.Email
+                    WHERE p.TipoPersona = 'cliente' AND p.Email = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_Param('s', $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function segnaNotificaLetta($notifica, $email){
+        $query = "UPDATE StatoNotifica SN
+                    SET SN.Letto = TRUE
+                    WHERE SN.CodNotifica = ? AND SN.Email = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_Param('ss', $notifica, $email);
+        return $stmt->execute();
+    }
+
+    public function segnaNotificaNonLetta($notifica, $email){
+        $query = "UPDATE StatoNotifica SN
+                    SET SN.Letto = FALSE
+                    WHERE SN.CodNotifica = ? AND SN.Email = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_Param('ss', $notifica, $email);
+        return $stmt->execute();
+    }
+
+    public function cancellaNotifica($notifica, $email) {
+        $query = "DELETE sn 
+                  FROM StatoNotifica sn
+                  WHERE sn.CodNotifica = ? 
+                  AND sn.Email = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ss', $notifica, $email);
+        return $stmt->execute();
     }
 }
 ?>

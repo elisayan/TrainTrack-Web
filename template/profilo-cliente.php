@@ -63,7 +63,7 @@
                 <a href="ordini.php" class="btn shadow-sm fs-6 custom-hover">
                     <img src="img/order.png" alt="Ordini" class="me-2">I Miei Percorsi
                 </a>
-                <a href="notifiche.php" class="btn shadow-sm fs-6 custom-hover">
+                <a href="notifica.php" class="btn shadow-sm fs-6 custom-hover">
                     <img src="img/notification.png" alt="Notifiche" class="me-2">Notifiche
                 </a>
                 <a href="buoni-sconto.php" class="btn shadow-sm fs-6 custom-hover">
