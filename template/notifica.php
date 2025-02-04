@@ -33,3 +33,7 @@
         </div>
     <?php endif; ?>
 </div>
+
+<div class="mt-4 mb-4 text-center">
+    <a href="profilo-cliente.php" class="btn btn-primary">Torna al Profilo</a>
+</div>
