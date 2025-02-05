@@ -1,6 +1,6 @@
 <div class="container-fluid text-center">
         <div class="col-12 mb-4">
-            <h1 class="display-5 fw-bold text-primary">I tuoi buoni sconto</h1>
+            <h1>I tuoi buoni sconto</h1>
             <p class="lead">Scegli e utilizza i coupon disponibili per i tuoi prossimi acquisti</p>
         </div>
 
