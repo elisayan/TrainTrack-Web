@@ -317,6 +317,14 @@
     font-size: 1.2rem;
 }
 
+.form-control, .form-select, .btn {
+    max-width: 100% !important;
+}
+.card {
+    min-width: 100%;
+    margin: 0;
+}
+
 section {
     margin-bottom: 40px;
     background-color: #fff;

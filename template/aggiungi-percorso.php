@@ -69,7 +69,6 @@
         <div class="card-header">
             <h4 class="mb-0">Stazioni Attraversate</h4>
         </div>
-        <template id="station-template">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3 mb-3">
@@ -105,7 +104,6 @@
                     <input type="time" class="form-control" name="orario_arrivo_previsto[]" required>
                 </div>
             </div>
-        </template>
             <button type="button" class="btn btn-outline-primary" onclick="cloneStation()">Aggiungi Altra Stazione</button>
         </div>
     </div>

@@ -212,10 +212,23 @@ class DatabaseHelper
         return $stmt->execute();
     }
 
-    public function getStazioneNome(){
-        $query = "SELECT *
-                    FROM Stazione";
+    public function getPercorsi(){
+        $query = "SELECT CodPercorso
+                    FROM Percorso";
         $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getStazioniOfPercorso($codicePercorso){
+        $query = "SELECT s.Nome, s.CodStazione
+                    FROM Attraversato a
+                    JOIN Stazione s ON a.CodStazione = s.CodStazione
+                    WHERE a.CodPercorso = ? 
+                    ORDER BY a.Ordine";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $codicePercorso);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
