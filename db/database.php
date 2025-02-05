@@ -104,10 +104,11 @@ class DatabaseHelper
 
     public function getNotificheByUtente($email) {
         $query = "SELECT n.CodNotifica, n.Descrizione, sn.Letto
-                    FROM Notifica n
-                    JOIN StatoNotifica sn ON n.CodNotifica = sn.CodNotifica
-                    JOIN Persona p ON sn.Email = p.Email
-                    WHERE p.TipoPersona = 'cliente' AND p.Email = ?";
+              FROM Notifica n
+              JOIN StatoNotifica sn ON n.CodNotifica = sn.CodNotifica
+              JOIN Persona p ON sn.Email = p.Email
+              WHERE p.TipoPersona = 'cliente' AND p.Email = ?
+              ORDER BY n.CodNotifica DESC";
         $stmt = $this->db->prepare($query);
         $stmt->bind_Param('s', $email);
         $stmt->execute();
@@ -145,5 +146,56 @@ class DatabaseHelper
         $stmt->bind_param('s', $email);
         return $stmt->execute();
     }
+
+    public function getTreniDisponibili(){
+        $query = "SELECT *  FROM Treno";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function creaPercorso($codicePercorso, $codiceTreno, $email, $durata, $prezzo, $posti){
+        $query = "INSERT INTO Percorso (CodPercorso, CodTreno, Email, TempoPercorrenza, Prezzo, PostiDisponibili) 
+                  VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('sssidi', $codicePercorso, $codiceTreno, $email, $durata, $prezzo, $posti);
+        return $stmt->execute();
+    }
+
+    public function cercaPercorso($codicePercorso){
+        $query = "SELECT codPercorso
+                    FROM Percorso
+                    WHERE codPercorso = ?";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_Param('s', $codicePercorso);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function notificaNuovoPercorso($testo, $percorso) {
+        $query = "INSERT INTO Notifica (Descrizione, CodPercorso) VALUES (?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ss', $testo, $percorso);
+        
+        if (!$stmt->execute()) {
+            return false;
+        }
+    
+        $codNotifica = $this->db->insert_id;
+    
+        $queryStato = "INSERT INTO StatoNotifica (CodNotifica, Email, Letto)
+                       SELECT ?, Email, FALSE
+                       FROM Persona
+                       WHERE TipoPersona = 'cliente' AND TipoCliente = 'utente'";
+    
+        $stmtStato = $this->db->prepare($queryStato);
+        $stmtStato->bind_param('i', $codNotifica);
+        
+        return $stmtStato->execute();
+    }
+    
 }
 ?>

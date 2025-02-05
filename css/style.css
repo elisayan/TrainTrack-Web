@@ -305,16 +305,16 @@
 }
 
 .list-group-item.letta {
-    background-color: #f8f9fa; /* Colore di sfondo per notifiche lette */
-    opacity: 0.7; /* Effetto di trasparenza per notifiche lette */
+    background-color: #f8f9fa;
+    opacity: 0.7;
 }
 
 .list-group-item:hover {
-    background-color: #e9ecef; /* Cambia colore al passaggio del mouse */
+    background-color: #e9ecef;
 }
 
 .bi-x-lg {
-    font-size: 1.2rem; /* Dimensione dell'icona "X" */
+    font-size: 1.2rem;
 }
 
 section {

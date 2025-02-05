@@ -6,7 +6,8 @@
     <?php else: ?>
         <div class="list-group">
             <?php foreach ($notifiche as $notifica): ?>
-                <form method="POST" class="list-group-item d-flex justify-content-between align-items-center <?= $notifica['Letto'] ? 'letta' : '' ?>">
+                <form method="POST" class="list-group-item d-flex justify-content-between align-items-center rounded-3 shadow-sm <?= $notifica['Letto'] ? 'letta' : '' ?>">
+
                     <input type="hidden" name="id_notifica" value="<?= $notifica['CodNotifica'] ?>">
                     
                     <div class="form-check">
