@@ -7,7 +7,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     $login_result = $dbh->checkLogin($_POST["email"], $_POST["password"]);
 
     if (count($login_result) == 0) {
-        $response["errorelogin"] = "Errore! Email o password non validi";
+        $response["errorelogin"] = "Email o password non validi";
     } else {
         registerLoggedUser($login_result[0]);
         $response["logineseguito"] = true;
