@@ -78,7 +78,7 @@
         </div>
 
         <!-- Termini e condizioni -->
-        <div class="col-12 mt-5">
+        <div class="col-12 mt-5 mb-4">
             <div class="border-top pt-4">
                 <h4 class="mb-3">Condizioni d'uso</h4>
                 <ul class="list-group list-group-flush">
