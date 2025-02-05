@@ -11,7 +11,7 @@ $templateParams["nome"]="template/profilo-macchinista.php";
 $templateParams["azione"] = "template/cambia-orario.php";
 
 $email = $_SESSION["email"];
-$user=$dbh->getUserByEmail($email);
+$user = $dbh->getUserByEmail($email);
 
 require 'template/base.php';
 ?>

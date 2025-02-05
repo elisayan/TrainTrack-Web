@@ -196,6 +196,30 @@ class DatabaseHelper
         
         return $stmtStato->execute();
     }
+
+    public function aggiungiStazioniAttraversate(){
+        
+    }
+
+    public function cambiaOrario($percorso, $stazione, $orario_partenza, $orario_arrivo){
+        $query = "UPDATE Attraversato
+                    SET OrarioPartenzaPrevisto = ?,
+                        OrarioArrivoPrevisto = ?
+                    WHERE CodPercorso = ?
+                    AND CodStazione = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ssss', $orario_partenza, $orario_arrivo, $percorso, $stazione);
+        return $stmt->execute();
+    }
+
+    public function getStazioneNome(){
+        $query = "SELECT *
+                    FROM Stazione";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
     
 }
 ?>
