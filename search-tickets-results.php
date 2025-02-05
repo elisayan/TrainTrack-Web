@@ -19,7 +19,7 @@ if(isset($_GET["stazione_partenza"]) && isset($_GET["stazione_arrivo"]) && isset
         $templateParams["biglietti"] = $dbh->getTickets($departureStation, $destinationStation, $departureDate, $departureTime, $numberTickets, 6);
     }
     else{
-        $templateParams["titolo_pagina"] = "Biglietto non trovato"; 
+        $templateParams["titolo"] = "Biglietto non trovato"; 
         $templateParams["biglietti"] = array();   
     }
 

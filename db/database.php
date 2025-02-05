@@ -39,13 +39,13 @@ class DatabaseHelper
     }
 
     public function getTicketsBySearch($departureStation, $destinationStation, $departureDate, $departureTime, $numberTickets){
-        $query ="SELECT p.CodPercorso, p.CodTreno, p.TempoPercorrenza,
-        sp.Nome AS NomeStazionePartenza,
-        sa.Nome AS NomeStazioneArrivo,
-        a1.Data,
-        a1.OrarioPartenzaPrevisto,
-        t.Tipo,
-        p.Prezzo,
+        $query ="SELECT t.Tipo AS tipotreno,
+                a1.Data AS datapartenza,
+                a1.OrarioPartenzaPrevisto AS orariopartenza,
+                a2.Data AS dataarrivo,
+                a2.OrarioArrivoPrevisto AS orarioarrivo,
+                p.Prezzo AS prezzo,
+                p.PostiDisponibili AS postidisponibili,
         (SELECT MAX(a.Ordine)
         FROM Attraversato a
         WHERE a.CodPercorso = a1.CodPercorso) AS MaxOrdine,
@@ -61,6 +61,8 @@ class DatabaseHelper
         AND a1.Data = ?
         AND (a1.OrarioPartenzaPrevisto >= ? OR a1.OrarioPartenzaReale >= ?)
         AND a1.Ordine < a2.Ordine
+        AND a1.Data <= a2.Data
+        AND a1.OrarioPartenzaPrevisto < a2.OrarioArrivoPrevisto
         AND p.PostiDisponibili > ?
         ORDER BY a1.OrarioPartenzaPrevisto";
         $stmt = $this->db->prepare($query);
@@ -77,13 +79,13 @@ class DatabaseHelper
     }
 
     public function getTickets($departureStation, $destinationStation, $departureDate, $departureTime, $numberTickets, $n=-1){
-        $query = "SELECT p.CodPercorso, p.CodTreno, p.TempoPercorrenza,
-        sp.Nome AS NomeStazionePartenza,
-        sa.Nome AS NomeStazioneArrivo,
-        a1.Data,
-        a1.OrarioPartenzaPrevisto,
-        t.Tipo,
-        p.Prezzo, 
+        $query = "SELECT t.Tipo AS tipotreno,
+                a1.Data AS datapartenza,
+                a1.OrarioPartenzaPrevisto AS orariopartenza,
+                a2.Data AS dataarrivo,
+                a2.OrarioArrivoPrevisto AS orarioarrivo,
+                p.Prezzo AS prezzo,
+                p.PostiDisponibili AS postidisponibili,
         (SELECT MAX(a.Ordine)
         FROM Attraversato a
         WHERE a.CodPercorso = a1.CodPercorso) AS MaxOrdine,
@@ -99,6 +101,8 @@ class DatabaseHelper
         AND a1.Data = ?
         AND (a1.OrarioPartenzaPrevisto >= ? OR a1.OrarioPartenzaReale >= ?)
         AND a1.Ordine < a2.Ordine
+        AND a1.Data <= a2.Data
+        AND a1.OrarioPartenzaPrevisto < a2.OrarioArrivoPrevisto
         AND p.PostiDisponibili > ?
         ORDER BY a1.OrarioPartenzaPrevisto";
 

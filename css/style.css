@@ -11,6 +11,10 @@ header{
     border: 3px, solid, #999999;
 }
 
+section > header{
+    border: 0 !important;
+}
+
 body{
     background-color: #fff !important;
 }
@@ -50,6 +54,13 @@ img{
     width: 30px;
     height: 30px;
     padding: 5px;
+}
+
+article{
+    border: 3px solid #999999;
+    border-radius: 10%;
+    padding: 10px;
+    margin: 10px;
 }
 
 body > div > div > div > a > img{
@@ -206,9 +217,11 @@ button.passenger > img{
     width: fit-content;
 }
 
-
 .station.sub{
     width: 49%;
 }
 
+article{
+    width: 33%;
+}
 }

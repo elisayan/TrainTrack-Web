@@ -1,13 +1,42 @@
 <section>
     <header>
-        <div class="row justify-content-center">
-            <p><?php echo $departureStation; ?></p>
-            <img src="" alt="">
-            <p><?php echo $destinationStation; ?></p>
-            <img src="" alt="">
-            <p><?php echo $departureDate; ?></p>
-            <img src="" alt="">
-            <p><?php echo $departureTime; ?></p>
+        <div class="row searchheader">
+            <div class="col-5">
+                <div class="row">
+                    <div class="col">
+                        <p><?php echo $departureStation; ?></p>
+                    </div>
+                    <div class="col">
+                        <img src="./img/next.png" alt="">
+                    </div>
+                    <div class="col">
+                        <p><?php echo $destinationStation; ?></p>
+                    </div>            
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="row">
+                    <div class="col">
+                        <img src="./img/calendar.png" alt="">
+                    </div>
+                    <div class="col">
+                        <p><?php echo $departureDate; ?></p>
+                    </div>
+                    <div class="col">
+                        <p><?php echo $departureTime; ?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="row">
+                    <div class="col">
+                        <img src="./img/ticket.png" alt="">
+                    </div>
+                    <div class="col">
+                        <p><?php echo $numberTickets; ?></p>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
     <div class="grid-container">
@@ -15,17 +44,17 @@
         <article>
             <div class="container">
                 <div class="row">
-                    <div class="col">
-                        <p>tipo</p>
-                        <p>partenza</p>
-                        <p>arrivo</p>
-                        <p>prezzo</p>
+                    <div class="col-4">
+                        <p>Tipo</p>
+                        <p>Partenza</p>
+                        <p>Arrivo</p>
+                        <p>Prezzo</p>
                     </div>
-                    <div class="col">
+                    <div class="col-8">
                         <p><?php echo $biglietto["tipotreno"]; ?></p>
                         <p><?php echo $biglietto["datapartenza"]; ?> <?php echo $biglietto["orariopartenza"]; ?></p>
                         <p><?php echo $biglietto["dataarrivo"]; ?> <?php echo $biglietto["orarioarrivo"]; ?></p>
-                        <p><?php echo $biglietto["prezzo"]; ?></p>
+                        <p><?php echo $biglietto["prezzo"]/$biglietto["NumeroStazioni"]; ?>€</p>
                     </div>
                 </div>
                 <div class="row">
@@ -33,7 +62,7 @@
                         <p><?php echo $biglietto["postidisponibili"]; ?> posti disponibili</p>
                     </div>
                     <div class="col-auto">
-                        <a href=""><img src="" alt=""></a>
+                        <button class="btn btn-secondary btn-sm"><img src="./img/cart.png" alt=""></button>
                     </div>
                 </div>
             </div>
