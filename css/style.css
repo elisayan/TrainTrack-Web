@@ -75,7 +75,7 @@ body > div{
     min-height: 30px;
 } 
 
-.row.station > div > *, .col-auto.passenger, #datePicker{
+.row.station > div > *, .col-auto.passenger, #data_partenza{
     margin: 0 0 10px !important;
 }
 
@@ -123,12 +123,12 @@ label.kid > img{
     padding: 8px;
 }
 
-.form-control#departure-station{
+.form-control#stazione_partenza{
     width: 50%;
     display: inline-block;
 }
 
-.form-control#destination-station{
+.form-control#stazione_arrivo{
     width: 50%;
     display: inline-block;
 }
@@ -154,11 +154,11 @@ label.station{
     vertical-align: top;
 }
 
-input#adult{
+input#numero_biglietti_adulti{
     text-align: center;
 }
 
-input#kid{
+input#numero_biglietti_bambini{
     text-align: center;
 }
 

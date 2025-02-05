@@ -48,7 +48,7 @@
             <div class="row">
                     <div class="col-auto me-auto"></div>
                     <div class="col-auto">
-                    <button class="btn btn-secondary btn-sm" type="button">CERCA</button>
+                    <input class="btn btn-secondary btn-sm" type="button" value="CERCA" onclick="">
                     </div>
                 </div>
                 </div>

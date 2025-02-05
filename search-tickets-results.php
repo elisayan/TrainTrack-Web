@@ -8,18 +8,26 @@ if(isset($_GET["stazione_partenza"]) && isset($_GET["stazione_arrivo"]) && isset
     $departureTime = $_GET["orario_partenza"];
     $numberTickets = $_GET["numero_biglietti_adulti"] + $_GET["numero_biglietti_bambini"];
 
+    
     $tickets = $dbh->getTicketsBySearch($departureStation, $destinationStation, $departureDate, $departureTime, $numberTickets);
-    if(count($tickets)==0){
-        $templateParams["errore_ricerca"] = "Biglietto non trovato";
+    if(count($tickets)>0){
+        
+
+        $templateParams["titolo"] = "Risultati Ricerca Biglietto";
+        $templateParams["nome"] = "search-ticket-results.php";
+
+        $templateParams["biglietti"] = $dbh->getTickets($departureStation, $destinationStation, $departureDate, $departureTime, $numberTickets, 6);
     }
     else{
-        $templateParams["biglietti"] = $tickets; 
+        $templateParams["titolo_pagina"] = "Biglietto non trovato"; 
+        $templateParams["biglietti"] = array();   
     }
-}
 
-$templateParams["titolo"] = "Ricerca Biglietto";
-$templateParams["nome"] = "search-ticket-home.php";
-$templateParams["nome_stazioni"] = $dbh->getStations();
+
+}
+else{
+    
+}
 
 require 'template/base.php';
 ?>
