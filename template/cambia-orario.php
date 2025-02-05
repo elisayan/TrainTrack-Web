@@ -4,11 +4,26 @@
     </div>
 
     <div class="card-body">
+        <?php if(isset($templateParams["errore"])): ?>
+        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+            <?php echo htmlspecialchars($templateParams["errore"]); ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php unset($templateParams["errore"]); endif; ?>
+
+        <?php if(isset($templateParams["successo"])): ?>
+        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+            <?php echo htmlspecialchars($templateParams["successo"]); ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+        </div>
+        <?php unset($templateParams["successo"]); endif; ?>
+
         <div class="row g-4">
             <div class="col-12 col-md-6">
                 <div class="h-100 border p-3 rounded">
                     <h5 class="text-muted mb-3">1. Seleziona Percorso</h5>
-                    <form method="POST">
+                    <form action="#" method="POST">
                         <div class="form-floating mb-3">
                             <select class="form-select" id="cod_percorso" name="cod_percorso" required>
                                 <option value="" disabled <?= !isset($_POST['cod_percorso']) ? 'selected' : '' ?>>Seleziona un percorso</option>
@@ -32,15 +47,16 @@
             <div class="col-12 col-md-6">
                 <div class="h-100 border p-3 rounded">
                     <h5 class="text-muted mb-3">2. Modifica Orario</h5>
-                    <form method="POST">
+                    <form action="#" method="POST">
                         <input type="hidden" name="cod_percorso" value="<?= htmlspecialchars($_POST['cod_percorso']) ?>">
                         
                         <div class="form-floating mb-3">
                             <select class="form-select" id="cod_stazione" name="cod_stazione" required>
-                                <option value="" disabled selected>Seleziona una stazione</option>
-                                <?php foreach ($stazioni as $stazione): ?>
+                            <option value="" disabled selected>Seleziona una stazione</option>
+                            <?php foreach ($stazioni as $stazione): ?>
                                 <option value="<?= htmlspecialchars($stazione['CodStazione']) ?>">
-                                    <?= htmlspecialchars($stazione['Nome']) ?>
+                                    <?= htmlspecialchars($stazione['Nome']) ?> - 
+                                    <?= htmlspecialchars($stazione['CodStazione']) ?>
                                 </option>
                                 <?php endforeach; ?>
                             </select>
