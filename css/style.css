@@ -202,6 +202,17 @@ button.passenger > img{
     margin-top: 10% !important;
 }
 
+.row.searchheader > .col-md-5 > .row > .col > *{
+    width: fit-content !important;
+}
+
+.row.searchheader > .col-md-5 > .row > .col-auto {
+    padding-right: 0%;
+}
+
+.col-md-7.col-lg-5 , .col-md-5.col-lg-2, .col-md-12.col-lg-5{
+    width: auto !important;
+}
 @media screen and (min-width:768px) {
     
 
