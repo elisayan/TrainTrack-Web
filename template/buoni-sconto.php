@@ -64,12 +64,8 @@
                         <?php if($stato === 'attivo'): ?>
                             <div class="text-center mb-4">
                                 <code class="fs-3 text-dark" id="couponCode<?php echo $buono['CodBuonoSconto'] ?>">
-                                    <?php echo htmlspecialchars($buono['CodBuonoSconto']) ?>
+                                    <?php echo "CODICE: " . htmlspecialchars($buono['CodBuonoSconto']); ?>
                                 </code>
-                                <button class="btn btn-outline-secondary btn-sm ms-2" 
-                                        onclick="copyCoupon('couponCode<?php echo $buono['CodBuonoSconto'] ?>')">
-                                    <i class="bi bi-clipboard"></i>
-                                </button>
                             </div>
                         <?php elseif($stato === 'scaduto'): ?>
                             <div class="text-center">
