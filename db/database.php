@@ -239,7 +239,8 @@ class DatabaseHelper
                   FROM BuonoSconto
                   WHERE Email = ? 
                   AND CodBuonoSconto NOT IN (SELECT CodBuonoSconto
-                                                FROM Utilizzo)";
+                                                FROM Utilizzo)
+                  ORDER BY CodBuonoSconto DESC";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $email);
         $stmt->execute();

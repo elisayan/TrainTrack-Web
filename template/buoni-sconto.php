@@ -4,21 +4,38 @@
         <p class="lead">Scegli e utilizza i coupon disponibili per i tuoi prossimi acquisti</p>
     </div>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        <?php foreach ($buoni as $buono): 
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
+        <?php 
+        // Aggiungi sempre un buono "in attesa"
+        $soglia = 100;
+        $spesaMancante = $soglia - ($persona[0]['SpesaTotale'] - $persona[0]['UltimaSpesaCoupon']);
+        $spesaMancante = max(0, $spesaMancante);
+        
+        // Crea un buono fittizio per lo stato "in attesa"
+        $buonoInAttesa = [
+            'CodBuonoSconto' => 'PROSSIMO',
+            'Importo' => 10, // Importo fisso di 10€
+        ];
+        
+        // Unisci i buoni reali con quello in attesa
+        $tuttiBuoni = array_merge([$buonoInAttesa], $buoni);
+        
+        foreach ($tuttiBuoni as $buono): 
             $now = new DateTime();
-            $scadenza = new DateTime($buono['DataScadenza']);
-
-            $soglia = 100; 
-            $spesaMancante = $soglia - ($persona[0]['SpesaTotale'] - $persona[0]['UltimaSpesaCoupon']);
-            $spesaMancante = max(0, $spesaMancante);
-
-            if ($now > $scadenza) {
-                $stato = 'scaduto';
-            } elseif ($spesaMancante > 0) {
+            
+            if ($buono['CodBuonoSconto'] === 'PROSSIMO') {
                 $stato = 'in_attesa';
             } else {
-                $stato = 'attivo';
+                $attivo = new DateTime($buono['DataInizioValidita']);
+                $scadenza = new DateTime($buono['DataScadenza']);
+                
+                if ($now < $scadenza && $now >= $attivo) {
+                    $stato = 'attivo';
+                } elseif ($now > $scadenza) {
+                    $stato = 'scaduto';
+                } else {
+                    $stato = 'in_attesa';
+                }
             }
         ?>
             <div class="col">
@@ -28,17 +45,15 @@
                             <span class="badge bg-light text-<?php echo getBadgeColor($stato) ?>">
                                 <?php echo getStatoText($stato) ?>
                             </span>
-                            <small>
-                                <?php if (!empty($buono['DataScadenza'])): ?>
-                                    Scade il <?php echo $scadenza->format('d/m/Y') ?>
-                                <?php endif; ?>
-                            </small>
+                            <?php if ($stato !== 'in_attesa' && isset($scadenza)): ?>
+                                <small>Scade il <?php echo $scadenza->format('d/m/Y') ?></small>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class="card-body">
                         <h3 class="card-title text-center mb-4">
                             <span class="display-4 text-<?php echo getBorderColor($stato) ?>">
-                                <?php echo ($buono['Importo'] > 1 ? '€' : '') ?><?php echo $buono['Importo'] ?><?php echo ($buono['Importo'] <= 1 ? '%' : '') ?>
+                                <?php echo ($buono['CodBuonoSconto'] === 'PROSSIMO' ? '€10' : ($buono['Importo'] > 1 ? '€' : '') . $buono['Importo'] . ($buono['Importo'] <= 1 ? '%' : '')) ?>
                             </span><br>
                             <small>DI SCONTO</small>
                         </h3>
@@ -54,15 +69,37 @@
                                 </button>
                             </div>
                         <?php elseif($stato === 'scaduto'): ?>
-                            <p class="text-center text-muted">Buono scaduto</p>
+                            <div class="text-center">
+                                <p class="text-muted mb-3">Buono scaduto</p>
+                                <form method="post" action="#">
+                                    <input type="hidden" name="codice" value="<?php echo $buono['CodBuonoSconto'] ?>">
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash me-2"></i>Elimina
+                                    </button>
+                                </form>
+                            </div>
                         <?php else: ?>
                             <div class="text-center">
-                                <p class="text-muted mb-3">
-                                    Mancano €<?php echo number_format($spesaMancante, 2) ?> per ottenere questo coupon.
-                                </p>
-                                <button class="btn btn-outline-dark" disabled>
-                                    <i class="bi bi-clock-history me-2"></i>Disponibile a breve
-                                </button>
+                                <?php if($buono['CodBuonoSconto'] === 'PROSSIMO'): ?>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar bg-warning" 
+                                             role="progressbar" 
+                                             style="width: <?php echo (($soglia - $spesaMancante)/$soglia)*100 ?>%" 
+                                             aria-valuenow="<?php echo $soglia - $spesaMancante ?>" 
+                                             aria-valuemin="0" 
+                                             aria-valuemax="<?php echo $soglia ?>">
+                                        </div>
+                                    </div>
+                                    <p class="text-muted">
+                                        Mancano<br>
+                                        <span class="h4">€<?php echo number_format($spesaMancante, 2) ?></span><br>
+                                        al prossimo coupon
+                                    </p>
+                                <?php else: ?>
+                                    <p class="text-muted mb-3">
+                                        Disponibile dal <?php echo $attivo->format('d/m/Y') ?>
+                                    </p>
+                                <?php endif; ?>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -71,14 +108,11 @@
         <?php endforeach; ?>
     </div>
 
-    <div class="border-top pt-4 mb-4">
+    <div class="pt-4 mb-4">
         <h4 class="mb-3">Termini e condizioni</h4>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">• Ogni buono sconto è valido per una sola transazione.</li>
-            <li class="list-group-item">• I buoni sconto non sono rimborsabili né convertibili in denaro.</li>
-            <li class="list-group-item">• È possibile ottenere un nuovo buono sconto ogni €100 di spesa accumulata.</li>
-            <li class="list-group-item">• Per maggiori dettagli, consulta il <a href="#" class="text-decoration-none">regolamento completo</a>.</li>
+            <li class="list-group-item">• Ottieni un buono sconto da €10 ogni €100 di spesa</li>
+            <li class="list-group-item">• I buoni sconto scadono dopo 6 mesi dall'emissione</li>
         </ul>
     </div>
-
 </div>
