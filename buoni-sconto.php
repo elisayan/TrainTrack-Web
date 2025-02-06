@@ -8,12 +8,10 @@
     
     $email = $_SESSION['email'];
     $persona = $dbh->getUserByEmail($email);
-
+    $buoni = $dbh->getBuoniScontoNonUtilizzate($email);
 
     $templateParams["titolo"] = "TrainTrack - BuoniSconto";
     $templateParams["nome"] = "template/buoni-sconto.php";
-
-    $buoni = $dbh->getBuoniScontoNonUtilizzate($email);
 
     require 'template/base.php';
 ?>

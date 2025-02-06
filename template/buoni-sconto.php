@@ -4,20 +4,23 @@
         <p class="lead">Scegli e utilizza i coupon disponibili per i tuoi prossimi acquisti</p>
     </div>
 
+    <?php if (isset($_GET["msg"]) && $_GET["msg"] === "success"): ?>
+        <div class="alert alert-success">Buono sconto eliminato con successo!</div>
+    <?php elseif (isset($_GET["msg"]) && $_GET["msg"] === "error"): ?>
+        <div class="alert alert-danger">Errore durante l'eliminazione del buono sconto</div>
+    <?php endif; ?>
+
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
         <?php 
-        // Aggiungi sempre un buono "in attesa"
         $soglia = 100;
         $spesaMancante = $soglia - ($persona[0]['SpesaTotale'] - $persona[0]['UltimaSpesaCoupon']);
         $spesaMancante = max(0, $spesaMancante);
         
-        // Crea un buono fittizio per lo stato "in attesa"
         $buonoInAttesa = [
             'CodBuonoSconto' => 'PROSSIMO',
-            'Importo' => 10, // Importo fisso di 10€
+            'Importo' => 10,
         ];
         
-        // Unisci i buoni reali con quello in attesa
         $tuttiBuoni = array_merge([$buonoInAttesa], $buoni);
         
         foreach ($tuttiBuoni as $buono): 
@@ -71,7 +74,7 @@
                         <?php elseif($stato === 'scaduto'): ?>
                             <div class="text-center">
                                 <p class="text-muted mb-3">Buono scaduto</p>
-                                <form method="post" action="#">
+                                <form method="post" action="elimina-buono.php">
                                     <input type="hidden" name="codice" value="<?php echo $buono['CodBuonoSconto'] ?>">
                                     <button type="submit" class="btn btn-danger btn-sm">
                                         <i class="bi bi-trash me-2"></i>Elimina

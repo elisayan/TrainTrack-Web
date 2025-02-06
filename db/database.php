@@ -246,6 +246,22 @@ class DatabaseHelper
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
-    }    
+    }
+    
+    public function eliminaBuonoSconto($email, $buonoSconto) {
+        $queryUtilizzo = "DELETE FROM Utilizzo WHERE CodBuonoSconto = ?";
+        $stmtUtilizzo = $this->db->prepare($queryUtilizzo);
+        $stmtUtilizzo->bind_param('i', $buonoSconto);
+        $stmtUtilizzo->execute();
+        
+        $queryBuono = "DELETE FROM BuonoSconto WHERE CodBuonoSconto = ? AND Email = ?";
+        $stmtBuono = $this->db->prepare($queryBuono);
+        $stmtBuono->bind_param('is', $buonoSconto, $email);
+        
+        return $stmtBuono->execute();
+    }
+    
+
+
 }
 ?>
