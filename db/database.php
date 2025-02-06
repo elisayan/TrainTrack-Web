@@ -234,12 +234,14 @@ class DatabaseHelper
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getBuoniScontoNonUtilizzate(){
+    public function getBuoniScontoNonUtilizzate($email){
         $query = "SELECT *
                   FROM BuonoSconto
-                  WHERE CodBuonoSconto NOT IN (SELECT CodBuonoSconto
+                  WHERE Email = ? 
+                  AND CodBuonoSconto NOT IN (SELECT CodBuonoSconto
                                                 FROM Utilizzo)";
         $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $email);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);

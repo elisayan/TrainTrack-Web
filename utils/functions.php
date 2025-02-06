@@ -14,4 +14,36 @@
         $_SESSION["nome"] = $user["Nome"];
         $_SESSION["tipopersona"] = $user["TipoPersona"];
     }
+
+    function getBorderColor($stato) {
+        return match($stato) {
+            'attivo' => 'success',
+            'scaduto' => 'secondary',
+            'in_attesa' => 'warning',
+        };
+    }
+    
+    function getHeaderColor($stato) {
+        return match($stato) {
+            'attivo' => 'success',
+            'scaduto' => 'secondary',
+            'in_attesa' => 'warning',
+        };
+    }
+    
+    function getBadgeColor($stato) {
+        return match($stato) {
+            'attivo' => 'success',
+            'scaduto' => 'danger',
+            'in_attesa' => 'warning',
+        };
+    }
+    
+    function getStatoText($stato) {
+        return match($stato) {
+            'attivo' => 'ATTIVO',
+            'scaduto' => 'SCADUTO',
+            'in_attesa' => 'IN ATTESA',
+        };
+    }
 ?>
