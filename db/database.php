@@ -233,6 +233,16 @@ class DatabaseHelper
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-    
+
+    public function getBuoniScontoNonUtilizzate(){
+        $query = "SELECT *
+                  FROM BuonoSconto
+                  WHERE CodBuonoSconto NOT IN (SELECT CodBuonoSconto
+                                                FROM Utilizzo)";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }    
 }
 ?>
