@@ -44,10 +44,8 @@
                 </div>
 
                 <div class="text-center">
-                    <p class="text-muted mb-0">Non hai ancora un account?</p>
-                    <a href="register.php" class="btn btn-link">
-                        Registrati subito!
-                    </a>
+                    <p class="text-muted mb-0">Non hai ancora un account? <a href="register.php">Registrati</a> subito!</p>
+                    
                 </div>
             </form>
         </div>
