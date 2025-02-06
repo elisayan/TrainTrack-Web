@@ -123,5 +123,29 @@ class DatabaseHelper
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function getSubscriptions($departureStationSub, $destinationStationSub, $duration, $trainType){
+        $query ="SELECT s.StazionePartenza, s.StazioneArrivo, s.TipoTreno AS tipotreno,
+                s.Durata AS durata, t.Prezzo AS prezzo, s.Chilometraggio, s.CodPercorso
+                FROM Servizio s
+                JOIN TipoAbbonamento t ON s.Durata = t.Durata
+                AND s.Chilometraggio = t.Chilometraggio
+                WHERE (s.StazionePartenza = ? AND s.StazioneArrivo = ?
+                OR s.StazionePartenza = ? AND s.StazioneArrivo = ?)
+                AND s.Durata = ?
+                AND s.TipoTreno = ?
+                ORDER BY t.prezzo";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            die("Prepare failed: " . $this->db->error);
+        }
+
+        $stmt->bind_param('ssssss', $departureStationSub, $destinationStationSub, $destinationStationSub, $departureStationSub, $duration, $trainType);
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }
 ?>

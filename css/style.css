@@ -58,7 +58,7 @@ img{
 
 article{
     border: 3px solid #999999;
-    border-radius: 10%;
+    border-radius: 5%;
     padding: 10px;
     margin: 10px;
 }
@@ -202,17 +202,18 @@ button.passenger > img{
     margin-top: 10% !important;
 }
 
-.row.searchheader > .col-md-5 > .row > .col > *{
+.row.row.justify-content-center.searchheader > .col-md-5 > .row > .col > *{
     width: fit-content !important;
 }
 
-.row.searchheader > .col-md-5 > .row > .col-auto {
+.row.justify-content-center.searchheader > .col-md-5 > .row > .col-auto {
     padding-right: 0%;
 }
 
 .col-md-7.col-lg-5 , .col-md-5.col-lg-2, .col-md-12.col-lg-5{
     width: auto !important;
 }
+
 @media screen and (min-width:768px) {
     
 
@@ -233,6 +234,6 @@ button.passenger > img{
 }
 
 article{
-    width: 33%;
+    width: 20%;
 }
 }

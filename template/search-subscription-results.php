@@ -4,13 +4,13 @@
             <div class="col-md-7 col-lg-5">
                 <div class="row">
                     <div class="col-auto">
-                        <p><?php echo $departureStation; ?></p>
+                        <p><?php echo $departureStationSub; ?></p>
                     </div>
                     <div class="col-auto">
                         <img src="./img/next.png" alt="">
                     </div>
                     <div class="col-auto">
-                        <p><?php echo $destinationStation; ?></p>
+                        <p><?php echo $destinationStationSub; ?></p>
                     </div>            
                 </div>
             </div>
@@ -20,7 +20,7 @@
                         <img src="./img/ticket.png" alt="">
                     </div>
                     <div class="col">
-                        <p><?php echo $numberTickets; ?></p>
+                        <p><?php echo $trainType; ?></p>
                     </div>
                 </div>
             </div>
@@ -30,36 +30,35 @@
                         <img src="./img/calendar.png" alt="">
                     </div>
                     <div class="col-auto">
-                        <p><?php echo $departureDate; ?></p>
+                        <p><?php echo $startDate; ?></p>
                     </div>
                     <div class="col-auto">
-                        <p><?php echo $departureTime; ?></p>
+                        <p><?php echo $duration; ?></p>
                     </div>
                 </div>
             </div>
         </div>
     </header>
     <div class="grid-container">
-        <?php foreach($templateParams["biglietti"] as $biglietto): ?>
+        <?php foreach($templateParams["abbonamenti"] as $abbonamento): ?>
         <article>
             <div class="container">
                 <div class="row">
                     <div class="col-4">
                         <p>Tipo</p>
                         <p>Partenza</p>
-                        <p>Arrivo</p>
+                        <p>Durata</p>
                         <p>Prezzo</p>
                     </div>
                     <div class="col-8">
-                        <p><?php echo $biglietto["tipotreno"]; ?></p>
-                        <p><?php echo $biglietto["datapartenza"]; ?> <?php echo $biglietto["orariopartenza"]; ?></p>
-                        <p><?php echo $biglietto["dataarrivo"]; ?> <?php echo $biglietto["orarioarrivo"]; ?></p>
-                        <p><?php echo $biglietto["prezzo"]/$biglietto["NumeroStazioni"]; ?>€</p>
+                        <p><?php echo $abbonamento["tipotreno"]; ?></p>
+                        <p><?php echo $startDate; ?></p>
+                        <p><?php echo $abbonamento["durata"]; ?></p>
+                        <p><?php echo $abbonamento["prezzo"]; ?>€</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-auto me-auto">
-                        <p><?php echo $biglietto["postidisponibili"]; ?> posti disponibili</p>
                     </div>
                     <div class="col-auto">
                         <button class="btn btn-secondary btn-sm"><img src="./img/cart.png" alt=""></button>

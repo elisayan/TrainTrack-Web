@@ -1,5 +1,5 @@
 <section>
-    <form action="#" method="GET">
+    <form action="search-subscriptions-results.php" method="GET">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="row station">
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="col-md-12 col-lg-6">
-                        <select class="form-select" aria-label="duration">
+                        <select class="form-select" aria-label="duration" name="duration">
                             <option selected>Durata</option>
                             <?php foreach($templateParams["durate"] as $durate): ?>
                             <option value="<?php echo $durate["durate"]; ?>"><?php echo $durate["durate"]; ?></option>
@@ -36,7 +36,7 @@
                     </div>
 
                     <div class="col-md-12 col-lg-6">
-                        <select class="form-select" aria-label="train-type">
+                        <select class="form-select" aria-label="train-type" name="train-type">
                             <option selected>Tipo treno</option>
                             <?php foreach($templateParams["tipo_treni"] as $tipo_treni): ?>
                             <option value="<?php echo $tipo_treni["tipo_treni"]; ?>"><?php echo $tipo_treni["tipo_treni"]; ?></option>
@@ -48,7 +48,7 @@
             <div class="row">
                     <div class="col-auto me-auto"></div>
                     <div class="col-auto">
-                    <input class="btn btn-secondary btn-sm" type="button" value="CERCA" onclick="">
+                    <input class="btn btn-secondary btn-sm" type="submit" value="CERCA">
                     </div>
                 </div>
                 </div>

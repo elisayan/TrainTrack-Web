@@ -9,20 +9,23 @@ if(isset($_GET["departure-station"]) && isset($_GET["destination-station"]) && i
     $startDate = date('Y-m-d');
     
     $subscriptions = $dbh->getSubscriptions($departureStationSub, $destinationStationSub, $duration, $trainType);
-    if(count($subscriptions)==0){
-        $templateParams["errore_ricerca"] = "Abbonamento non trovato";
+    if(count($subscriptions)>0){
+        
+
+        $templateParams["titolo"] = "Risultati Ricerca Abbonamento";
+        $templateParams["nome"] = "search-subscription-results.php";
+
+        $templateParams["abbonamenti"] = $subscriptions;
     }
     else{
-        $templateParams["abbonamenti"] = $subscriptions; 
+        $templateParams["titolo"] = "Abbonamento non trovato"; 
+        $templateParams["abbonamenti"] = array();   
     }
+
 }
-
-$templateParams["titolo"] = "Ricerca Abbonamento";
-$templateParams["nome"] = "search-subscription-home.php";
-$templateParams["nome_stazioni"] = $dbh->getStations();
-$templateParams["durate"] = $dbh->getDurations();
-$templateParams["tipo_treni"] = $dbh->getTrainTypes();
-
+else{
+    
+}
 
 require 'template/base.php';
 ?>
