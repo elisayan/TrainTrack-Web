@@ -10,12 +10,12 @@ if(isset($_GET["departure-station"]) && isset($_GET["destination-station"]) && i
     
     $subscriptions = $dbh->getSubscriptions($departureStationSub, $destinationStationSub, $duration, $trainType);
     if(count($subscriptions)==0){
-        $templateParams["errore_ricerca"] = "Abbonamento non trovato";
+        $templateParams["errore_ricerca_abbonamento"] = "Abbonamento non trovato";
     }
     else{
         $templateParams["abbonamenti"] = $subscriptions; 
     }
-}
+} 
 
 $templateParams["titolo"] = "Ricerca Abbonamento";
 $templateParams["nome"] = "search-subscription-home.php";

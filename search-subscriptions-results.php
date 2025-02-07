@@ -19,12 +19,23 @@ if(isset($_GET["departure-station"]) && isset($_GET["destination-station"]) && i
     }
     else{
         $templateParams["titolo"] = "Abbonamento non trovato"; 
-        $templateParams["abbonamenti"] = array();   
+        $templateParams["abbonamenti"] = array(); 
+        $templateParams["errore_ricerca_abbonamento"] = "Abbonamento non trovato";
+        $templateParams["nome"] = "search-subscription-home.php";
+        $templateParams["nome_stazioni"] = $dbh->getStations();
+        $templateParams["durate"] = $dbh->getDurations();
+        $templateParams["tipo_treni"] = $dbh->getTrainTypes();  
     }
 
 }
 else{
-    
+    $templateParams["titolo"] = "Abbonamento non trovato"; 
+    $templateParams["abbonamenti"] = array(); 
+    $templateParams["errore_ricerca_abbonamento"] = "Abbonamento non trovato";
+    $templateParams["nome"] = "search-subscription-home.php";
+    $templateParams["nome_stazioni"] = $dbh->getStations(); 
+    $templateParams["durate"] = $dbh->getDurations();
+    $templateParams["tipo_treni"] = $dbh->getTrainTypes();
 }
 
 require 'template/base.php';

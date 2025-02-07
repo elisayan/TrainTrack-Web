@@ -1,4 +1,7 @@
 <section>
+<?php if(isset($templateParams["errore_ricerca_abbonamento"])):?>
+            <p><?php echo $templateParams["errore_ricerca_abbonamento"]; ?></p>
+            <?php endif; ?>
     <form action="search-subscriptions-results.php" method="GET">
         <div class="container">
             <div class="row justify-content-center">

@@ -1,7 +1,7 @@
 <section>
     <form action="search-tickets-results.php" method="GET">
-            <?php if(isset($templateParams["errore_ricerca"])): ?>
-            <p><?php echo $templateParams["errore_ricerca"]; ?></p>
+            <?php if(isset($templateParams["errore_ricerca_biglietto"])): ?>
+            <p><?php echo $templateParams["errore_ricerca_biglietto"]; ?></p>
             <?php endif; ?>
         <div class="container">
             <div class="row justify-content-center">

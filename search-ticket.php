@@ -10,7 +10,7 @@ if(isset($_GET["stazione_partenza"]) && isset($_GET["stazione_arrivo"]) && isset
 
     $tickets = $dbh->getTicketsBySearch($departureStation, $destinationStation, $departureDate, $departureTime, $numberTickets);
     if(count($tickets)==0){
-        $templateParams["errore_ricerca"] = "Biglietto non trovato";
+        $templateParams["errore_ricerca_biglietto"] = "Biglietto non trovato";
     }
     else{
         $templateParams["biglietti"] = $tickets; 

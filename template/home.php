@@ -6,7 +6,7 @@
 
     <div class="row">
         <div class="col-6 col-md-3 mb-5">
-            <a href="biglietti.php" class="card-link">
+            <a href="search-ticket.php" class="card-link">
                 <div class="card h-100 shadow hover-effect">
                     <img src="./img/ticket.png" class="card-img-top p-3 img-card-custom" alt="Biglietti">
                     <div class="card-body">
@@ -18,7 +18,7 @@
         </div>
 
         <div class="col-6 col-md-3 mb-5">
-            <a href="abbonamenti.php" class="card-link">
+            <a href="search-subscription.php" class="card-link">
                 <div class="card h-100 shadow hover-effect">
                     <img src="./img/subscription.png" class="card-img-top p-3 img-card-custom" alt="Abbonamenti">
                     <div class="card-body">
