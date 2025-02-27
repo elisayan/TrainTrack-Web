@@ -637,6 +637,10 @@ input#numero_biglietti_bambini{
     width: 50%;
 }
 
+.row.adult.justify-content-end, .row.kid.justify-content-end{
+    margin-top: 7px;
+}
+
 .row.adult, .row.kid{
     margin-left: auto ;
 }
