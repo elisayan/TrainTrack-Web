@@ -318,7 +318,7 @@
 }
 
 .form-control, .form-select, .btn {
-    max-width: 100% !important;
+    max-width: 100% ;
 }
 
 .card {
@@ -403,8 +403,8 @@ nav ul li a {
 }
 
 nav ul li img {
-    width: 18px;
-    height: 18px;
+    width: 30px;
+    height: 30px;
     transition: transform 0.2s ease;
 }
 
@@ -422,8 +422,6 @@ nav ul li a:focus,
     outline: 2px solid var(--hover-color);
     outline-offset: 2px;
 }
-
-
 
 .footer-container {
     background: #2c3e50;
@@ -476,8 +474,8 @@ nav ul li a:focus,
 }
 
 .social-img {
-    width: 28px;
-    height: 28px;
+    width: 35px;
+    height: 35px;
     transition: transform 0.3s ease;
     filter: brightness(0) invert(1);
 }
@@ -540,29 +538,29 @@ body > div > div > div > a > img{
 
 
 .row.station > div > *, .col-auto.passenger, #data_partenza{
-    margin: 0 0 10px !important;
+    margin: 0 0 10px ;
 }
 
 .col-md-12.col-lg-8 > .row{
-    margin-bottom: 0px !important;
+    margin-bottom: 0px ;
 }
 
 body > div > div, body > div > div > div > div{
-    min-height: 40px !important;
+    min-height: 40px ;
     align-items: center;
     padding: 0px 12px;
 }
 
 .nav{
-    padding: 0 !important;
+    padding: 0;
 }
 
 .col-auto.passenger{
-    padding: 0 !important;
+    padding: 0;
 }
 
 .passengers{
-    padding: 0 !important;
+    padding: 0;
 }
 
 a{
@@ -570,8 +568,8 @@ a{
 }
 
 p{
-    margin: 0 !important;
-    padding: 0 !important;
+    margin: 0;
+    padding: 0;
 }
 
 div.row.station{
@@ -579,7 +577,7 @@ div.row.station{
 }
 
 main > section > form > div > div > div > div > div > div> button{
-padding: 0 !important;
+padding: 0 ;
 margin: 0;
 }
 
@@ -627,8 +625,8 @@ input#numero_biglietti_bambini{
 }
 
 .form-control{
-    padding-top: 1px !important;
-    padding-bottom: 1px !important;
+    padding-top: 1px ;
+    padding-bottom: 1px ;
 }
 
 .row.station{
@@ -640,11 +638,11 @@ input#numero_biglietti_bambini{
 }
 
 .row.adult, .row.kid{
-    margin-left: auto !important;
+    margin-left: auto ;
 }
 
 .service{
-    margin: 0 !important;
+    margin: 0 ;
 }
 
 button.passenger > img{
@@ -652,11 +650,11 @@ button.passenger > img{
 }
 
 .search > button{
-    margin-top: 10% !important;
+    margin-top: 10%;
 }
 
 .row.row.justify-content-center.searchheader > .col-md-5 > .row > .col > *{
-    width: fit-content !important;
+    width: fit-content;
 }
 
 .row.justify-content-center.searchheader > .col-md-5 > .row > .col-auto {
@@ -664,7 +662,7 @@ button.passenger > img{
 }
 
 .col-md-7.col-lg-5 , .col-md-5.col-lg-2, .col-md-12.col-lg-5{
-    width: auto !important;
+    width: auto;
 }
 
 @media screen and (min-width:768px) {
