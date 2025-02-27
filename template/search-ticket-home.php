@@ -38,11 +38,9 @@
                             <div class="col-md-6 col-lg-6">
                                 <div class="row">
                                 <input class="form-control" type="date" id="data_partenza" name="data_partenza">
-                                <span id="data_partenza"></span>
                                 </div>
                                 <div class="row">                    
                                 <input class="form-control" type="time" id="orario_partenza" name="orario_partenza">
-                                <span id="orario_partenza"></span>
                                 </div>
                             </div>
                     
