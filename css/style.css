@@ -383,7 +383,7 @@ nav ul {
     padding: 0;
     display: flex;
     justify-content: space-around;
-    gap: 25px;
+    gap: 10px;
 }
 
 nav ul li {
