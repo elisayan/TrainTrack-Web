@@ -99,7 +99,7 @@
                 <div class="row">
                     <div class="col-auto me-auto"></div>
                     <div class="col-auto">
-                        <input class="btn btn-secondary btn-sm" type="submit" name="submit" value="CERCA">
+                        <input class="btn btn-primary btn-sm" type="submit" name="submit" value="CERCA">
                     </div>
                 </div>
             </div>
