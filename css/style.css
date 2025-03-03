@@ -542,7 +542,7 @@ body > div > div > div > a > img{
     margin: 0 0 10px ;
 }
 
-.col-md-12.col-lg-8 > .row{
+.col-md-12.col-lg-6 > .row{
     margin-bottom: 0px ;
 }
 
@@ -587,7 +587,7 @@ label.kid > img{
 }
 
 .form-control#stazione_partenza{
-    width: 50%;
+    width: 48%;
     display: inline-block;
 }
 
@@ -677,7 +677,9 @@ button.passenger > img{
 @media screen and (min-width:768px) {
 
     .col-md-6.col-lg-6{
+        flex: 0 0 auto !important;
         width: auto !important;
+
     }
 
     .col-md-6.col-lg-6 > .row{
@@ -689,8 +691,26 @@ button.passenger > img{
         width: auto;
     }
 
-    .col-md-12.col-lg-2 > *{
+    .col-auto.passenger{
+        margin: 6px 0 0 !important;
+    }
+
+    .col-md-12.col-lg-3 > *{
         width: fit-content;
+    }
+
+    .col-md-12.col-md-3{
+        margin-right: auto !important;
+        flex: 0 0 auto;
+        width: auto;
+    }
+
+    .station.ticket{
+        width: auto;
+    }
+
+    #stazione_arrivo, #stazione_partenza{
+        width: 77% !important;
     }
 
     .station.sub{

@@ -7,8 +7,8 @@
             <div class="row justify-content-center">
                 <div class="row station">
                     
-                    <div class="col-md-12 col-lg-2 col-auto me-auto">
-                        <label class="station" for="stazione_partenza">Partenza:</label>
+                    <div class="col-md-12 col-lg-3">
+                        <label class="station ticket" for="stazione_partenza">Partenza:</label>
                         <input class="form-control" list="datalistStation" id="stazione_partenza" name="stazione_partenza" required>
                         <datalist id="datalistStation">
                             <?php foreach ($templateParams["nome_stazioni"] as $stazione): ?>
@@ -18,8 +18,8 @@
                     </div>
 
                     
-                    <div class="col-md-12 col-lg-2 col-auto me-auto">
-                        <label class="station" for="stazione_arrivo">Arrivo:</label>
+                    <div class="col-md-12 col-lg-3">
+                        <label class="station ticket" for="stazione_arrivo">Arrivo:</label>
                         <input class="form-control" list="datalistStation" id="stazione_arrivo" name="stazione_arrivo" required>
                         <datalist id="datalistStation">
                             <?php foreach ($templateParams["nome_stazioni"] as $stazione): ?>
@@ -27,11 +27,10 @@
                             <?php endforeach; ?>
                         </datalist>
                     </div>
-
                     
-                    <div class="col-md-12 col-lg-8 col-auto">
+                    
+                    <div class="col-md-12 col-lg-6">
                         <div class="row justify-content-center">
-                            <div class="col-auto me-auto"></div>
                             <div class="col-md-6 col-lg-6">
                                 <div class="row">
                                     <input class="form-control" type="date" id="data_partenza" name="data_partenza" required>
