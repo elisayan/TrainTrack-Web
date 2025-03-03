@@ -1,9 +1,9 @@
 <section>
 <?php if(isset($templateParams["errore_ricerca_abbonamento"])):?>
-            <p><?php echo $templateParams["errore_ricerca_abbonamento"]; ?></p>
+            <p class="error"><?php echo $templateParams["errore_ricerca_abbonamento"]; ?></p>
             <?php endif; ?>
     <form action="search-subscriptions-results.php" method="GET">
-        <div class="container">
+        <div class="container justify-content-center">
             <div class="row justify-content-center">
                 <div class="row station">
 

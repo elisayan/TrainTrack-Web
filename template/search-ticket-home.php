@@ -1,13 +1,13 @@
 <section>
     <form action="search-tickets-results.php" method="GET">
         <?php if (isset($templateParams["errore_ricerca_biglietto"])): ?>
-            <p><?php echo $templateParams["errore_ricerca_biglietto"]; ?></p>
+            <p class="error"><?php echo $templateParams["errore_ricerca_biglietto"]; ?></p>
         <?php endif; ?>
-        <div class="container">
+        <div class="container justify-content-center">
             <div class="row justify-content-center">
                 <div class="row station">
                     
-                    <div class="col-md-12 col-lg-2">
+                    <div class="col-md-12 col-lg-2 col-auto me-auto">
                         <label class="station" for="stazione_partenza">Partenza:</label>
                         <input class="form-control" list="datalistStation" id="stazione_partenza" name="stazione_partenza" required>
                         <datalist id="datalistStation">
@@ -18,7 +18,7 @@
                     </div>
 
                     
-                    <div class="col-md-12 col-lg-2">
+                    <div class="col-md-12 col-lg-2 col-auto me-auto">
                         <label class="station" for="stazione_arrivo">Arrivo:</label>
                         <input class="form-control" list="datalistStation" id="stazione_arrivo" name="stazione_arrivo" required>
                         <datalist id="datalistStation">
@@ -29,8 +29,9 @@
                     </div>
 
                     
-                    <div class="col-md-12 col-lg-8">
-                        <div class="row">
+                    <div class="col-md-12 col-lg-8 col-auto">
+                        <div class="row justify-content-center">
+                            <div class="col-auto me-auto"></div>
                             <div class="col-md-6 col-lg-6">
                                 <div class="row">
                                     <input class="form-control" type="date" id="data_partenza" name="data_partenza" required>

@@ -453,6 +453,7 @@ nav ul li a:focus,
 
 .divider {
     color: #7f8c8d;
+    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -637,12 +638,16 @@ input#numero_biglietti_bambini{
     width: 50%;
 }
 
+p.error{
+    text-align: center;
+}
 .row.adult.justify-content-end, .row.kid.justify-content-end{
     margin-top: 7px;
 }
 
 .row.adult, .row.kid{
-    margin-left: auto ;
+    margin-left: auto;
+    justify-content: right !important;
 }
 
 .service{
@@ -670,25 +675,29 @@ button.passenger > img{
 }
 
 @media screen and (min-width:768px) {
-    
 
-.col-md-6.col-lg-6 > .row{
-    display: inline-flex;
-}
+    .col-md-6.col-lg-6{
+        width: auto !important;
+    }
 
-.col-md-6.col-lg-6 > .row > .form-control{
-    width: auto;
-}
+    .col-md-6.col-lg-6 > .row{
+        display: inline-flex;
+        margin: 0 !important;
+    }
 
-.col-md-12.col-lg-2 > *{
-    width: fit-content;
-}
+    .col-md-6.col-lg-6 > .row > .form-control{
+        width: auto;
+    }
 
-.station.sub{
-    width: 49%;
-}
+    .col-md-12.col-lg-2 > *{
+        width: fit-content;
+    }
 
-article{
-    width: 20%;
-}
+    .station.sub{
+        width: 49%;
+    }
+
+    article{
+        width: 20%;
+    }
 }
