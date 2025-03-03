@@ -11,7 +11,7 @@
 
                     <div class="col-md-12 col-lg-6">
                         <label class="station sub" for="departure-station">Partenza:</label>
-                        <input class="form-control" list="datalistStation" id="departure-station" name="departure-station" />
+                        <input class="form-control" list="datalistStation" id="departure-station" name="departure-station" required />
                             <datalist id="datalistStation">
                                 <?php foreach($templateParams["nome_stazioni"] as $stazione): ?>
                                 <option value="<?php echo $stazione["nome_stazioni"]; ?>">
@@ -21,7 +21,7 @@
 
                     <div class="col-md-12 col-lg-6">
                         <label class="station sub" for="destination-station">Arrivo:</label>
-                        <input class="form-control" list="datalistStation" id="destination-station" name="destination-station" />
+                        <input class="form-control" list="datalistStation" id="destination-station" name="destination-station" required />
                             <datalist id="datalistStation">
                                 <?php foreach($templateParams["nome_stazioni"] as $stazione): ?>
                                 <option value="<?php echo $stazione["nome_stazioni"]; ?>">

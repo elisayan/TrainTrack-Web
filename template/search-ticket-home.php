@@ -9,7 +9,7 @@
                     
                     <div class="col-md-12 col-lg-3">
                         <label class="station ticket" for="stazione_partenza">Partenza:</label>
-                        <input class="form-control" list="datalistStation" id="stazione_partenza" name="stazione_partenza" required>
+                        <input class="form-control" list="datalistStation" id="stazione_partenza" name="stazione_partenza" required />
                         <datalist id="datalistStation">
                             <?php foreach ($templateParams["nome_stazioni"] as $stazione): ?>
                                 <option value="<?php echo $stazione["nome_stazioni"]; ?>">
@@ -20,7 +20,7 @@
                     
                     <div class="col-md-12 col-lg-3">
                         <label class="station ticket" for="stazione_arrivo">Arrivo:</label>
-                        <input class="form-control" list="datalistStation" id="stazione_arrivo" name="stazione_arrivo" required>
+                        <input class="form-control" list="datalistStation" id="stazione_arrivo" name="stazione_arrivo" required />
                         <datalist id="datalistStation">
                             <?php foreach ($templateParams["nome_stazioni"] as $stazione): ?>
                                 <option value="<?php echo $stazione["nome_stazioni"]; ?>">
