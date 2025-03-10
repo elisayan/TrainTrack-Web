@@ -45,7 +45,7 @@
         <?php foreach($templateParams["biglietti"] as $biglietto): ?>
         <article>
             <div class="col-12">
-                <div class="row justify-content-center data">
+                <div class="row justify-content-center">
                     <div class="col-4 text">
                         <p>Tipo</p>
                         <p>Partenza</p>

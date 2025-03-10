@@ -674,11 +674,11 @@ button.passenger > img{
     width: auto;
 }
 
-.col-4{
+.type{
     text-align: right;
 }
 
-.col-8{
+.data{
     text-align: left;
 }
 

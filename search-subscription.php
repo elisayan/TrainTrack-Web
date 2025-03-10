@@ -6,7 +6,6 @@ if(isset($_GET["departure-station"]) && isset($_GET["destination-station"]) && i
     $destinationStationSub = $_GET["destination-station"];
     $duration = $_GET["duration"];
     $trainType = $_GET["train-type"];
-    $startDate = date('Y-m-d');
     
     $subscriptions = $dbh->getSubscriptions($departureStationSub, $destinationStationSub, $duration, $trainType);
     if(count($subscriptions)==0){

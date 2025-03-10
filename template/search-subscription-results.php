@@ -42,15 +42,15 @@
     <div class="grid-container">
         <?php foreach($templateParams["abbonamenti"] as $abbonamento): ?>
         <article>
-            <div class="container">
-                <div class="row">
-                    <div class="col-4">
+            <div class="col-12">
+                <div class="row justify-content-center">
+                    <div class="col-5 type">
                         <p>Tipo</p>
                         <p>Partenza</p>
                         <p>Durata</p>
                         <p>Prezzo</p>
                     </div>
-                    <div class="col-8">
+                    <div class="col-7 data">
                         <p><?php echo $abbonamento["tipotreno"]; ?></p>
                         <p><?php echo $startDate; ?></p>
                         <p><?php echo $abbonamento["durata"]; ?></p>
@@ -61,7 +61,7 @@
                     <div class="col-auto me-auto">
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-secondary btn-sm"><img src="./img/cart.png" alt=""></button>
+                        <button class="btn btn-primary btn-sm"><img src="./img/cart.png" alt=""></button>
                     </div>
                 </div>
             </div>
