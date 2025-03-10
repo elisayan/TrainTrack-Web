@@ -674,6 +674,22 @@ button.passenger > img{
     width: auto;
 }
 
+.col-4{
+    text-align: right;
+}
+
+.col-8{
+    text-align: left;
+}
+
+.col-12.ticket{
+    align-items: center;
+}
+
+.available{
+    margin-left: auto !important;
+}
+
 @media screen and (min-width:768px) {
 
     .col-md-6.col-lg-6{

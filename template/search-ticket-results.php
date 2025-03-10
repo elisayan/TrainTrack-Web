@@ -14,6 +14,7 @@
                     </div>            
                 </div>
             </div>
+    
             <div class="col-md-5 col-lg-2">
                 <div class="row">
                     <div class="col">
@@ -24,6 +25,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-md-12 col-lg-5">
                 <div class="row">
                     <div class="col-auto">
@@ -42,15 +44,15 @@
     <div class="grid-container">
         <?php foreach($templateParams["biglietti"] as $biglietto): ?>
         <article>
-            <div class="container">
-                <div class="row">
-                    <div class="col-4">
+            <div class="col-12">
+                <div class="row justify-content-center data">
+                    <div class="col-4 text">
                         <p>Tipo</p>
                         <p>Partenza</p>
                         <p>Arrivo</p>
                         <p>Prezzo</p>
                     </div>
-                    <div class="col-8">
+                    <div class="col-8 data">
                         <p><?php echo $biglietto["tipotreno"]; ?></p>
                         <p><?php echo $biglietto["datapartenza"]; ?> <?php echo $biglietto["orariopartenza"]; ?></p>
                         <p><?php echo $biglietto["dataarrivo"]; ?> <?php echo $biglietto["orarioarrivo"]; ?></p>
@@ -58,11 +60,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-auto me-auto">
+                    <div class="col-auto me-auto available">
                         <p><?php echo $biglietto["postidisponibili"]; ?> posti disponibili</p>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-secondary btn-sm"><img src="./img/cart.png" alt=""></button>
+                        <button class="btn btn-primary btn-sm"><img src="./img/cart.png" alt=""></button>
                     </div>
                 </div>
             </div>
