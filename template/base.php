@@ -33,7 +33,7 @@
                 <li><a href="login.php"><img src="./img/user.png" alt="utente"><span>Utente</span></a></li>
             <?php endif; ?>
             
-            <li><a href="carrello.php"><img src="./img/cart.png" alt="carrello"><span>Carrello</span></a></li>
+            <li><a href="cart.php"><img src="./img/cart.png" alt="carrello"><span>Carrello</span></a></li>
         </ul>
     </nav>
 
