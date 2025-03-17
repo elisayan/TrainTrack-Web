@@ -36,14 +36,18 @@
             <div class="col-12">
                 <div class="row justify-content-center">
                     <div class="col-5 type">
+                        <p>Stazione Partenza</p>
+                        <p>Stazione Arrivo</p>
                         <p>Tipo</p>
                         <p>Partenza</p>
                         <p>Durata</p>
                         <p>Prezzo</p>
                     </div>
                     <div class="col-7 data">
-                        <p><?php echo $abbonamento_selezionato["tipotreno"]; ?></p>
-                        <p><?php echo $startDate; ?></p>
+                        <p><?php echo $abbonamento_selezionato["stazione-partenza-sub"]?></p>
+                        <p><?php echo $abbonamento_selezionato["stazione-arrivo-sub"]?></p>
+                        <p><?php echo $abbonamento_selezionato["tipo-treno-sub"]; ?></p>
+                        <p><?php echo $abbonamento_selezionato["data-partenza-sub"]; ?></p>
                         <p><?php echo $abbonamento_selezionato["durata"]; ?></p>
                         <p><?php echo $abbonamento_selezionato["prezzo"]; ?>€</p>
                     </div>

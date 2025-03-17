@@ -1,11 +1,11 @@
 <?php
 require_once 'bootstrap.php';
 
-if(isset($_GET["departure-station"]) && isset($_GET["destination-station"]) && isset($_GET["duration"]) && isset($_GET["train-type"])){
-    $departureStationSub = $_GET["departure-station"];
-    $destinationStationSub = $_GET["destination-station"];
-    $duration = $_GET["duration"];
-    $trainType = $_GET["train-type"];
+if(isset($_GET["stazione-partenza"]) && isset($_GET["stazione-arrivo"]) && isset($_GET["durata"]) && isset($_GET["tipo-treno"]) && isset($_GET["data-partenza"])){
+    $departureStationSub = $_GET["stazione-partenza"];
+    $destinationStationSub = $_GET["stazione-arrivo"];
+    $duration = $_GET["durata"];
+    $trainType = $_GET["tipo-treno"];
     $startDate = date('Y-m-d');
     
     $subscriptions_selected = $dbh->getSubscriptionsSelected($departureStationSub, $destinationStationSub, $duration, $trainType);
