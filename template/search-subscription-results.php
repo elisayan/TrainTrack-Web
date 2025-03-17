@@ -51,17 +51,17 @@
                         <p>Prezzo</p>
                     </div>
                     <div class="col-7 data">
-                        <p><?php echo $abbonamento["tipotreno"]; ?></p>
-                        <p><?php echo $startDate; ?></p>
-                        <p><?php echo $abbonamento["durata"]; ?></p>
-                        <p><?php echo $abbonamento["prezzo"]; ?>€</p>
+                        <input type="text" readonly class="form-control-plaintext" id="tipo-treno" value="<?php echo $abbonamento["tipotreno"]; ?>" >
+                        <input type="text" readonly class="form-control-plaintext" id="data-partenza" value="<?php echo $startDate; ?>">
+                        <input type="text" readonly class="form-control-plaintext" id="durata" value="<?php echo $abbonamento["durata"]; ?>">
+                        <input type="text" readonly class="form-control-plaintext" id="prezzo" value="<?php echo $abbonamento["prezzo"]; ?>€">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-auto me-auto">
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-primary btn-sm"><img src="./img/cart.png" alt=""></button>
+                        <input class="btn btn-primary btn-sm cart" type="submit" value="">
                     </div>
                 </div>
             </div>

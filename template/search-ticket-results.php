@@ -53,10 +53,24 @@
                         <p>Prezzo</p>
                     </div>
                     <div class="col-8 data">
-                        <p><?php echo $biglietto["tipotreno"]; ?></p>
-                        <p><?php echo $biglietto["datapartenza"]; ?> <?php echo $biglietto["orariopartenza"]; ?></p>
-                        <p><?php echo $biglietto["dataarrivo"]; ?> <?php echo $biglietto["orarioarrivo"]; ?></p>
-                        <p><?php echo $biglietto["prezzo"]/$biglietto["NumeroStazioni"]; ?>€</p>
+                        <input type="text" readonly class="form-control-plaintext" id="tipo-treno" value="<?php echo $biglietto["tipotreno"]; ?>" >
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="text" readonly class="form-control-plaintext" id="data-partenza" value="<?php echo $biglietto["datapartenza"]; ?>" >                    
+                            </div>
+                            <div class="col-6">
+                                <input type="text" readonly class="form-control-plaintext" id="orario-partenza" value="<?php echo $biglietto["orariopartenza"]; ?>" >
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="text" readonly class="form-control-plaintext" id="data-arrivo" value="<?php echo $biglietto["dataarrivo"]; ?>" >
+                            </div>
+                            <div class="col-6">
+                                <input type="text" readonly class="form-control-plaintext" id="orario-arrivo" value="<?php echo $biglietto["orarioarrivo"]; ?>" >
+                            </div>
+                        </div>
+                        <input type="text" readonly class="form-control-plaintext" id="prezzo" value="<?php echo $biglietto["prezzo"]/$biglietto["NumeroStazioni"]; ?>€" >
                     </div>
                 </div>
                 <div class="row">
@@ -64,7 +78,7 @@
                         <p><?php echo $biglietto["postidisponibili"]; ?> posti disponibili</p>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-primary btn-sm"><img src="./img/cart.png" alt=""></button>
+                        <input class="btn btn-primary btn-sm cart" type="submit" value="">
                     </div>
                 </div>
             </div>
