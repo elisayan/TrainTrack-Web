@@ -4,13 +4,13 @@
             <div class="col-md-7 col-lg-5">
                 <div class="row">
                     <div class="col-auto">
-                        <p><?php echo $departureStation; ?></p>
+                        <input type="text" readonly class="form-control-plaintext" id="stazione-partenza-tic" value="<?php echo $departureStation; ?>" >
                     </div>
                     <div class="col-auto">
                         <img src="./img/next.png" alt="">
                     </div>
                     <div class="col-auto">
-                        <p><?php echo $destinationStation; ?></p>
+                        <input type="text" readonly class="form-control-plaintext" id="stazione-arrivo-tic" value="<?php echo $destinationStation; ?>" >
                     </div>            
                 </div>
             </div>
