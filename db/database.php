@@ -178,7 +178,7 @@ class DatabaseHelper
     public function getSubscriptionsSelected($departureStationSub, $destinationStationSub, $duration, $trainTypeSub){
         $query ="SELECT s.StazionePartenza, s.StazioneArrivo, s.TipoTreno AS tipotreno,
                 s.Durata AS durata, t.Prezzo AS prezzo, s.Chilometraggio, s.CodPercorso
-                FROM Carello c
+                FROM DettaglioCarello c
                 JOIN Servizio s ON c.CodServizio = s.CodServizio
                 JOIN TipoAbbonamento t ON s.Durata = t.Durata
                 AND s.Chilometraggio = t.Chilometraggio

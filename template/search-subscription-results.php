@@ -5,13 +5,13 @@
             <div class="col-md-7 col-lg-5">
                 <div class="row">
                     <div class="col-auto">
-                        <input type="text" readonly class="form-control-plaintext" id="stazione-partenza-sub" value="<?php echo $departureStationSub; ?>" >
+                        <input type="text" readonly class="form-control-plaintext" name="stazione-partenza-sub" value="<?php echo $departureStationSub; ?>" >
                     </div>
                     <div class="col-auto">
                         <img src="./img/next.png" alt="">
                     </div>
                     <div class="col-auto">
-                        <input type="text" readonly class="form-control-plaintext" id="stazione-arrivo-sub" value="<?php echo $destinationStationSub; ?>" > 
+                        <input type="text" readonly class="form-control-plaintext" name="stazione-arrivo-sub" value="<?php echo $destinationStationSub; ?>" > 
                     </div>            
                 </div>
             </div>
@@ -52,10 +52,10 @@
                         <p>Prezzo</p>
                     </div>
                     <div class="col-7 data">
-                        <input type="text" readonly class="form-control-plaintext" id="tipo-treno" value="<?php echo $abbonamento["tipotreno"]; ?>" >
-                        <input type="text" readonly class="form-control-plaintext" id="data-partenza" value="<?php echo $startDate; ?>">
-                        <input type="text" readonly class="form-control-plaintext" id="durata" value="<?php echo $abbonamento["durata"]; ?>">
-                        <input type="text" readonly class="form-control-plaintext" id="prezzo" value="<?php echo $abbonamento["prezzo"]; ?>€">
+                        <input type="text" readonly class="form-control-plaintext" name="tipo-treno" value="<?php echo $abbonamento["tipotreno"]; ?>" >
+                        <input type="text" readonly class="form-control-plaintext" name="data-partenza" value="<?php echo $startDate; ?>">
+                        <input type="text" readonly class="form-control-plaintext" name="durata" value="<?php echo $abbonamento["durata"]; ?>">
+                        <input type="text" readonly class="form-control-plaintext" name="prezzo" value="<?php echo $abbonamento["prezzo"]; ?>€">
                     </div>
                 </div>
                 <div class="row">
