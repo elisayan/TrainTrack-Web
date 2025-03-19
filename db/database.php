@@ -148,6 +148,33 @@ class DatabaseHelper
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function addEmptyCart($email){
+        $query = "INSERT INTO carello(prezzototale, email)
+                  VALUES (0, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+
+        return $stmt->insert_id;
+    }
+
+    public function addSubscriptionIntoCart($codcarello, $departureStationSub, $destinationStationSub, $duration, $trainTypeSub){
+        $query = "INSERT INTO dettagliocarello(codcarello, codservizio, quantità) 
+                  VALUES (?, 
+                  (SELECT s.codservizio
+                    FROM Servizio s
+                    JOIN TipoAbbonamento t ON s.Durata = t.Durata
+                    AND s.Chilometraggio = t.Chilometraggio
+                    WHERE (s.StazionePartenza = ? AND s.StazioneArrivo = ?
+                    OR s.StazionePartenza = ? AND s.StazioneArrivo = ?)
+                    AND s.Durata = ?
+                    AND s.TipoTreno = ?), 
+                  1)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('issssss', $codcarello, $departureStationSub, $destinationStationSub, $destinationStationSub, $departureStationSub, $duration, $trainTypeSub);
+        return $stmt->execute();
+    }
+
     public function getSubscriptionsSelected($departureStationSub, $destinationStationSub, $duration, $trainTypeSub){
         $query ="SELECT s.StazionePartenza, s.StazioneArrivo, s.TipoTreno AS tipotreno,
                 s.Durata AS durata, t.Prezzo AS prezzo, s.Chilometraggio, s.CodPercorso
