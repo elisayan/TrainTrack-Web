@@ -1,4 +1,7 @@
 <section>
+    <?php if (isset($templateParams["errore_carello"])): ?>
+        <p class="error"><?php echo $templateParams["errore_carello"]; ?></p>
+    <?php endif; ?>
     <div class="grid-container">
         <?php foreach($templateParams["biglietti-selezionati"] as $biglietto_selezionato): ?>
         <article>

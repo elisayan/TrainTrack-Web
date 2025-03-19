@@ -1,4 +1,5 @@
 <section>
+<form action="cart.php" method="GET">
     <header>
         <div class="row justify-content-center searchheader">
             <div class="col-md-7 col-lg-5">
@@ -68,4 +69,5 @@
         </article>
         <?php endforeach; ?>
     </div>
+    </form>
 </section>
