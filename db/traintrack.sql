@@ -143,15 +143,36 @@ create table DettaglioOrdine (
     
 create table Carello (
 	CodCarello int not null auto_increment,
-	CodServizio int not null,
-    Quantità int not null,
+	PrezzoTotale float(15) not null,
     Email varchar(50),
     constraint IDCARRELLO primary key (CodCarello)
     );
     
+create table DettaglioCarello (
+	CodDettaglioCarello int not null auto_increment,
+    CodServizio int not null,
+    Quantità int not null,
+    CodCarello int not null,
+    constraint IDDETTAGLIOCARELLO primary key (CodDettaglioCarello)
+    );
     
+create table StatoNotifica (
+	CodStatoNotifica int not null auto_increment,
+	CodNotifica varchar(50) not null,
+    Email varchar(50) not null,
+    Letto boolean default false,
+    constraint IDSTATONOTIFICA primary key (CodStatoNotifica)
+    );
 -- Constraints Section
 -- ___________________ 
+
+alter table StatoNotifica add constraint FKRiferimento_N
+	foreign key (CodNotifica)
+    references Notifica (CodNotifica);
+    
+alter table StatoNotifica add constraint FKRiferimento_E
+	foreign key (Email)
+    references Persona (Email);
 
 alter table Ordine add constraint FKOrdinato
 	foreign key (Email)
@@ -161,13 +182,21 @@ alter table DettaglioOrdine add constraint FKSpecifica
   foreign key (CodOrdine)
   references Ordine (CodOrdine);
 
-alter table Carello add constraint FKAggiunto
-	foreign key (CodServizio)
-    references Servizio (CodServizio);
+alter table DettaglioOrdine add constraint FKRispetto
+  foreign key (CodServizio)
+  references Servizio (CodServizio);
     
 alter table Carello add constraint FKDi
 	foreign key (Email)
     references Persona (Email);
+    
+alter table DettaglioCarello add constraint FKSpecifica_C
+  foreign key (CodCarello)
+  references Carello (CodCarello);
+
+alter table DettaglioCarello add constraint FKRispetto_C
+  foreign key (CodServizio)
+  references Servizio (CodServizio);
 
 alter table Attivazione add constraint FKAtt_Not
      foreign key (CodNotifica)
