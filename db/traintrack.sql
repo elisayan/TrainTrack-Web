@@ -143,8 +143,9 @@ create table DettaglioOrdine (
     
 create table Carello (
 	CodCarello int not null auto_increment,
-	PrezzoTotale float(15) not null,
+	PrezzoTotale float(15) not null default 0,
     Email varchar(50),
+    SessionID varchar(50),
     constraint IDCARRELLO primary key (CodCarello)
     );
     
