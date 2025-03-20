@@ -148,56 +148,111 @@ class DatabaseHelper
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function addEmptyCart($email){
-        $query = "INSERT INTO carello(prezzototale, email)
-                  VALUES (0, ?)";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $email);
-        $stmt->execute();
-
-        return $stmt->insert_id;
-    }
-
-    public function addSubscriptionIntoCart($codcarello, $departureStationSub, $destinationStationSub, $duration, $trainTypeSub){
-        $query = "INSERT INTO dettagliocarello(codcarello, codservizio, quantità) 
-                  VALUES (?, 
-                  (SELECT s.codservizio
+    public function getSubscriptionID($departureStationSub, $destinationStationSub, $duration, $trainTypeSub){
+        $query = "SELECT s.codservizio
                     FROM Servizio s
                     JOIN TipoAbbonamento t ON s.Durata = t.Durata
                     AND s.Chilometraggio = t.Chilometraggio
                     WHERE (s.StazionePartenza = ? AND s.StazioneArrivo = ?
                     OR s.StazionePartenza = ? AND s.StazioneArrivo = ?)
                     AND s.Durata = ?
-                    AND s.TipoTreno = ?), 
-                  1)";
+                    AND s.TipoTreno = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('issssss', $codcarello, $departureStationSub, $destinationStationSub, $destinationStationSub, $departureStationSub, $duration, $trainTypeSub);
+        $stmt->bind_param('ssssss', $departureStationSub, $destinationStationSub, $destinationStationSub, $departureStationSub, $duration, $trainTypeSub);
         return $stmt->execute();
     }
 
-    public function getSubscriptionsSelected($departureStationSub, $destinationStationSub, $duration, $trainTypeSub){
-        $query ="SELECT s.StazionePartenza, s.StazioneArrivo, s.TipoTreno AS tipotreno,
-                s.Durata AS durata, t.Prezzo AS prezzo, s.Chilometraggio, s.CodPercorso
-                FROM DettaglioCarello c
-                JOIN Servizio s ON c.CodServizio = s.CodServizio
-                JOIN TipoAbbonamento t ON s.Durata = t.Durata
-                AND s.Chilometraggio = t.Chilometraggio
-                WHERE (s.StazionePartenza = ? AND s.StazioneArrivo = ?
-                OR s.StazionePartenza = ? AND s.StazioneArrivo = ?)
-                AND s.Durata = ?
-                AND s.TipoTreno = ?
-                ORDER BY t.prezzo";
-        $stmt = $this->db->prepare($query);
-        if (!$stmt) {
-            die("Prepare failed: " . $this->db->error);
-        }
+    function addToCartDb($email, $itemId, $quantity) {
 
-        $stmt->bind_param('ssssss', $departureStationSub, $destinationStationSub, $destinationStationSub, $departureStationSub, $duration, $trainTypeSub);
-
+        $query = "SELECT CodCarello FROM carello WHERE Email = ?";
+        $stmt = $dbh->prepare($query);
+        $stmt->bind_param('s', $email);
         $stmt->execute();
         $result = $stmt->get_result();
+    
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $codCarello = $row['CodCarello'];
+        } else {
+            $query = "INSERT INTO carello (Email) VALUES (?)";
+            $stmt = $dbh->prepare($query);
+            $stmt->bind_param('s', $email);
+            $stmt->execute();
+            $codCarello = $stmt->insert_id;
+        }
+    
+        $query = "INSERT INTO dettagliocarello (CodCarello, CodServizio, Quantità) VALUES (?, ?, ?)
+                  ON DUPLICATE KEY UPDATE Quantità = Quantità + ?";
+        $stmt = $dbh->prepare($query);
+        $stmt->bind_param('iiii', $codCarello, $itemId, $quantity, $quantity);
+        $stmt->execute();
+    }
 
-        return $result->fetch_all(MYSQLI_ASSOC);
+
+    function getCart($email = null) {
+        if ($email) {
+            $query = "SELECT dc.CodServizio, dc.Quantità, s.Prezzo 
+                      FROM dettagliocarello dc
+                      JOIN Servizio s ON dc.CodServizio = s.CodServizio
+                      JOIN carello c ON dc.CodCarello = c.CodCarello
+                      WHERE c.Email = ?";
+            $stmt = $dbh->prepare($query);
+            $stmt->bind_param('s', $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $cartItems = [];
+            foreach ($_SESSION['cart'] as $itemId => $quantity) {
+                $query = "SELECT CodServizio, Prezzo FROM Servizio WHERE CodServizio = ?";
+                $stmt = $dbh->prepare($query);
+                $stmt->bind_param('i', $itemId);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $row = $result->fetch_assoc();
+                if ($row) {
+                    $cartItems[] = [
+                        'CodServizio' => $row['CodServizio'],
+                        'Quantità' => $quantity,
+                        'Prezzo' => $row['Prezzo']
+                    ];
+                }
+            }
+            return $cartItems;
+        }
+    }
+
+    function mergeCarts($email) {
+    
+        $sessionCart = $_SESSION['cart'];
+    
+        $query = "SELECT CodCarello FROM carello WHERE Email = ?";
+        $stmt = $dbh->prepare($query);
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $codCarello = $row['CodCarello'];
+        } else {
+            // Create a new cart for the user
+            $query = "INSERT INTO carello (Email) VALUES (?)";
+            $stmt = $dbh->prepare($query);
+            $stmt->bind_param('s', $email);
+            $stmt->execute();
+            $codCarello = $stmt->insert_id;
+        }
+    
+        foreach ($sessionCart as $itemId => $quantity) {
+            $query = "INSERT INTO dettagliocarello (CodCarello, CodServizio, Quantità) VALUES (?, ?, ?)
+                      ON DUPLICATE KEY UPDATE Quantità = Quantità + ?";
+            $stmt = $dbh->prepare($query);
+            $stmt->bind_param('iiii', $codCarello, $itemId, $quantity, $quantity);
+            $stmt->execute();
+        }
+    
+        $_SESSION['cart'] = [];
     }
 
 

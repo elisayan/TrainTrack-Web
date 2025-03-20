@@ -1,7 +1,8 @@
 <section>
-    <?php if (isset($templateParams["errore_carello"])): ?>
-        <p class="error"><?php echo $templateParams["errore_carello"]; ?></p>
+    <?php if(isset($templateParams["errorecarrello"])):?>
+        <p class="error"><?php echo $templateParams["errorecarrello"]; ?></p>
     <?php endif; ?>
+
     <div class="grid-container">
         <?php foreach($templateParams["biglietti-selezionati"] as $biglietto_selezionato): ?>
         <article>
@@ -49,10 +50,10 @@
                     <div class="col-7 data">
                         <p><?php echo $abbonamento_selezionato["stazione-partenza-sub"]?></p>
                         <p><?php echo $abbonamento_selezionato["stazione-arrivo-sub"]?></p>
-                        <p><?php echo $abbonamento_selezionato["tipo-treno"]; ?></p>
-                        <p><?php echo $abbonamento_selezionato["data-partenza"]; ?></p>
+                        <p><?php echo $abbonamento_selezionato["tipo-treno-sub"]; ?></p>
+                        <p><?php echo $abbonamento_selezionato["data-partenza-sub"]; ?></p>
                         <p><?php echo $abbonamento_selezionato["durata"]; ?></p>
-                        <p><?php echo $abbonamento_selezionato["prezzo"]; ?>€</p>
+                        <p><?php echo $abbonamento_selezionato["prezzo-sub"]; ?>€</p>
                     </div>
                 </div>
                 <div class="row">

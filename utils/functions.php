@@ -1,4 +1,23 @@
 <?php
+
+    function addToCart($itemId, $quantity) {
+        if (isset($_SESSION['cart'][$itemId])) {
+            $_SESSION['cart'][$itemId] += $quantity;
+        } else {
+            $_SESSION['cart'][$itemId] = $quantity;
+        }
+    }
+    
+    function removeFromCart($itemId) {
+        if (isset($_SESSION['cart'][$itemId])) {
+            unset($_SESSION['cart'][$itemId]);
+        }
+    }
+
+    function getCartItems() {
+        return $_SESSION['cart'];
+    }
+
     function isActive($pagename){
         if(basename($_SERVER['PHP_SELF'])==$pagename){
             echo " class='active' ";
