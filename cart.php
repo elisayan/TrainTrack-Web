@@ -48,6 +48,11 @@ if (isset($_GET["stazione-partenza-sub"]) && isset($_GET["stazione-arrivo-sub"])
             $templateParams["titolo"] = "Carrello";
             $templateParams["abbonamenti-selezionati"] = $subscriptions_selected;
             $templateParams["errore_carrello"] = ""; // Clear error if there are selections
+            $templateParams["stazione-partenza-sub"] = $departureStationSub;
+            $templateParams["stazione-arrivo-sub"] = $destinationStationSub;
+            $templateParams["tipo-treno-sub"] = $trainType;
+            $templateParams["data-partenza-sub"] = date('Y-m-d');
+        
         }
     }
 }

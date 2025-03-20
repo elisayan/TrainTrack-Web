@@ -49,8 +49,8 @@
                     <div class="col-7 data">
                         <p><?php echo $abbonamento_selezionato["stazione-partenza-sub"]?></p>
                         <p><?php echo $abbonamento_selezionato["stazione-arrivo-sub"]?></p>
-                        <p><?php echo $abbonamento_selezionato["tipo-treno-sub"]; ?></p>
-                        <p><?php echo $abbonamento_selezionato["data-partenza-sub"]; ?></p>
+                        <p><?php echo $abbonamento_selezionato["tipo-treno"]; ?></p>
+                        <p><?php echo $abbonamento_selezionato["data-partenza"]; ?></p>
                         <p><?php echo $abbonamento_selezionato["durata"]; ?></p>
                         <p><?php echo $abbonamento_selezionato["prezzo"]; ?>€</p>
                     </div>
@@ -59,7 +59,7 @@
                     <div class="col-auto me-auto">
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-primary btn-sm"><img src="./img/cart.png" alt=""></button>
+                        <button class="btn btn-primary btn-sm cart-remove"><img src="./img/removecart.png" alt="" class="minus-cart"></button>
                     </div>
                 </div>
             </div>
