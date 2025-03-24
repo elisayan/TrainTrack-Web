@@ -84,18 +84,15 @@ INSERT INTO Attraversato (CodPercorso, CodStazione, Data, Ordine, OrarioPartenza
 
 -- 6. Add all possible combinations of TipoAbbonamento
 INSERT INTO TipoAbbonamento (Durata, Chilometraggio, Prezzo) VALUES
-('giornaliero', 50, 15.00),
-('giornaliero', 100, 20.00),
-('giornaliero', 200, 25.00),
-('settimanale', 50, 50.00),
-('settimanale', 100, 65.00),
-('settimanale', 200, 80.00),
-('mensile', 50, 120.00),
-('mensile', 100, 150.00),
-('mensile', 200, 180.00),
-('annuale', 50, 500.00),
-('annuale', 100, 600.00),
-('annuale', 200, 700.00);
+('Settimanale', 50, 50.00),
+('Settimanale', 100, 65.00),
+('Settimanale', 200, 80.00),
+('Mensile', 50, 120.00),
+('Mensile', 100, 150.00),
+('Mensile', 200, 180.00),
+('Annuale', 50, 500.00),
+('Annuale', 100, 600.00),
+('Annuale', 200, 700.00);
 
 -- 7. Add all possible combinations of Servizio (without subscriptions - durata and chilometraggio are null)
 -- First, let's calculate distances between stations (approximate km)
