@@ -5,20 +5,20 @@
             <div class="col-md-7 col-lg-5">
                 <div class="row">
                     <div class="col-auto">
-                        <input type="text" readonly class="form-control-plaintext" name="stazione-partenza-sub" value="<?php echo $departureStationSub; ?>" >
+                        <input type="text" readonly class="form-control-plaintext station" name="stazione-partenza-sub" value="<?php echo $departureStationSub; ?>" >
                     </div>
                     <div class="col-auto">
                         <img src="./img/next.png" alt="">
                     </div>
                     <div class="col-auto">
-                        <input type="text" readonly class="form-control-plaintext" name="stazione-arrivo-sub" value="<?php echo $destinationStationSub; ?>" > 
+                        <input type="text" readonly class="form-control-plaintext station" name="stazione-arrivo-sub" value="<?php echo $destinationStationSub; ?>" > 
                     </div>            
                 </div>
             </div>
             <div class="col-md-5 col-lg-2">
                 <div class="row">
                     <div class="col">
-                        <img src="./img/ticket.png" alt="">
+                        <img src="./img/orders.png" alt="">
                     </div>
                     <div class="col">
                         <p><?php echo $trainType; ?></p>
