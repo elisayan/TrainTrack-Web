@@ -162,6 +162,19 @@ class DatabaseHelper
         return $stmt->execute();
     }
 
+    public function getTicketID($departureStation, $destinationStation, $departureDate, $departureTime, $trainType){
+        $query = "SELECT s.CodServizio
+                    FROM Servizio s
+                    WHERE s.StazionePartenza = ?
+                    AND s.StazioneArrivo = ?
+                    AND s.DataPartenza = ?
+                    AND s.OrarioPartenza = ?
+                    AND s.TipoTreno = ? ";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('sssss');
+        return $stmt->execute();
+    }
+
     function addToCartDb($email, $itemId, $quantity) {
 
         $query = "SELECT CodCarello FROM carello WHERE Email = ?";
@@ -186,6 +199,7 @@ class DatabaseHelper
         $stmt = $dbh->prepare($query);
         $stmt->bind_param('iiii', $codCarello, $itemId, $quantity, $quantity);
         $stmt->execute();
+        $codDettaglioCarrello = $stmt->insert_id;
     }
 
 
