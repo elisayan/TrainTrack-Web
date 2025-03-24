@@ -3,7 +3,9 @@
         <p class="error"><?php echo $templateParams["errorecarrello"]; ?></p>
     <?php endif; ?>
 
-    <div class="grid-container">
+    <?php if(isset($templateParams["biglietti-presenti"])):?>
+        <h3><?php echo $templateParams["biglietti-presenti"]; ?></h3>
+        <div class="grid-container">
         <?php foreach($templateParams["biglietti-selezionati"] as $biglietto_selezionato): ?>
         <article>
             <div class="col-12">
@@ -32,9 +34,12 @@
             </div>
         </article>
         <?php endforeach; ?>
-    </div>
+        </div>
+    <?php endif; ?>
 
-    <div class="grid-container">
+    <?php if(isset($templateParams["abbonamenti-presenti"])):?>
+        <h3><?php echo $templateParams["abbonamenti-presenti"]; ?></h3>
+        <div class="grid-container">
         <?php foreach($templateParams["abbonamenti-selezionati"] as $abbonamento_selezionato): ?>
         <article>
             <div class="col-12">
@@ -66,5 +71,6 @@
             </div>
         </article>
         <?php endforeach; ?>
-    </div>
+        </div>
+    <?php endif; ?>
 </section>

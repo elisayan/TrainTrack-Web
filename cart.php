@@ -6,6 +6,8 @@ $templateParams["titolo"] = "Carrello vuoto";
 $templateParams["errorecarrello"] = "Carrello vuoto";
 $templateParams["abbonamenti-selezionati"] = [];
 $templateParams["biglietti-selezionati"] = [];
+$templateParams["abbonamenti-presenti"]= "";
+$templateParams["biglietti-presenti"]= "";
 
 
 if (isset($_GET["stazione-partenza-sub"]) && isset($_GET["stazione-arrivo-sub"]) && isset($_GET["durata"]) && isset($_GET["tipo-treno"])) {
@@ -32,6 +34,7 @@ if (isset($_GET["stazione-partenza-sub"]) && isset($_GET["stazione-arrivo-sub"])
     if(count($cartItems) > 0) {
         $templateParams["titolo"] = "Carrello";
         $templateParams["errorecarrello"] = "";
+        $templateParams["abbonamenti-presenti"] = "Abbonamenti Selezionati";
         $templateParams["abbonamenti-selezionati"] = $cartItems;
         $templateParams["stazione-partenza-sub"] = $departureStationSub;
         $templateParams["stazione-arrivo-sub"] = $destinationStationSub;
@@ -58,6 +61,7 @@ if (isset($_GET["stazione_partenza"]) && isset($_GET["stazione_arrivo"]) && isse
     if (count($tickets_selected) > 0) {
         $templateParams["titolo"] = "Carrello";
         $templateParams["errorecarrello"] = "";
+        $templateParams["biglietti-presenti"] = "Biglietti Selezionati";
         $templateParams["biglietti-selezionati"] = $tickets_selected;
     } 
     
