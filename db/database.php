@@ -124,27 +124,37 @@ class DatabaseHelper
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getSubscriptions($departureStationSub, $destinationStationSub, $duration, $trainType){
-        $query ="SELECT s.StazionePartenza, s.StazioneArrivo, s.TipoTreno AS tipotreno,
-                s.Durata AS durata, t.Prezzo AS prezzo, s.Chilometraggio, s.CodPercorso
-                FROM Servizio s
-                JOIN TipoAbbonamento t ON s.Durata = t.Durata
-                AND s.Chilometraggio = t.Chilometraggio
-                WHERE (s.StazionePartenza = ? AND s.StazioneArrivo = ?
-                OR s.StazionePartenza = ? AND s.StazioneArrivo = ?)
-                AND s.Durata = ?
-                AND s.TipoTreno = ?
-                ORDER BY t.prezzo";
+    public function getSubscriptions($departureStationSub, $destinationStationSub, $duration, $trainType) {
+        $query = "SELECT 
+                    sa.Nome, 
+                    sp.Nome, 
+                    t.Tipo AS tipotreno,
+                    s.Durata, 
+                    ta.Prezzo,
+                    s.Chilometraggio,
+                    s.CodServizio
+                  FROM Servizio s
+                  JOIN TipoAbbonamento ta ON s.Durata = ta.Durata AND s.Chilometraggio = ta.Chilometraggio
+                  JOIN Percorso p ON s.CodPercorso = p.CodPercorso
+                  JOIN Treno t ON p.CodTreno = t.CodTreno
+                  JOIN Stazione sp ON s.StazionePartenza = sp.CodStazione
+                  JOIN Stazione sa ON s.StazioneArrivo = sa.CodStazione
+                  WHERE ((sp.Nome = ? AND sa.Nome = ?) OR (sp.Nome = ? AND sa.Nome = ?))
+                  AND s.Durata = ?
+                  AND t.Tipo = ?
+                  AND s.Durata IS NOT NULL
+                  AND s.Chilometraggio IS NOT NULL
+                  ORDER BY ta.Prezzo";
+                  
         $stmt = $this->db->prepare($query);
         if (!$stmt) {
             die("Prepare failed: " . $this->db->error);
         }
-
+    
         $stmt->bind_param('ssssss', $departureStationSub, $destinationStationSub, $destinationStationSub, $departureStationSub, $duration, $trainType);
-
         $stmt->execute();
         $result = $stmt->get_result();
-
+    
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
@@ -153,8 +163,8 @@ class DatabaseHelper
                     FROM Servizio s
                     JOIN TipoAbbonamento t ON s.Durata = t.Durata
                     AND s.Chilometraggio = t.Chilometraggio
-                    WHERE (s.StazionePartenza = ? AND s.StazioneArrivo = ?
-                    OR s.StazionePartenza = ? AND s.StazioneArrivo = ?)
+                    WHERE ((s.StazionePartenza = ? AND s.StazioneArrivo = ?)
+                    OR (s.StazionePartenza = ? AND s.StazioneArrivo = ?))
                     AND s.Durata = ?
                     AND s.TipoTreno = ?";
         $stmt = $this->db->prepare($query);

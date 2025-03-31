@@ -711,7 +711,12 @@ button.passenger > img{
 }
 
 .form-control-plaintext.station{
-    width: 50px !important;
+    width: 8rem;
+    padding: 0 !important;
+    text-align: center;
+}
+
+.arrow{
     padding: 0 !important;
 }
 

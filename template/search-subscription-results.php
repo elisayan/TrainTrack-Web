@@ -7,7 +7,7 @@
                     <div class="col-auto">
                         <input type="text" readonly class="form-control-plaintext station" name="stazione-partenza-sub" value="<?php echo $departureStationSub; ?>" >
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto arrow">
                         <img src="./img/next.png" alt="">
                     </div>
                     <div class="col-auto">

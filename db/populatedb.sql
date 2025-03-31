@@ -39,8 +39,7 @@ INSERT INTO Stazione (CodStazione, Nome) VALUES
 ('RA', 'Ravenna'),
 ('RE', 'Reggio Emilia'),
 ('RN', 'Rimini'),
-('FC', 'Forlì'),
-('BLQ', 'Bologna Aeroporto');
+('FC', 'Forlì');
 
 -- 4. Add 5 routes (percorso)
 INSERT INTO Percorso (CodPercorso, CodTreno, Email, TempoPercorrenza, Prezzo) VALUES
@@ -268,3 +267,394 @@ JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
 JOIN Treno t ON p.CodTreno = t.CodTreno
 WHERE ta.Chilometraggio = 50
 AND p.CodPercorso IN ('PR001', 'PR002', 'PR003', 'PR004', 'PR005'); -- All routes go through BO
+
+
+
+
+-- 1. First, add a new regional train with more capacity for the comprehensive route
+INSERT INTO Treno (CodTreno, PostiTotali, Tipo) 
+VALUES ('TR006', 400, 'Regionale');
+
+-- 2. Add the comprehensive regional route that includes all stations in order
+INSERT INTO Percorso (CodPercorso, CodTreno, Email, TempoPercorrenza, Prezzo)
+VALUES ('PR006', 'TR006', 'macchinista@traintrack.com', '04:30', 30.00);
+
+-- 3. Add station crossings for the comprehensive regional route (all stations in order)
+-- Order: Rimini -> Forlì -> Ravenna -> Bologna -> Modena -> Reggio Emilia -> Parma -> Piacenza
+INSERT INTO Attraversato (CodPercorso, CodStazione, Data, Ordine, OrarioPartenzaPrevisto, 
+                         OrarioArrivoPrevisto, OrarioArrivoReale, OrarioPartenzaReale, 
+                         Binario, StatoArrivo, StatoPartenza)
+VALUES
+-- Rimini (departure)
+('PR006', 'RN', CURDATE(), 1, '06:00:00', '06:00:00', '06:00:00', '06:05:00', 1, 'In orario', 'In ritardo'),
+-- Forlì
+('PR006', 'FC', CURDATE(), 2, '06:45:00', '06:40:00', '06:40:00', '06:50:00', 2, 'In orario', 'In ritardo'),
+-- Ravenna
+('PR006', 'RA', CURDATE(), 3, '07:30:00', '07:25:00', '07:25:00', '07:35:00', 1, 'In orario', 'In ritardo'),
+-- Bologna
+('PR006', 'BO', CURDATE(), 4, '08:30:00', '08:20:00', '08:20:00', '08:40:00', 5, 'In orario', 'In ritardo'),
+-- Modena
+('PR006', 'MO', CURDATE(), 6, '09:30:00', '09:20:00', '09:20:00', '09:35:00', 3, 'In orario', 'In ritardo'),
+-- Reggio Emilia
+('PR006', 'RE', CURDATE(), 7, '10:00:00', '09:55:00', '09:55:00', '10:10:00', 2, 'In orario', 'In ritardo'),
+-- Parma
+('PR006', 'PR', CURDATE(), 8, '10:40:00', '10:30:00', '10:30:00', '10:45:00', 1, 'In orario', 'In ritardo'),
+-- Piacenza (terminus)
+('PR006', 'PC', CURDATE(), 9, '11:30:00', '11:30:00', '11:30:00', '11:30:00', 4, 'In orario', 'In orario');
+
+-- 4. Create reverse routes for ALL existing routes (including the new comprehensive one)
+
+-- Reverse of PR001 (Bologna->Modena->Reggio->Parma) becomes Parma->Reggio->Modena->Bologna
+INSERT INTO Percorso (CodPercorso, CodTreno, Email, TempoPercorrenza, Prezzo)
+VALUES ('PR001R', 'TR001', 'macchinista@traintrack.com', '01:30', 12.50);
+
+INSERT INTO Attraversato (CodPercorso, CodStazione, Data, Ordine, OrarioPartenzaPrevisto, 
+                         OrarioArrivoPrevisto, OrarioArrivoReale, OrarioPartenzaReale, 
+                         Binario, StatoArrivo, StatoPartenza)
+VALUES
+('PR001R', 'PR', CURDATE(), 1, '12:00:00', '12:00:00', '12:00:00', '12:05:00', 2, 'In orario', 'In ritardo'),
+('PR001R', 'RE', CURDATE(), 2, '12:35:00', '12:30:00', '12:30:00', '12:40:00', 1, 'In orario', 'In ritardo'),
+('PR001R', 'MO', CURDATE(), 3, '13:05:00', '13:00:00', '13:00:00', '13:10:00', 3, 'In orario', 'In ritardo'),
+('PR001R', 'BO', CURDATE(), 4, '13:30:00', '13:30:00', '13:30:00', '13:30:00', 4, 'In orario', 'In orario');
+
+-- Reverse of PR002 (Rimini->Forlì->Bologna) becomes Bologna->Forlì->Rimini
+INSERT INTO Percorso (CodPercorso, CodTreno, Email, TempoPercorrenza, Prezzo)
+VALUES ('PR002R', 'TR002', 'macchinista@traintrack.com', '02:15', 18.00);
+
+INSERT INTO Attraversato (CodPercorso, CodStazione, Data, Ordine, OrarioPartenzaPrevisto, 
+                         OrarioArrivoPrevisto, OrarioArrivoReale, OrarioPartenzaReale, 
+                         Binario, StatoArrivo, StatoPartenza)
+VALUES
+('PR002R', 'BO', CURDATE(), 1, '14:00:00', '14:00:00', '14:00:00', '14:00:00', 5, 'In orario', 'In orario'),
+('PR002R', 'FC', CURDATE(), 2, '15:15:00', '15:10:00', '15:10:00', '15:20:00', 2, 'In orario', 'In ritardo'),
+('PR002R', 'RN', CURDATE(), 3, '16:15:00', '16:15:00', '16:15:00', '16:15:00', 1, 'In orario', 'In orario');
+
+-- Reverse of PR003 (Bologna->Ferrara) becomes Ferrara->Bologna
+INSERT INTO Percorso (CodPercorso, CodTreno, Email, TempoPercorrenza, Prezzo)
+VALUES ('PR003R', 'TR003', 'macchinista@traintrack.com', '00:45', 8.50);
+
+INSERT INTO Attraversato (CodPercorso, CodStazione, Data, Ordine, OrarioPartenzaPrevisto, 
+                         OrarioArrivoPrevisto, OrarioArrivoReale, OrarioPartenzaReale, 
+                         Binario, StatoArrivo, StatoPartenza)
+VALUES
+('PR003R', 'FE', CURDATE(), 1, '16:00:00', '16:00:00', '16:00:00', '16:00:00', 1, 'In orario', 'In orario'),
+('PR003R', 'BO', CURDATE(), 2, '16:45:00', '16:45:00', '16:45:00', '16:45:00', 3, 'In orario', 'In orario');
+
+-- Reverse of PR004 (Piacenza->Parma->Reggio->Modena->Bologna) becomes Bologna->Modena->Reggio->Parma->Piacenza
+INSERT INTO Percorso (CodPercorso, CodTreno, Email, TempoPercorrenza, Prezzo)
+VALUES ('PR004R', 'TR004', 'macchinista@traintrack.com', '03:00', 25.00);
+
+INSERT INTO Attraversato (CodPercorso, CodStazione, Data, Ordine, OrarioPartenzaPrevisto, 
+                         OrarioArrivoPrevisto, OrarioArrivoReale, OrarioPartenzaReale, 
+                         Binario, StatoArrivo, StatoPartenza)
+VALUES
+('PR004R', 'BO', CURDATE(), 1, '17:00:00', '17:00:00', '17:00:00', '17:00:00', 4, 'In orario', 'In orario'),
+('PR004R', 'MO', CURDATE(), 2, '17:30:00', '17:25:00', '17:25:00', '17:35:00', 1, 'In orario', 'In ritardo'),
+('PR004R', 'RE', CURDATE(), 3, '18:05:00', '18:00:00', '18:00:00', '18:10:00', 2, 'In orario', 'In ritardo'),
+('PR004R', 'PR', CURDATE(), 4, '18:40:00', '18:35:00', '18:35:00', '18:45:00', 3, 'In orario', 'In ritardo'),
+('PR004R', 'PC', CURDATE(), 5, '19:30:00', '19:30:00', '19:30:00', '19:30:00', 1, 'In orario', 'In orario');
+
+-- Reverse of PR005 (Bologna->Ravenna) becomes Ravenna->Bologna
+INSERT INTO Percorso (CodPercorso, CodTreno, Email, TempoPercorrenza, Prezzo)
+VALUES ('PR005R', 'TR005', 'macchinista@traintrack.com', '01:15', 15.00);
+
+INSERT INTO Attraversato (CodPercorso, CodStazione, Data, Ordine, OrarioPartenzaPrevisto, 
+                         OrarioArrivoPrevisto, OrarioArrivoReale, OrarioPartenzaReale, 
+                         Binario, StatoArrivo, StatoPartenza)
+VALUES
+('PR005R', 'RA', CURDATE(), 1, '20:00:00', '20:00:00', '20:00:00', '20:00:00', 2, 'In orario', 'In orario'),
+('PR005R', 'BO', CURDATE(), 2, '21:15:00', '21:15:00', '21:15:00', '21:15:00', 3, 'In orario', 'In orario');
+
+-- Reverse of PR006 (Rimini->Forlì->Ravenna->Bologna->BLQ->Modena->Reggio->Parma->Piacenza)
+-- becomes Piacenza->Parma->Reggio->Modena->BLQ->Bologna->Ravenna->Forlì->Rimini
+INSERT INTO Percorso (CodPercorso, CodTreno, Email, TempoPercorrenza, Prezzo)
+VALUES ('PR006R', 'TR006', 'macchinista@traintrack.com', '04:30', 30.00);
+
+INSERT INTO Attraversato (CodPercorso, CodStazione, Data, Ordine, OrarioPartenzaPrevisto, 
+                         OrarioArrivoPrevisto, OrarioArrivoReale, OrarioPartenzaReale, 
+                         Binario, StatoArrivo, StatoPartenza)
+VALUES
+-- Piacenza (departure)
+('PR006R', 'PC', CURDATE(), 1, '12:00:00', '12:00:00', '12:00:00', '12:05:00', 1, 'In orario', 'In ritardo'),
+-- Parma
+('PR006R', 'PR', CURDATE(), 2, '12:45:00', '12:40:00', '12:40:00', '12:50:00', 2, 'In orario', 'In ritardo'),
+-- Reggio Emilia
+('PR006R', 'RE', CURDATE(), 3, '13:20:00', '13:15:00', '13:15:00', '13:25:00', 1, 'In orario', 'In ritardo'),
+-- Modena
+('PR006R', 'MO', CURDATE(), 4, '13:50:00', '13:45:00', '13:45:00', '14:00:00', 3, 'In orario', 'In ritardo'),
+-- Bologna
+('PR006R', 'BO', CURDATE(), 6, '14:50:00', '14:45:00', '14:45:00', '15:00:00', 5, 'In orario', 'In ritardo'),
+-- Ravenna
+('PR006R', 'RA', CURDATE(), 7, '15:45:00', '15:40:00', '15:40:00', '15:55:00', 1, 'In orario', 'In ritardo'),
+-- Forlì
+('PR006R', 'FC', CURDATE(), 8, '16:30:00', '16:25:00', '16:25:00', '16:40:00', 2, 'In orario', 'In ritardo'),
+-- Rimini (terminus)
+('PR006R', 'RN', CURDATE(), 9, '17:30:00', '17:30:00', '17:30:00', '17:30:00', 1, 'In orario', 'In orario');
+
+-- 5. Add services for the new comprehensive route and its reverse
+
+-- 1. Add services for the comprehensive regional route PR006 (Rimini->Forlì->Ravenna->Bologna->BLQ->Modena->Reggio->Parma->Piacenza)
+-- Rimini to all subsequent stations
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RN', 'FC', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '06:00:00', 6.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RN', 'RA', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '06:00:00', 12.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RN', 'BO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '06:00:00', 18.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RN', 'MO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '06:00:00', 22.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RN', 'RE', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '06:00:00', 25.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RN', 'PR', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '06:00:00', 28.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RN', 'PC', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '06:00:00', 30.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+-- Forlì to all subsequent stations
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'FC', 'RA', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '06:45:00', 6.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'FC', 'BO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '06:45:00', 12.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'FC', 'MO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '06:45:00', 16.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'FC', 'RE', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '06:45:00', 19.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'FC', 'PR', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '06:45:00', 22.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'FC', 'PC', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '06:45:00', 24.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+-- Ravenna to all subsequent stations
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RA', 'BO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '07:30:00', 6.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RA', 'MO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '07:30:00', 10.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RA', 'RE', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '07:30:00', 13.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RA', 'PR', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '07:30:00', 16.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RA', 'PC', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '07:30:00', 18.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+-- [Continue this pattern for all station combinations in PR006...]
+
+-- 2. Add services for the reverse comprehensive route PR006R (Piacenza->Parma->Reggio->Modena->BLQ->Bologna->Ravenna->Forlì->Rimini)
+-- Piacenza to all subsequent stations
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PC', 'PR', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:00:00', 7.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PC', 'RE', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:00:00', 12.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PC', 'MO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:00:00', 16.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PC', 'BO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:00:00', 20.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PC', 'RA', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:00:00', 25.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PC', 'FC', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:00:00', 28.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PC', 'RN', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:00:00', 30.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+-- Parma to all subsequent stations
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PR', 'RE', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:45:00', 6.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PR', 'MO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:45:00', 10.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PR', 'BO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:45:00', 14.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PR', 'RA', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:45:00', 19.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PR', 'FC', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:45:00', 22.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PR', 'RN', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:45:00', 24.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+-- [Continue this pattern for all station combinations in PR006R...]
+
+-- 3. Add services for the reverse routes of existing routes (PR001R to PR005R)
+-- Using prices matching their forward counterparts
+
+-- For PR001R (Parma->Reggio->Modena->Bologna)
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PR', 'RE', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:00:00', 5.00, 'PR001R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PR', 'MO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:00:00', 8.00, 'PR001R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PR', 'BO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:00:00', 12.50, 'PR001R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RE', 'MO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:35:00', 4.00, 'PR001R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RE', 'BO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '12:35:00', 8.00, 'PR001R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'MO', 'BO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '13:05:00', 5.00, 'PR001R', 'macchinista@traintrack.com', NULL, NULL;
+
+-- [Continue this pattern for all reverse routes PR002R to PR005R...]
+
+-- Continue adding services for PR006 (comprehensive regional route)
+-- Bologna to all subsequent stations
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'BO', 'MO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '08:30:00', 5.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'BO', 'RE', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '08:30:00', 8.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'BO', 'PR', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '08:30:00', 12.50, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'BO', 'PC', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '08:30:00', 15.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+-- Modena to all subsequent stations
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'MO', 'RE', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '09:30:00', 4.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'MO', 'PR', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '09:30:00', 8.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'MO', 'PC', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '09:30:00', 10.50, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+-- Reggio Emilia to all subsequent stations
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RE', 'PR', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '10:00:00', 5.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RE', 'PC', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '10:00:00', 7.50, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+-- Parma to Piacenza
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PR', 'PC', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '10:40:00', 5.00, 'PR006', 'macchinista@traintrack.com', NULL, NULL;
+
+-- Continue adding services for PR006R (reverse comprehensive route)
+-- Reggio Emilia to all subsequent stations
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RE', 'MO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '13:20:00', 4.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RE', 'BO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '13:20:00', 8.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RE', 'RA', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '13:20:00', 13.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RE', 'FC', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '13:20:00', 16.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RE', 'RN', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '13:20:00', 18.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+-- Modena to all subsequent stations
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'MO', 'BO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '13:50:00', 5.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'MO', 'RA', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '13:50:00', 10.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'MO', 'FC', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '13:50:00', 13.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'MO', 'RN', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '13:50:00', 15.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+-- Bologna to all subsequent stations
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'BO', 'RA', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '14:50:00', 6.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'BO', 'FC', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '14:50:00', 12.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'BO', 'RN', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '14:50:00', 18.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+-- Ravenna to all subsequent stations
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RA', 'FC', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '15:45:00', 6.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RA', 'RN', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '15:45:00', 12.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+-- Forlì to Rimini
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'FC', 'RN', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '16:30:00', 6.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL;
+
+-- Add services for remaining reverse routes (PR002R to PR005R)
+-- For PR002R (Bologna->Forlì->Rimini)
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'BO', 'FC', 'Passeggero', 'Generico', 'Intercity', CURDATE(), '14:00:00', 12.00, 'PR002R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'BO', 'RN', 'Passeggero', 'Generico', 'Intercity', CURDATE(), '14:00:00', 18.00, 'PR002R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'FC', 'RN', 'Passeggero', 'Generico', 'Intercity', CURDATE(), '15:15:00', 6.00, 'PR002R', 'macchinista@traintrack.com', NULL, NULL;
+
+-- For PR003R (Ferrara->Bologna)
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'FE', 'BO', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '16:00:00', 8.50, 'PR003R', 'macchinista@traintrack.com', NULL, NULL;
+
+-- For PR004R (Bologna->Modena->Reggio->Parma->Piacenza)
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'BO', 'MO', 'Passeggero', 'Generico', 'Frecciarossa', CURDATE(), '17:00:00', 8.00, 'PR004R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'BO', 'RE', 'Passeggero', 'Generico', 'Frecciarossa', CURDATE(), '17:00:00', 12.00, 'PR004R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'BO', 'PR', 'Passeggero', 'Generico', 'Frecciarossa', CURDATE(), '17:00:00', 18.00, 'PR004R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'BO', 'PC', 'Passeggero', 'Generico', 'Frecciarossa', CURDATE(), '17:00:00', 25.00, 'PR004R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'MO', 'RE', 'Passeggero', 'Generico', 'Frecciarossa', CURDATE(), '17:30:00', 5.00, 'PR004R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'MO', 'PR', 'Passeggero', 'Generico', 'Frecciarossa', CURDATE(), '17:30:00', 10.00, 'PR004R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'MO', 'PC', 'Passeggero', 'Generico', 'Frecciarossa', CURDATE(), '17:30:00', 17.00, 'PR004R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RE', 'PR', 'Passeggero', 'Generico', 'Frecciarossa', CURDATE(), '18:05:00', 6.00, 'PR004R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RE', 'PC', 'Passeggero', 'Generico', 'Frecciarossa', CURDATE(), '18:05:00', 13.00, 'PR004R', 'macchinista@traintrack.com', NULL, NULL;
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'PR', 'PC', 'Passeggero', 'Generico', 'Frecciarossa', CURDATE(), '18:40:00', 7.00, 'PR004R', 'macchinista@traintrack.com', NULL, NULL;
+
+-- For PR005R (Ravenna->Bologna)
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio)
+SELECT 'RA', 'BO', 'Passeggero', 'Generico', 'Intercity', CURDATE(), '20:00:00', 15.00, 'PR005R', 'macchinista@traintrack.com', NULL, NULL;
