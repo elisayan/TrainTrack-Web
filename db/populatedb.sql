@@ -16,6 +16,11 @@ DELETE FROM Treno;
 DELETE FROM Stazione;
 DELETE FROM TipoAbbonamento;
 DELETE FROM Persona;
+ALTER TABLE Servizio AUTO_INCREMENT = 1;
+ALTER TABLE dettagliocarrello AUTO_INCREMENT = 1;
+ALTER TABLE carrello AUTO_INCREMENT = 1;
+
+
 
 -- 1. Add a macchinista (train driver) as a Persona
 INSERT INTO Persona (Email, Nome, Cognome, Indirizzo, Telefono, CF, Password, SpesaTotale, TipoPersona, TipoCliente, UltimaSpesaCoupon)
@@ -83,15 +88,15 @@ INSERT INTO Attraversato (CodPercorso, CodStazione, Data, Ordine, OrarioPartenza
 
 -- 6. Add all possible combinations of TipoAbbonamento
 INSERT INTO TipoAbbonamento (Durata, Chilometraggio, Prezzo) VALUES
-('Settimanale', 50, 50.00),
-('Settimanale', 100, 65.00),
-('Settimanale', 200, 80.00),
-('Mensile', 50, 120.00),
-('Mensile', 100, 150.00),
-('Mensile', 200, 180.00),
-('Annuale', 50, 500.00),
-('Annuale', 100, 600.00),
-('Annuale', 200, 700.00);
+('Settimanale', 30, 50.00),
+('Settimanale', 50, 65.00),
+('Settimanale', 100, 80.00),
+('Mensile', 30, 120.00),
+('Mensile', 50, 150.00),
+('Mensile', 100, 180.00),
+('Annuale', 30, 500.00),
+('Annuale', 50, 600.00),
+('Annuale', 100, 700.00);
 
 -- 7. Add all possible combinations of Servizio (without subscriptions - durata and chilometraggio are null)
 -- First, let's calculate distances between stations (approximate km)
@@ -148,13 +153,13 @@ INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomeP
                      Durata, Chilometraggio)
 SELECT 
     'BO', 'MO', 'Abbonato', 'Generico', t.Tipo, 
-    CURDATE(), '08:00:00', ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
+    CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
     ta.Durata, ta.Chilometraggio
 FROM TipoAbbonamento ta
 JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
 JOIN Treno t ON p.CodTreno = t.CodTreno
 WHERE ta.Chilometraggio = 50
-AND p.CodPercorso IN ('PR001', 'PR004'); -- Routes that include BO-MO
+AND p.CodPercorso IN ('PR001', 'PR004', 'PR001R', 'PR004R', 'PR006', 'PR006R'); -- Routes that include BO-MO
 
 -- For Modena-Reggio Emilia (distance ~30km) - use 50km subscriptions
 INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, 
@@ -162,13 +167,13 @@ INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomeP
                      Durata, Chilometraggio)
 SELECT 
     'MO', 'RE', 'Abbonato', 'Generico', t.Tipo, 
-    CURDATE(), '09:00:00', ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
+    CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
     ta.Durata, ta.Chilometraggio
 FROM TipoAbbonamento ta
 JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
 JOIN Treno t ON p.CodTreno = t.CodTreno
-WHERE ta.Chilometraggio = 50
-AND p.CodPercorso IN ('PR001', 'PR004'); -- Routes that include MO-RE
+WHERE ta.Chilometraggio = 30
+AND p.CodPercorso IN ('PR001', 'PR004', 'PR001R', 'PR004R', 'PR006', 'PR006R'); -- Routes that include MO-RE
 
 -- For Reggio Emilia-Parma (distance ~25km) - use 50km subscriptions
 INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, 
@@ -176,13 +181,13 @@ INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomeP
                      Durata, Chilometraggio)
 SELECT 
     'RE', 'PR', 'Abbonato', 'Generico', t.Tipo, 
-    CURDATE(), '10:00:00', ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
+    CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
     ta.Durata, ta.Chilometraggio
 FROM TipoAbbonamento ta
 JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
 JOIN Treno t ON p.CodTreno = t.CodTreno
-WHERE ta.Chilometraggio = 50
-AND p.CodPercorso IN ('PR001', 'PR004'); -- Routes that include RE-PR
+WHERE ta.Chilometraggio = 30
+AND p.CodPercorso IN ('PR001', 'PR004', 'PR001R', 'PR004R', 'PR006', 'PR006R'); -- Routes that include RE-PR
 
 -- For Bologna-Ferrara (distance ~50km) - use 50km subscriptions
 INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, 
@@ -190,13 +195,13 @@ INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomeP
                      Durata, Chilometraggio)
 SELECT 
     'BO', 'FE', 'Abbonato', 'Generico', t.Tipo, 
-    CURDATE(), '11:00:00', ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
+    CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
     ta.Durata, ta.Chilometraggio
 FROM TipoAbbonamento ta
 JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
 JOIN Treno t ON p.CodTreno = t.CodTreno
 WHERE ta.Chilometraggio = 50
-AND p.CodPercorso = 'PR003'; -- Route that includes BO-FE
+AND p.CodPercorso IN ('PR003', 'PR006', 'PR003R', 'PR006R'); -- Route that includes BO-FE
 
 -- For Rimini-Forlì (distance ~30km) - use 50km subscriptions
 INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, 
@@ -204,13 +209,13 @@ INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomeP
                      Durata, Chilometraggio)
 SELECT 
     'RN', 'FC', 'Abbonato', 'Generico', t.Tipo, 
-    CURDATE(), '12:00:00', ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
+    CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
     ta.Durata, ta.Chilometraggio
 FROM TipoAbbonamento ta
 JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
 JOIN Treno t ON p.CodTreno = t.CodTreno
-WHERE ta.Chilometraggio = 50
-AND p.CodPercorso = 'PR002'; -- Route that includes RN-FC
+WHERE ta.Chilometraggio = 30
+AND p.CodPercorso IN ('PR002', 'PR006', 'PR002R', 'PR006R'); -- Route that includes RN-FC
 
 -- For Forlì-Bologna (distance ~70km) - use 100km subscriptions
 INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, 
@@ -218,13 +223,13 @@ INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomeP
                      Durata, Chilometraggio)
 SELECT 
     'FC', 'BO', 'Abbonato', 'Generico', t.Tipo, 
-    CURDATE(), '13:00:00', ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
+    CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
     ta.Durata, ta.Chilometraggio
 FROM TipoAbbonamento ta
 JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
 JOIN Treno t ON p.CodTreno = t.CodTreno
 WHERE ta.Chilometraggio = 100
-AND p.CodPercorso = 'PR002'; -- Route that includes FC-BO
+AND p.CodPercorso IN ('PR002', 'PR006', 'PR002R', 'PR006R'); -- Route that includes FC-BO
 
 -- For Piacenza-Parma (distance ~50km) - use 50km subscriptions
 INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, 
@@ -232,13 +237,13 @@ INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomeP
                      Durata, Chilometraggio)
 SELECT 
     'PC', 'PR', 'Abbonato', 'Generico', t.Tipo, 
-    CURDATE(), '14:00:00', ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
+    CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
     ta.Durata, ta.Chilometraggio
 FROM TipoAbbonamento ta
 JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
 JOIN Treno t ON p.CodTreno = t.CodTreno
 WHERE ta.Chilometraggio = 50
-AND p.CodPercorso = 'PR004'; -- Route that includes PC-PR
+AND p.CodPercorso IN ('PR004', 'PR006', 'PR004R', 'PR006R'); -- Route that includes PC-PR
 
 -- For Bologna-Ravenna (distance ~80km) - use 100km subscriptions
 INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, 
@@ -246,30 +251,265 @@ INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomeP
                      Durata, Chilometraggio)
 SELECT 
     'BO', 'RA', 'Abbonato', 'Generico', t.Tipo, 
-    CURDATE(), '15:00:00', ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
+    CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
     ta.Durata, ta.Chilometraggio
 FROM TipoAbbonamento ta
 JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
 JOIN Treno t ON p.CodTreno = t.CodTreno
 WHERE ta.Chilometraggio = 100
-AND p.CodPercorso = 'PR005'; -- Route that includes BO-RA
+AND p.CodPercorso IN ('PR005', 'PR006', 'PR005R', 'PR006R'); -- Route that includes BO-RA
 
--- For Bologna Airport-Bologna Centrale (distance ~10km) - use 50km subscriptions
+-- For Ravenna-Forli (distance ~30km) - use 30km subscriptions
 INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, 
                      TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, 
                      Durata, Chilometraggio)
 SELECT 
-    'BLQ', 'BO', 'Abbonato', 'Generico', t.Tipo, 
-    CURDATE(), '16:00:00', ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
+    'FC', 'RA', 'Abbonato', 'Generico', t.Tipo, 
+    CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
+    ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 30
+AND p.CodPercorso IN ('PR006', 'PR006R'); -- Route that includes RA-FC
+
+-- For Ravenna-Parma (distance ~100km) - use 100km subscriptions
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, 
+                     TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, 
+                     Durata, Chilometraggio)
+SELECT 
+    'PR', 'RA', 'Abbonato', 'Generico', t.Tipo, 
+    CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
+    ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100
+AND p.CodPercorso IN ('PR006', 'PR006R'); -- Route that includes RA-PR
+
+-- For Parma-Forli (distance ~100km) - use 100km subscriptions
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, 
+                     TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, 
+                     Durata, Chilometraggio)
+SELECT 
+    'FC', 'PR', 'Abbonato', 'Generico', t.Tipo, 
+    CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
+    ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100
+AND p.CodPercorso IN ('PR006', 'PR006R'); -- Route that includes PR-FC
+
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, 
+                     TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, 
+                     Durata, Chilometraggio)
+SELECT 
+    'BO', 'PR', 'Abbonato', 'Generico', t.Tipo, 
+    CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
+    ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100
+AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+
+SELECT 
+    'BO', 'PC', 'Abbonato', 'Generico', t.Tipo, 
+    CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
+    ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100
+AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+
+SELECT 
+    'BO', 'RE', 'Abbonato', 'Generico', t.Tipo, 
+    CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
     ta.Durata, ta.Chilometraggio
 FROM TipoAbbonamento ta
 JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
 JOIN Treno t ON p.CodTreno = t.CodTreno
 WHERE ta.Chilometraggio = 50
-AND p.CodPercorso IN ('PR001', 'PR002', 'PR003', 'PR004', 'PR005'); -- All routes go through BO
+AND p.CodPercorso IN ('PR006', 'PR006R')
 
+-- Continue with all remaining combinations in the same pattern
 
+UNION ALL
 
+SELECT 
+    'BO', 'RN', 'Abbonato', 'Generico', t.Tipo, 
+    CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com',
+    ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100
+AND p.CodPercorso IN ('PR006', 'PR006R')
+
+-- FE + MO
+UNION ALL
+SELECT 'FE', 'MO', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 50 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+-- FE + PR
+UNION ALL
+SELECT 'FE', 'PR', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+-- [Add all remaining combinations following the same structure...]
+
+UNION ALL
+SELECT 'FE', 'PC', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 00 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'FE', 'RA', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 50 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'FE', 'RE', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'FE', 'RN', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'FE', 'FC', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'MO', 'PR', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 50 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'MO', 'PC', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'MO', 'RA', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'MO', 'RN', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'MO', 'FC', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'PR', 'RN', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'RE', 'FC', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'PC', 'RA', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 00 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'PC', 'RE', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'PC', 'RN', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 0 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'PC', 'FC', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'RA', 'RE', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'RA', 'RN', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 50 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+UNION ALL
+SELECT 'RE', 'RN', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100 AND p.CodPercorso IN ('PR006', 'PR006R')
+
+-- Final combination would be RE + FC
+UNION ALL
+SELECT 'RE', 'FC', 'Abbonato', 'Generico', t.Tipo, CURDATE(), NULL, ta.Prezzo, p.CodPercorso, 'macchinista@traintrack.com', ta.Durata, ta.Chilometraggio
+FROM TipoAbbonamento ta
+JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
+JOIN Treno t ON p.CodTreno = t.CodTreno
+WHERE ta.Chilometraggio = 100 AND p.CodPercorso IN ('PR006', 'PR006R');
 
 -- 1. First, add a new regional train with more capacity for the comprehensive route
 INSERT INTO Treno (CodTreno, PostiTotali, Tipo) 

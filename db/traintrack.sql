@@ -141,20 +141,20 @@ create table DettaglioOrdine (
     constraint IDDETTAGLIOORDINE primary key (CodDettaglioOrdine)
     );
     
-create table Carello (
-	CodCarello int not null auto_increment,
+create table Carrello (
+	CodCarrello int not null auto_increment,
 	PrezzoTotale float(15) not null default 0,
     Email varchar(50),
     SessionID varchar(50),
-    constraint IDCARRELLO primary key (CodCarello)
+    constraint IDCARRELLO primary key (CodCarrello)
     );
     
-create table DettaglioCarello (
-	CodDettaglioCarello int not null auto_increment,
+create table DettaglioCarrello (
+	CodDettaglioCarrello int not null auto_increment,
     CodServizio int not null,
     Quantità int not null,
-    CodCarello int not null,
-    constraint IDDETTAGLIOCARELLO primary key (CodDettaglioCarello)
+    CodCarrello int not null,
+    constraint IDDETTAGLIOCARRELLO primary key (CodDettaglioCarrello)
     );
     
 create table StatoNotifica (
@@ -187,15 +187,15 @@ alter table DettaglioOrdine add constraint FKRispetto
   foreign key (CodServizio)
   references Servizio (CodServizio);
     
-alter table Carello add constraint FKDi
+alter table Carrello add constraint FKDi
 	foreign key (Email)
     references Persona (Email);
     
-alter table DettaglioCarello add constraint FKSpecifica_C
-  foreign key (CodCarello)
-  references Carello (CodCarello);
+alter table DettaglioCarrello add constraint FKSpecifica_C
+  foreign key (CodCarrello)
+  references Carrello (CodCarrello);
 
-alter table DettaglioCarello add constraint FKRispetto_C
+alter table DettaglioCarrello add constraint FKRispetto_C
   foreign key (CodServizio)
   references Servizio (CodServizio);
 
