@@ -45,7 +45,16 @@ class DatabaseHelper
                 a2.Data AS dataarrivo,
                 a2.OrarioArrivoPrevisto AS orarioarrivo,
                 p.Prezzo AS prezzo,
-                p.PostiDisponibili AS postidisponibili,
+                (t.PostiTotali -
+                (SELECT COUNT(*)
+                 FROM Servizio s2
+                 JOIN Stazione sp2 ON s2.stazionepartenza = sp2.codstazione 
+                 JOIN Stazione sa2 ON s2.stazionearrivo = sa2.codstazione
+                 WHERE s2.email != 'macchinista@traintrack.com' 
+                 AND sp2.nome = ?
+                 AND sa2.nome = ?
+                 AND s2.datapartenza = ?
+                 AND s2.orariopartenza = ?)) AS postidisponibili,
         (SELECT MAX(a.Ordine)
         FROM Attraversato a
         WHERE a.CodPercorso = a1.CodPercorso) AS MaxOrdine,
@@ -58,19 +67,28 @@ class DatabaseHelper
         JOIN Treno t ON p.CodTreno = t.CodTreno
         WHERE sp.Nome = ?
         AND sa.Nome = ?
-        AND a1.Data = ?
+        AND a1.Data >= ?
         AND (a1.OrarioPartenzaPrevisto >= ? OR a1.OrarioPartenzaReale >= ?)
         AND a1.Ordine < a2.Ordine
         AND a1.Data <= a2.Data
         AND a1.OrarioPartenzaPrevisto < a2.OrarioArrivoPrevisto
-        AND p.PostiDisponibili > ?
+        AND t.PostiTotali -
+                (SELECT COUNT(*)
+                 FROM Servizio s1
+                 JOIN Stazione sp1 ON s1.stazionepartenza = sp1.codstazione 
+                 JOIN Stazione sa1 ON s1.stazionearrivo = sa1.codstazione
+                 WHERE s1.email != 'macchinista@traintrack.com' 
+                 AND sp1.nome = ?
+                 AND sa1.nome = ?
+                 AND s1.datapartenza = ?
+                 AND s1.orariopartenza = ?) > ?
         ORDER BY a1.OrarioPartenzaPrevisto";
         $stmt = $this->db->prepare($query);
         if (!$stmt) {
             die("Prepare failed: " . $this->db->error);
         }
 
-        $stmt->bind_param('sssssi', $departureStation, $destinationStation, $departureDate, $departureTime, $departureTime, $numberTickets);
+        $stmt->bind_param('sssssssssssssi', $departureStation, $destinationStation, $departureDate, $departureTime, $departureStation, $destinationStation, $departureDate, $departureTime, $departureTime, $departureStation, $destinationStation, $departureDate, $departureTime, $numberTickets);
 
         $stmt->execute();
         $result = $stmt->get_result();
@@ -85,7 +103,16 @@ class DatabaseHelper
                 a2.Data AS dataarrivo,
                 a2.OrarioArrivoPrevisto AS orarioarrivo,
                 p.Prezzo AS prezzo,
-                p.PostiDisponibili AS postidisponibili,
+                (t.PostiTotali -
+                (SELECT COUNT(*)
+                 FROM Servizio s
+                 JOIN Stazione p ON s.stazionepartenza = p.codstazione 
+                 JOIN Stazione a ON s.stazionearrivo = a.codstazione
+                 WHERE s.email != 'macchinista@traintrack.com' 
+                 AND p.nome = ?
+                 AND a.nome = ?
+                 AND s.datapartenza = ?
+                 AND s.orariopartenza = ?)) AS postidisponibili,
         (SELECT MAX(a.Ordine)
         FROM Attraversato a
         WHERE a.CodPercorso = a1.CodPercorso) AS MaxOrdine,
@@ -103,7 +130,15 @@ class DatabaseHelper
         AND a1.Ordine < a2.Ordine
         AND a1.Data <= a2.Data
         AND a1.OrarioPartenzaPrevisto < a2.OrarioArrivoPrevisto
-        AND p.PostiDisponibili > ?
+        AND (t.PostiTotali - (SELECT COUNT(*)
+                 FROM Servizio s
+                 JOIN Stazione p ON s.stazionepartenza = p.codstazione 
+                 JOIN Stazione a ON s.stazionearrivo = a.codstazione
+                 WHERE s.email != 'macchinista@traintrack.com' 
+                 AND p.nome = ?
+                 AND a.nome = ?
+                 AND s.datapartenza = ?
+                 AND s.orariopartenza = ?)) > ?
         ORDER BY a1.OrarioPartenzaPrevisto";
 
         if ($n > 0) {
@@ -115,7 +150,7 @@ class DatabaseHelper
             die("Prepare failed: " . $this->db->error);
         }
         if ($n > 0) {
-            $stmt->bind_param('sssssii', $departureStation, $destinationStation, $departureDate, $departureTime, $departureTime, $numberTickets, $n);
+            $stmt->bind_param('sssssssssssssii', $departureStation, $destinationStation, $departureDate, $departureTime, $departureStation, $destinationStation, $departureDate, $departureTime, $departureTime, $departureStation, $destinationStation, $departureDate, $departureTime, $numberTickets, $n);
         }
 
         $stmt->execute();
@@ -125,12 +160,12 @@ class DatabaseHelper
     }
 
     public function getSubscriptions($departureStationSub, $destinationStationSub, $duration, $trainType) {
-        $query = "SELECT 
-                    sa.Nome, 
-                    sp.Nome, 
+        $query = "SELECT
+                    sa.Nome AS stazionepartenzasub, 
+                    sp.Nome AS stazionearrivosub, 
                     t.Tipo AS tipotreno,
-                    s.Durata, 
-                    ta.Prezzo,
+                    s.Durata AS durata, 
+                    ta.Prezzo AS prezzo,
                     s.Chilometraggio,
                     s.CodServizio
                   FROM Servizio s
@@ -144,7 +179,8 @@ class DatabaseHelper
                   AND t.Tipo = ?
                   AND s.Durata IS NOT NULL
                   AND s.Chilometraggio IS NOT NULL
-                  ORDER BY ta.Prezzo";
+                  ORDER BY ta.Prezzo
+                  LIMIT 1";
                   
         $stmt = $this->db->prepare($query);
         if (!$stmt) {
@@ -166,7 +202,8 @@ class DatabaseHelper
                     WHERE ((s.StazionePartenza = ? AND s.StazioneArrivo = ?)
                     OR (s.StazionePartenza = ? AND s.StazioneArrivo = ?))
                     AND s.Durata = ?
-                    AND s.TipoTreno = ?";
+                    AND s.TipoTreno = ?
+                    AND s.email = 'macchinista@traintrack.com' ";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('ssssss', $departureStationSub, $destinationStationSub, $destinationStationSub, $departureStationSub, $duration, $trainTypeSub);
         return $stmt->execute();
@@ -179,105 +216,13 @@ class DatabaseHelper
                     AND s.StazioneArrivo = ?
                     AND s.DataPartenza = ?
                     AND s.OrarioPartenza = ?
-                    AND s.TipoTreno = ? ";
+                    AND s.TipoTreno = ? 
+                    AND s.Email = 'macchinista@traintrack.com' ";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('sssss');
         return $stmt->execute();
     }
 
-    function addToCartDb($email, $itemId, $quantity) {
-
-        $query = "SELECT CodCarello FROM carello WHERE Email = ?";
-        $stmt = $dbh->prepare($query);
-        $stmt->bind_param('s', $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $codCarello = $row['CodCarello'];
-        } else {
-            $query = "INSERT INTO carello (Email) VALUES (?)";
-            $stmt = $dbh->prepare($query);
-            $stmt->bind_param('s', $email);
-            $stmt->execute();
-            $codCarello = $stmt->insert_id;
-        }
-    
-        $query = "INSERT INTO dettagliocarello (CodCarello, CodServizio, Quantità) VALUES (?, ?, ?)
-                  ON DUPLICATE KEY UPDATE Quantità = Quantità + ?";
-        $stmt = $dbh->prepare($query);
-        $stmt->bind_param('iiii', $codCarello, $itemId, $quantity, $quantity);
-        $stmt->execute();
-        $codDettaglioCarrello = $stmt->insert_id;
-    }
-
-
-    function getCart($email = null) {
-        if ($email) {
-            $query = "SELECT dc.CodServizio, dc.Quantità, s.Prezzo 
-                      FROM dettagliocarello dc
-                      JOIN Servizio s ON dc.CodServizio = s.CodServizio
-                      JOIN carello c ON dc.CodCarello = c.CodCarello
-                      WHERE c.Email = ?";
-            $stmt = $dbh->prepare($query);
-            $stmt->bind_param('s', $email);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            return $result->fetch_all(MYSQLI_ASSOC);
-        } else {
-            $cartItems = [];
-            foreach ($_SESSION['cart'] as $itemId => $quantity) {
-                $query = "SELECT CodServizio, Prezzo FROM Servizio WHERE CodServizio = ?";
-                $stmt = $dbh->prepare($query);
-                $stmt->bind_param('i', $itemId);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $row = $result->fetch_assoc();
-                if ($row) {
-                    $cartItems[] = [
-                        'CodServizio' => $row['CodServizio'],
-                        'Quantità' => $quantity,
-                        'Prezzo' => $row['Prezzo']
-                    ];
-                }
-            }
-            return $cartItems;
-        }
-    }
-
-    function mergeCarts($email) {
-    
-        $sessionCart = $_SESSION['cart'];
-    
-        $query = "SELECT CodCarello FROM carello WHERE Email = ?";
-        $stmt = $dbh->prepare($query);
-        $stmt->bind_param('s', $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $codCarello = $row['CodCarello'];
-        } else {
-            // Create a new cart for the user
-            $query = "INSERT INTO carello (Email) VALUES (?)";
-            $stmt = $dbh->prepare($query);
-            $stmt->bind_param('s', $email);
-            $stmt->execute();
-            $codCarello = $stmt->insert_id;
-        }
-    
-        foreach ($sessionCart as $itemId => $quantity) {
-            $query = "INSERT INTO dettagliocarello (CodCarello, CodServizio, Quantità) VALUES (?, ?, ?)
-                      ON DUPLICATE KEY UPDATE Quantità = Quantità + ?";
-            $stmt = $dbh->prepare($query);
-            $stmt->bind_param('iiii', $codCarello, $itemId, $quantity, $quantity);
-            $stmt->execute();
-        }
-    
-        $_SESSION['cart'] = [];
-    }
 
 
     public function checkLogin($email, $password){
