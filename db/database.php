@@ -63,7 +63,7 @@ join stazione sp on s.stazionepartenza = sp.codstazione
 join stazione sa on s.stazionearrivo = sa.codstazione
 join percorso p on s.codpercorso = p.codpercorso
 join attraversato a1 on s.codpercorso = a1.codpercorso AND s.stazionepartenza = a1.codstazione AND s.datapartenza = a1.data
-join attraversato a2 on s.codpercorso = a2.codpercorso AND s.stazionepartenza = a2.codstazione 
+join attraversato a2 on s.codpercorso = a2.codpercorso AND s.stazionearrivo = a2.codstazione 
 JOIN treno t ON p.codtreno = t.codtreno 
 where s.email = 'macchinista@traintrack.com'
 AND sp.nome = ?
@@ -93,47 +93,47 @@ AND (t.PostiTotali - (SELECT COUNT(*)
     }
 
     public function getTickets($departureStation, $destinationStation, $departureDate, $departureTime, $numberTickets, $n=-1){
-        $query = "SELECT 	s.codservizio as CodServizio,
-	s.tipotreno as tipotreno,
-	s.datapartenza as datapartenza,
-	s.orariopartenza as orariopartenza,
-	a2.data as dataarrivo,
-	a2.orarioarrivoprevisto as orarioarrivo,
-	(p.prezzo / (SELECT max(a.ordine)
-	 	     FROM attraversato a
-	 	     where a.codpercorso = s.codpercorso)
-	 * (a2.ordine - a1.ordine)) as prezzo,
-	(t.PostiTotali - (SELECT COUNT(*)
-                      FROM Servizio s1
-                      JOIN Stazione sp2 ON s1.stazionepartenza = sp2.codstazione 
-                      JOIN Stazione sa2 ON s1.stazionearrivo = sa2.codstazione
-                      WHERE s1.email != 'macchinista@traintrack.com' 
-                      AND sp2.nome = ?
-                      AND sa2.nome = ?
-                      AND s1.datapartenza = s.datapartenza
-                      AND s1.orariopartenza = s.orariopartenza)) as postidisponibili
-FROM servizio s
-join stazione sp on s.stazionepartenza = sp.codstazione
-join stazione sa on s.stazionearrivo = sa.codstazione
-join percorso p on s.codpercorso = p.codpercorso
-join attraversato a1 on s.codpercorso = a1.codpercorso AND s.stazionepartenza = a1.codstazione AND s.datapartenza = a1.data
-join attraversato a2 on s.codpercorso = a2.codpercorso AND s.stazionepartenza = a2.codstazione 
-join treno t ON p.codtreno = t.codtreno 
-where s.email = 'macchinista@traintrack.com'
-AND sp.nome = ?
-AND sa.nome = ?
-AND s.datapartenza >= ?
-AND s.orariopartenza >= ?
-AND (t.PostiTotali - (SELECT COUNT(*)
-                      FROM Servizio s1
-                      JOIN Stazione sp2 ON s1.stazionepartenza = sp2.codstazione 
-                      JOIN Stazione sa2 ON s1.stazionearrivo = sa2.codstazione
-                      WHERE s1.email != 'macchinista@traintrack.com' 
-                      AND sp2.nome = ?
-                      AND sa2.nome = ?
-                      AND s1.datapartenza = s.datapartenza
-                      AND s1.orariopartenza = s.orariopartenza)) > ?
-                      ORDER BY s.orariopartenza";
+        $query = "SELECT s.codservizio as CodServizio,
+	                     s.tipotreno as tipotreno,
+	                     s.datapartenza as datapartenza,
+	                     s.orariopartenza as orariopartenza,
+	                     a2.data as dataarrivo,
+                    	 a2.orarioarrivoprevisto as orarioarrivo,
+	                     (p.prezzo / (SELECT max(a.ordine)
+	 	                              FROM attraversato a
+	 	                              where a.codpercorso = s.codpercorso)
+	                     * (a2.ordine - a1.ordine)) as prezzo,
+	                     (t.PostiTotali - (SELECT COUNT(*)
+                                            FROM Servizio s1
+                                            JOIN Stazione sp2 ON s1.stazionepartenza = sp2.codstazione 
+                                            JOIN Stazione sa2 ON s1.stazionearrivo = sa2.codstazione
+                                            WHERE s1.email != 'macchinista@traintrack.com' 
+                                            AND sp2.nome = ?
+                                            AND sa2.nome = ?
+                                            AND s1.datapartenza = s.datapartenza
+                                            AND s1.orariopartenza = s.orariopartenza)) as postidisponibili
+                    FROM servizio s
+                    join stazione sp on s.stazionepartenza = sp.codstazione
+                    join stazione sa on s.stazionearrivo = sa.codstazione
+                    join percorso p on s.codpercorso = p.codpercorso
+                    join attraversato a1 on s.codpercorso = a1.codpercorso AND s.stazionepartenza = a1.codstazione AND s.datapartenza = a1.data
+                    join attraversato a2 on s.codpercorso = a2.codpercorso AND s.stazionearrivo = a2.codstazione 
+                    join treno t ON p.codtreno = t.codtreno 
+                    where s.email = 'macchinista@traintrack.com'
+                    AND sp.nome = ?
+                    AND sa.nome = ?
+                    AND s.datapartenza >= ?
+                    AND s.orariopartenza >= ?
+                    AND (t.PostiTotali - (SELECT COUNT(*)
+                                          FROM Servizio s1
+                                          JOIN Stazione sp2 ON s1.stazionepartenza = sp2.codstazione 
+                                          JOIN Stazione sa2 ON s1.stazionearrivo = sa2.codstazione
+                                          WHERE s1.email != 'macchinista@traintrack.com' 
+                                          AND sp2.nome = ?
+                                          AND sa2.nome = ?
+                                          AND s1.datapartenza = s.datapartenza
+                                          AND s1.orariopartenza = s.orariopartenza)) > ?
+                    ORDER BY s.orariopartenza";
 
         if ($n > 0) {
         $query .= " LIMIT ?";
