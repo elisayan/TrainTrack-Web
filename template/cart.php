@@ -1,76 +1,120 @@
-<section>
-    <?php if(isset($templateParams["errorecarrello"])):?>
-        <p class="error"><?php echo $templateParams["errorecarrello"]; ?></p>
-    <?php endif; ?>
-
-    <?php if(isset($templateParams["biglietti-presenti"])):?>
-        <h3><?php echo $templateParams["biglietti-presenti"]; ?></h3>
-        <div class="grid-container">
-        <?php foreach($templateParams["biglietti-selezionati"] as $biglietto_selezionato): ?>
-        <article>
-            <div class="col-12">
-                <div class="row justify-content-center">
-                    <div class="col-4 text">
-                        <p>Tipo</p>
-                        <p>Partenza</p>
-                        <p>Arrivo</p>
-                        <p>Prezzo</p>
-                    </div>
-                    <div class="col-8 data">
-                        <p><?php echo $biglietto_selezionato["tipotreno"]; ?></p>
-                        <p><?php echo $biglietto_selezionato["datapartenza"]; ?> <?php echo $biglietto_selezionato["orariopartenza"]; ?></p>
-                        <p><?php echo $biglietto_selezionato["dataarrivo"]; ?> <?php echo $biglietto_selezionato["orarioarrivo"]; ?></p>
-                        <p><?php echo $biglietto_selezionato["prezzo"]/$biglietto_selezionato["NumeroStazioni"]; ?>€</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-auto me-auto available">
-                        <p><?php echo $biglietto_selezionato["postidisponibili"]; ?> posti disponibili</p>
-                    </div>
-                    <div class="col-auto">
-                        <button class="btn btn-primary btn-sm"><img src="./img/cart.png" alt=""></button>
-                    </div>
-                </div>
-            </div>
-        </article>
-        <?php endforeach; ?>
+<section class="cart-section">
+    <?php if(empty($templateParams["cart_items"]["tickets"]) && empty($templateParams["cart_items"]["subscriptions"])): ?>
+        <div class="empty-cart">
+            <i class="fas fa-shopping-cart"></i>
+            <h3><?php echo $templateParams["errorecarrello"]; ?></h3>
+            <p>Sfoglia il nostro sito e aggiungi i tuoi biglietti o abbonamenti</p>
+            <a href="home.php" class="btn btn-outline-primary">Torna alla homepage</a>
         </div>
-    <?php endif; ?>
+    <?php else: ?>
+        
+        <?php if(!empty($templateParams["cart_items"]["tickets"])): ?>
+            <h2>Biglietti</h2>
+            <?php foreach($templateParams["cart_items"]["tickets"] as $ticket): ?>
+                <div class="cart-item">
+                    <div class="cart-item-header">
+                        <span class="cart-item-type">Biglietto</span>
+                        <span class="cart-item-price"><?php echo number_format($ticket["Prezzo"], 2); ?>€</span>
+                    </div>
+                    
+                    <div class="cart-item-details">
+                        <div>
+                            <h4>Partenza</h4>
+                            <p><?php echo $ticket["NomePartenza"]; ?></p>
+                            <p><?php echo $ticket["DataPartenza"]; ?> <?php echo $ticket["OrarioPartenza"]; ?></p>
+                        </div>
+                        <div>
+                            <h4>Arrivo</h4>
+                            <p><?php echo $ticket["NomeArrivo"]; ?></p>
+                            <p><?php echo $ticket["DataArrivo"]; ?> <?php echo $ticket["OrarioArrivo"]; ?></p>
+                        </div>
+                        <div>
+                            <h4>Dettagli</h4>
+                            <p>Treno: <?php echo $ticket["TipoTreno"]; ?></p>
+                            <p>Posti disponibili: <?php echo $ticket["postidisponibili"]; ?></p>
+                        </div>
+                    </div>
+                    
+                    <div class="cart-item-actions">
+                        <form method="post" class="quantity-form">
+                            <input type="hidden" name="item_id" value="<?php echo $ticket['CodDettaglioCarrello']; ?>">
+                            <label for="quantity">Quantità:</label>
+                            <input type="number" name="quantity" value="<?php echo $ticket['Quantità']; ?>" min="1" max="10">
+                            <button type="submit" name="update_quantity" class="btn btn-sm btn-outline-secondary">Aggiorna</button>
+                        </form>
+                        <form method="post">
+                            <input type="hidden" name="item_id" value="<?php echo $ticket['CodDettaglioCarrello']; ?>">
+                            <button type="submit" name="remove_item" class="btn-remove">
+                                <i class="fas fa-trash-alt"></i> Rimuovi
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        
+        
+        <?php if(!empty($templateParams["cart_items"]["subscriptions"])): ?>
+            <h2>Abbonamenti</h2>
+            <?php foreach($templateParams["cart_items"]["subscriptions"] as $subscription): ?>
+                <div class="cart-item">
+                    <div class="cart-item-header">
+                        <span class="cart-item-type">Abbonamento</span>
+                        <span class="cart-item-price"><?php echo number_format($subscription["Prezzo"], 2); ?>€</span>
+                    </div>
+                    
+                    <div class="cart-item-details">
+                        <div>
+                            <h4>Partenza</h4>
+                            <p><?php echo $subscription["NomePartenza"]; ?></p>
+                        </div>
+                        <div>
+                            <h4>Arrivo</h4>
+                            <p><?php echo $subscription["NomeArrivo"]; ?></p>
+                        </div>
+                        <div>
+                            <h4>Dettagli</h4>
+                            <p>Treno: <?php echo $subscription["TipoTreno"]; ?></p>
+                            <p>Durata: <?php echo $subscription["Durata"]; ?></p>
+                            <p>Valido dal: <?php echo $subscription["DataPartenza"]; ?></p>
+                        </div>
+                    </div>
+                    
+                    <div class="cart-item-actions">
+                        <form method="post" class="quantity-form">
+                            <input type="hidden" name="item_id" value="<?php echo $subscription['CodDettaglioCarrello']; ?>">
+                            <label for="quantity">Quantità:</label>
+                            <input type="number" name="quantity" value="<?php echo $subscription['Quantità']; ?>" min="1" max="10">
+                            <button type="submit" name="update_quantity" class="btn btn-sm btn-outline-secondary">Aggiorna</button>
+                        </form>
+                        <form method="post">
+                            <input type="hidden" name="item_id" value="<?php echo $subscription['CodDettaglioCarrello']; ?>">
+                            <button type="submit" name="remove_item" class="btn-remove">
+                                <i class="fas fa-trash-alt"></i> Rimuovi
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        
 
-    <?php if(isset($templateParams["abbonamenti-presenti"])):?>
-        <h3><?php echo $templateParams["abbonamenti-presenti"]; ?></h3>
-        <div class="grid-container">
-        <?php foreach($templateParams["abbonamenti-selezionati"] as $abbonamento_selezionato): ?>
-        <article>
-            <div class="col-12">
-                <div class="row justify-content-center">
-                    <div class="col-6 type">
-                        <p>Stazione Partenza</p>
-                        <p>Stazione Arrivo</p>
-                        <p>Tipo</p>
-                        <p>Partenza</p>
-                        <p>Durata</p>
-                        <p>Prezzo</p>
-                    </div>
-                    <div class="col-6 data">
-                        <p><?php echo $abbonamento_selezionato["stazione-partenza-sub"]?></p>
-                        <p><?php echo $abbonamento_selezionato["stazione-arrivo-sub"]?></p>
-                        <p><?php echo $abbonamento_selezionato["tipo-treno-sub"]; ?></p>
-                        <p><?php echo $abbonamento_selezionato["data-partenza-sub"]; ?></p>
-                        <p><?php echo $abbonamento_selezionato["durata"]; ?></p>
-                        <p><?php echo $abbonamento_selezionato["prezzo-sub"]; ?>€</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-auto me-auto">
-                    </div>
-                    <div class="col-auto">
-                        <button class="btn btn-primary btn-sm cart-remove"><img src="./img/removecart.png" alt="" class="minus-cart"></button>
-                    </div>
-                </div>
+        <div class="cart-summary">
+            <h3>Riepilogo Ordine</h3>
+            <div class="summary-row">
+                <span>Totale provvisorio:</span>
+                <span class="price"><?php echo number_format($templateParams["total_price"], 2); ?>€</span>
             </div>
-        </article>
-        <?php endforeach; ?>
+            
+            <a href="checkout.php" class="checkout-btn">
+                <?php echo $templateParams["user_logged_in"] ? 'Procedi all\'ordine' : 'Continua come ospite'; ?>
+            </a>
+            
+            <?php if(!$templateParams["user_logged_in"]): ?>
+                <p class="login-suggestion">
+                    Hai un account? <a href="login.php">Accedi</a> per un checkout più veloce
+                </p>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
 </section>
