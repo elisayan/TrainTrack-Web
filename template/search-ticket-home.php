@@ -1,5 +1,5 @@
 <section>
-    <form class="card shadow p-4 mt-5" action="search-tickets-results.php" method="GET">
+    <form class="card shadow p-2. mt-5" action="search-tickets-results.php" method="GET">
         <?php if (isset($templateParams["errore_ricerca_biglietto"])): ?>
             <p class="error"><?php echo $templateParams["errore_ricerca_biglietto"]; ?></p>
         <?php endif; ?>
@@ -80,7 +80,7 @@
                 
                 <div class="row">
                     <div class="col-auto me-auto">
-                        <div class="row service">
+                        <div class="row row-service">
                             <p>Servizi Complementari:</p>
                         </div>
                         <div class="form-check">
@@ -99,7 +99,7 @@
                 <div class="row">
                     <div class="col-auto me-auto"></div>
                     <div class="col-auto">
-                        <input class="btn btn-primary btn-sm" type="submit" name="submit" value="CERCA">
+                        <input class="btn btn-primary btn-sm btn-search" type="submit" name="submit" value="CERCA">
                     </div>
                 </div>
             </div>

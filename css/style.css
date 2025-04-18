@@ -651,8 +651,12 @@ p.error{
     justify-content: right !important;
 }
 
-.service{
+.row-service{
     margin: 0 ;
+}
+
+.btn-search{
+    margin-bottom: 20px;
 }
 
 button.passenger > img{
@@ -962,6 +966,11 @@ section{
     article {
         width: calc(33.333% - 20px);
     }
+
+    .cart-item , .service {
+        width: 25%;
+    }
+    
 }
 
 
