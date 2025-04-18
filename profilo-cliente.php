@@ -5,10 +5,6 @@ if (!isset($_SESSION["email"])) {
     exit();
 }
 
-if (isset($_SESSION['email'])) {
-    mergeCarts($_SESSION['email']);
-}
-
 $templateParams["titolo"]="TrainTrack - Profilo Utente";
 $templateParams["nome"]="template/profilo-cliente.php";
 
