@@ -345,7 +345,7 @@ AND (t.PostiTotali - (SELECT COUNT(*)
 
     public function notificaBenvenuto($email){
         $query = "INSERT INTO StatoNotifica (CodNotifica, Email)
-                    SELECT 1, Email 
+                    SELECT (SELECT CodNotifica FROM Notifica WHERE CodNotifica = 'NOT001'), Email 
                     FROM Persona 
                     WHERE TipoPersona = 'cliente' AND 
                         TipoCliente = 'utente' AND
