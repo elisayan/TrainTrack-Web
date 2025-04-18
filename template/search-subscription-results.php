@@ -41,7 +41,7 @@
     </header>
     <div class="grid-container">
         <?php foreach($templateParams["abbonamenti"] as $abbonamento): ?>
-        <article>
+        <article class="card shadow p-4 mt-5">
         <form method="POST" action="cart.php" class="add-subscription-form">
                 <input type="hidden" name="subscription_id" value="<?php echo $abbonamento['CodServizio']; ?>">
                 <input type="hidden" name="stazione-partenza-sub" value="<?php echo $departureStationSub; ?>">

@@ -43,7 +43,7 @@
     </header>
     <div class="grid-container">
         <?php foreach($templateParams["biglietti"] as $biglietto): ?>
-        <article>
+        <article class="card shadow p-4 mt-5">
         <form action="cart.php" method="POST">
         <input type="hidden" name="ticket_id" value="<?php echo $biglietto['CodServizio']; ?>">
         <input type="hidden" name="stazione_partenza" value="<?php echo $departureStation; ?>">

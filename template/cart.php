@@ -11,7 +11,7 @@
         <?php if(!empty($templateParams["cart_items"]["tickets"])): ?>
             <h2>Biglietti</h2>
             <?php foreach($templateParams["cart_items"]["tickets"] as $ticket): ?>
-                <div class="cart-item">
+                <div class="card shadow p-4 mt-5 cart-item">
                     <div class="cart-item-header">
                         <span class="cart-item-type">Biglietto</span>
                         <span class="cart-item-price"><?php echo number_format($ticket["Prezzo"], 2); ?>€</span>
@@ -57,7 +57,7 @@
         <?php if(!empty($templateParams["cart_items"]["subscriptions"])): ?>
             <h2>Abbonamenti</h2>
             <?php foreach($templateParams["cart_items"]["subscriptions"] as $subscription): ?>
-                <div class="cart-item">
+                <div class="card shadow p-4 mt-5 cart-item">
                     <div class="cart-item-header">
                         <span class="cart-item-type">Abbonamento</span>
                         <span class="cart-item-price"><?php echo number_format($subscription["Prezzo"], 2); ?>€</span>
@@ -99,7 +99,7 @@
         <?php endif; ?>
         
 
-        <div class="cart-summary">
+        <div class="card shadow p-4 mt-5 cart-summary">
             <h3>Riepilogo Ordine</h3>
             <div class="summary-row">
                 <span>Totale provvisorio:</span>

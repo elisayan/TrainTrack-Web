@@ -2,7 +2,7 @@
 <?php if(isset($templateParams["errore_ricerca_abbonamento"])):?>
             <p class="error"><?php echo $templateParams["errore_ricerca_abbonamento"]; ?></p>
             <?php endif; ?>
-    <form action="search-subscriptions-results.php" method="GET">
+    <form class="card shadow p-4 mt-5" action="search-subscriptions-results.php" method="GET">
         <div class="container justify-content-center">
             <div class="row justify-content-center">
                 <div class="row station">

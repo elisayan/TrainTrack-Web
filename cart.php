@@ -13,7 +13,7 @@ $templateParams = [
 
 
 if (isset($_SESSION['email'])) {
-    $dbh->transferGuestCart($session_id, $_SESSION['email']);
+    $dbh->transferGuestCart(session_id(), $_SESSION['email']);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
