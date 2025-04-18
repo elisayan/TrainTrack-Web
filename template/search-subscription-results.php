@@ -1,5 +1,4 @@
 <section>
-<form action="cart.php" method="GET">
     <header>
         <div class="row justify-content-center searchheader">
             <div class="col-md-7 col-lg-5">
@@ -43,7 +42,7 @@
     <div class="grid-container">
         <?php foreach($templateParams["abbonamenti"] as $abbonamento): ?>
         <article>
-        <form method="GET" action="cart.php" class="add-subscription-form">
+        <form method="POST" action="cart.php" class="add-subscription-form">
                 <input type="hidden" name="subscription_id" value="<?php echo $abbonamento['CodServizio']; ?>">
                 <input type="hidden" name="stazione-partenza-sub" value="<?php echo $departureStationSub; ?>">
                 <input type="hidden" name="stazione-arrivo-sub" value="<?php echo $destinationStationSub; ?>">
@@ -73,8 +72,8 @@
                     </div>
                 </div>
             </div>
+        </form>
         </article>
         <?php endforeach; ?>
     </div>
-    </form>
 </section>

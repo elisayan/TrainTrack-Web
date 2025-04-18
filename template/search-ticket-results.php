@@ -1,5 +1,4 @@
 <section>
-<form action="cart.php" method="GET">
     <header>
         <div class="row justify-content-center searchheader">
             <div class="col-md-7 col-lg-5">
@@ -45,7 +44,13 @@
     <div class="grid-container">
         <?php foreach($templateParams["biglietti"] as $biglietto): ?>
         <article>
-            <div class="col-12">
+        <form action="cart.php" method="POST">
+        <input type="hidden" name="ticket_id" value="<?php echo $biglietto['CodServizio']; ?>">
+        <input type="hidden" name="stazione_partenza" value="<?php echo $departureStation; ?>">
+        <input type="hidden" name="stazione_arrivo" value="<?php echo $destinationStation; ?>">
+        <input type="hidden" name="tipo_treno" value="<?php echo $biglietto['tipotreno']; ?>">
+        <input type="hidden" name="data_partenza" value="<?php echo $biglietto['datapartenza']; ?>">
+                    <div class="col-12">
                 <div class="row justify-content-center">
                     <div class="col-4 text">
                         <p>Tipo</p>
@@ -71,7 +76,7 @@
                                 <input type="text" readonly class="form-control-plaintext" id="orario-arrivo" value="<?php echo $biglietto["orarioarrivo"]; ?>" >
                             </div>
                         </div>
-                        <input type="text" readonly class="form-control-plaintext" id="prezzo" value="<?php echo $biglietto["prezzo"]/$biglietto["NumeroStazioni"]; ?>€" >
+                        <input type="text" readonly class="form-control-plaintext" id="prezzo" value="<?php echo $biglietto["prezzo"]; ?>€" >
                     </div>
                 </div>
                 <div class="row">
@@ -83,8 +88,8 @@
                     </div>
                 </div>
             </div>
+            </form>
         </article>
         <?php endforeach; ?>
     </div>
-    </form>
 </section>
