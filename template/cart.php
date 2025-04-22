@@ -8,10 +8,12 @@
         </div>
     <?php else: ?>
         
+        <div class="row">
+        <div class="col-12 col-md-6">
         <?php if(!empty($templateParams["cart_items"]["tickets"])): ?>
             <h2>Biglietti</h2>
             <?php foreach($templateParams["cart_items"]["tickets"] as $ticket): ?>
-                <div class="card shadow p-2. mt-5 cart-item">
+                <div class="card shadow p-2. cart-item">
                     <div class="cart-item-header">
                         <span class="cart-item-type">Biglietto</span>
                         <span class="cart-item-price"><?php echo number_format($ticket["Prezzo"], 2); ?>€</span>
@@ -53,11 +55,10 @@
             <?php endforeach; ?>
         <?php endif; ?>
         
-        
         <?php if(!empty($templateParams["cart_items"]["subscriptions"])): ?>
             <h2>Abbonamenti</h2>
             <?php foreach($templateParams["cart_items"]["subscriptions"] as $subscription): ?>
-                <div class="card shadow p-4 mt-5 cart-item">
+                <div class="card shadow p-4 cart-item">
                     <div class="cart-item-header">
                         <span class="cart-item-type">Abbonamento</span>
                         <span class="cart-item-price"><?php echo number_format($subscription["Prezzo"], 2); ?>€</span>
@@ -97,9 +98,10 @@
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
-        
+        </div>
 
-        <div class="card shadow p-4 mt-5 cart-summary">
+        <div class="col-12 col-md-6">
+        <div class="card shadow p-4 mt-0 cart-summary">
             <h3>Riepilogo Ordine</h3>
             <div class="summary-row">
                 <span>Totale provvisorio:</span>
@@ -115,6 +117,8 @@
                     Hai un account? <a href="login.php">Accedi</a> per un checkout più veloce
                 </p>
             <?php endif; ?>
+        </div>
+        </div>
         </div>
     <?php endif; ?>
 </section>

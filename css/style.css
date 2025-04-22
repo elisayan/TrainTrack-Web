@@ -800,6 +800,7 @@ section{
     margin: 10px;
     background: white;
     transition: transform 0.2s;
+    margin-bottom: 2rem;
 }
 
 .cart-item:hover {
@@ -871,6 +872,7 @@ section{
     padding: 15px;
     margin-top: 20px;
     border: 1px solid #999999;
+    margin-bottom: 2rem;
 }
 
 .checkout-btn {
@@ -965,10 +967,6 @@ section{
 @media screen and (min-width: 768px) {
     article {
         width: calc(33.333% - 20px);
-    }
-
-    .cart-item , .service {
-        width: 25%;
     }
     
 }
