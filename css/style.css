@@ -776,7 +776,7 @@ section{
 }
 
 
-.cart-section {
+.cart-section , .checkout-section {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 10px;
@@ -950,6 +950,9 @@ section{
     padding: 5px;
 }
 
+.btn-secondary {
+    margin-top: 1rem;
+}
 
 .error {
     text-align: center;
