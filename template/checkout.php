@@ -52,7 +52,7 @@
                     </div>
                     
                     <button type="submit" class="checkout-btn">
-                        <?php echo $templateParams["user_logged_in"] ? 'Procedi all\'ordine' : 'Continua come ospite'; ?>
+                        <?php echo $templateParams["user_logged_in"] ? 'Procedi al pagamento' : 'Paga come ospite'; ?>
                     </button>
                 </form>
                 </div>
