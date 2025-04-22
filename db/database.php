@@ -175,6 +175,7 @@ AND (t.PostiTotali - (SELECT COUNT(*)
                   AND t.Tipo = ?
                   AND s.Durata IS NOT NULL
                   AND s.Chilometraggio IS NOT NULL
+                  AND s.DataPartenza >= CURDATE()
                   ORDER BY ta.Prezzo
                   LIMIT 1";
                   
@@ -199,6 +200,7 @@ AND (t.PostiTotali - (SELECT COUNT(*)
                     OR (s.StazionePartenza = ? AND s.StazioneArrivo = ?))
                     AND s.Durata = ?
                     AND s.TipoTreno = ?
+                    AND s.datapartenza >= CURDATE()
                     AND s.email = 'macchinista@traintrack.com' ";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('ssssss', $departureStationSub, $destinationStationSub, $destinationStationSub, $departureStationSub, $duration, $trainTypeSub);
@@ -318,7 +320,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
                                     join percorso p on s.codpercorso = p.codpercorso
                                     join treno t ON p.codtreno = t.codtreno 
                                     WHERE dc.CodCarrello = ?
-                                    AND s.datapartenza <= a2.data");
+                                    AND s.datapartenza <= a2.data
+                                    AND s.datapartenza >= CURDATE()");
         $stmt->bind_param("i", $codCarrello);
         $stmt->execute();
         $items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -434,7 +437,6 @@ AND (t.PostiTotali - (SELECT COUNT(*)
     
         return true;
     }
-
 
     public function checkLogin($email, $password){
         $query = "SELECT * FROM persona WHERE email=? AND password=?";
