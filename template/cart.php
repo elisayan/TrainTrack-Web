@@ -101,7 +101,7 @@
         </div>
 
         <div class="col-12 col-md-6">
-        <div class="card shadow p-4 mt-0 cart-summary">
+        <div class="card shadow p-4 mt-0 cart-summary sticky-top">
             <h3>Riepilogo Ordine</h3>
             <div class="summary-row">
                 <span>Totale provvisorio:</span>
