@@ -70,6 +70,7 @@ AND sp.nome = ?
 AND sa.nome = ?
 AND s.datapartenza >= ?
 AND s.orariopartenza >= ?
+AND s.datapartenza <= a2.data
 AND (t.PostiTotali - (SELECT COUNT(*)
                       FROM Servizio s1
                       JOIN Stazione sp2 ON s1.stazionepartenza = sp2.codstazione 
@@ -124,6 +125,7 @@ AND (t.PostiTotali - (SELECT COUNT(*)
                     AND sa.nome = ?
                     AND s.datapartenza >= ?
                     AND s.orariopartenza >= ?
+                    AND s.datapartenza <= a2.data
                     AND (t.PostiTotali - (SELECT COUNT(*)
                                           FROM Servizio s1
                                           JOIN Stazione sp2 ON s1.stazionepartenza = sp2.codstazione 
@@ -315,7 +317,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
                                     join attraversato a2 on s.codpercorso = a2.codpercorso AND s.stazionearrivo = a2.codstazione 
                                     join percorso p on s.codpercorso = p.codpercorso
                                     join treno t ON p.codtreno = t.codtreno 
-                                    WHERE dc.CodCarrello = ?");
+                                    WHERE dc.CodCarrello = ?
+                                    AND s.datapartenza <= a2.data");
         $stmt->bind_param("i", $codCarrello);
         $stmt->execute();
         $items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
