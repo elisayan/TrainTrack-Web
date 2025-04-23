@@ -1,5 +1,5 @@
-<section>
-    <form class="card shadow p-2. mt-5" action="search-tickets-results.php" method="GET">
+<section class="search-ticket-section">
+    <form class="card shadow p-2. mt-5 mb-5" action="search-tickets-results.php" method="GET">
         <?php if (isset($templateParams["errore_ricerca_biglietto"])): ?>
             <p class="error"><?php echo $templateParams["errore_ricerca_biglietto"]; ?></p>
         <?php endif; ?>
