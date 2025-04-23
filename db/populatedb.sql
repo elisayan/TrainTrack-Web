@@ -62,6 +62,24 @@ INSERT INTO Percorso (CodPercorso, CodTreno, Email, TempoPercorrenza, Prezzo) VA
 ('PR005R', 'TR005', 'macchinista@traintrack.com', '01:15', 15.00),
 ('PR006R', 'TR006', 'macchinista@traintrack.com', '04:30', 30.00);
 
+-- 6. Add all possible combinations of TipoAbbonamento
+INSERT INTO TipoAbbonamento (Durata, Chilometraggio, Prezzo) VALUES
+('Settimanale', 30, 50.00),
+('Settimanale', 50, 65.00),
+('Settimanale', 100, 80.00),
+('Mensile', 30, 120.00),
+('Mensile', 50, 150.00),
+('Mensile', 100, 180.00),
+('Annuale', 30, 500.00),
+('Annuale', 50, 600.00),
+('Annuale', 100, 700.00);
+
+
+-- Add some notifications
+INSERT INTO Notifica (CodNotifica, Descrizione, CodPercorso) VALUES
+('NOT001', 'Benvenuto su TrainTrack!', 'PR001');
+
+
 -- 5. Add attraversato records for each route with current date
 -- Route PR001: Bologna -> Modena -> Reggio Emilia -> Parma
 INSERT INTO Attraversato (CodPercorso, CodStazione, Data, Ordine, OrarioPartenzaPrevisto, OrarioArrivoPrevisto, OrarioArrivoReale, OrarioPartenzaReale, Binario, StatoArrivo, StatoPartenza) VALUES
@@ -194,17 +212,6 @@ VALUES
 -- Rimini (terminus)
 ('PR006R', 'RN', CURDATE(), 9, '17:30:00', '17:30:00', '17:30:00', '17:30:00', 1, 'In orario', 'In orario');
 
--- 6. Add all possible combinations of TipoAbbonamento
-INSERT INTO TipoAbbonamento (Durata, Chilometraggio, Prezzo) VALUES
-('Settimanale', 30, 50.00),
-('Settimanale', 50, 65.00),
-('Settimanale', 100, 80.00),
-('Mensile', 30, 120.00),
-('Mensile', 50, 150.00),
-('Mensile', 100, 180.00),
-('Annuale', 30, 500.00),
-('Annuale', 50, 600.00),
-('Annuale', 100, 700.00);
 
 -- 7. Add all possible combinations of Servizio (without subscriptions - durata and chilometraggio are null)
 -- First, let's calculate distances between stations (approximate km)
@@ -378,10 +385,6 @@ INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomeP
 -- Forlì to Rimini
 ('FC', 'RN', 'Passeggero', 'Generico', 'Regionale', CURDATE(), '16:30:00', 6.00, 'PR006R', 'macchinista@traintrack.com', NULL, NULL);
 
-
--- Add some notifications
-INSERT INTO Notifica (CodNotifica, Descrizione, CodPercorso) VALUES
-('NOT001', 'Benvenuto su TrainTrack!', 'PR001');
 
 -- Add subscription services where Durata and Chilometraggio are not null
 -- For Bologna-Modena (distance ~40km) - use 50km subscriptions
