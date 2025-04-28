@@ -776,7 +776,7 @@ section{
 }
 
 
-.cart-section , .checkout-section, .search-ticket-section, .search-subscription-section {
+.cart-section , .checkout-section, .search-ticket-section, .search-subscription-section, .payment-section {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 10px;
@@ -866,7 +866,7 @@ section{
     padding: 3px;
 }
 
-.cart-summary {
+.cart-summary, .card-info {
     background: #f8f9fa;
     border-radius: 5%;
     padding: 15px;
