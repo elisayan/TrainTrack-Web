@@ -526,6 +526,23 @@ img{
     padding: 5px;
 }
 
+.img-carousel{
+    width: 100%;
+    height: 373px;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 0.375rem !important;
+    padding: 0;
+}
+
+.carousel-item{
+    height: 373px;
+    max-height: 100%;
+    border-radius: 0.375rem !important;
+    padding: 0;
+}
+
 article{
     border: 3px solid #999999;
     border-radius: 5%;
@@ -727,54 +744,6 @@ button.passenger > img{
 section{
     padding-top: 0 !important;
 }
-
-@media screen and (min-width:768px) {
-
-    .col-md-6.col-lg-6{
-        flex: 0 0 auto !important;
-        width: auto !important;
-    }
-
-    .col-md-6.col-lg-6 > .row{
-        display: inline-flex;
-        margin: 0 !important;
-    }
-
-    .col-md-6.col-lg-6 > .row > .form-control{
-        width: auto;
-    }
-
-    .col-auto.passenger{
-        margin: 6px 0 0 !important;
-    }
-
-    .col-md-12.col-lg-3 > *{
-        width: fit-content;
-    }
-
-    .col-md-12.col-md-3{
-        margin-right: auto !important;
-        flex: 0 0 auto;
-        width: auto;
-    }
-
-    .station.ticket{
-        width: auto;
-    }
-
-    #stazione_arrivo, #stazione_partenza{
-        width: 77% !important;
-    }
-
-    .station.sub{
-        width: 49%;
-    }
-
-    article{
-        width: 20%;
-    }
-}
-
 
 .cart-section , .checkout-section, .search-ticket-section, .search-subscription-section, .payment-section {
     max-width: 1200px;
