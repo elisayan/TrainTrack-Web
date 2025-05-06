@@ -1,7 +1,6 @@
 <section class="cart-section">
     <?php if(empty($templateParams["cart_items"]["tickets"]) && empty($templateParams["cart_items"]["subscriptions"])): ?>
         <div class="empty-cart">
-            <i class="fas fa-shopping-cart"></i>
             <h3><?php echo $templateParams["errorecarrello"]; ?></h3>
             <p>Sfoglia il nostro sito e aggiungi i tuoi biglietti o abbonamenti</p>
             <a href="home.php" class="btn btn-outline-primary">Torna alla homepage</a>

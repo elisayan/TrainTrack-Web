@@ -753,13 +753,7 @@ section{
 
 .empty-cart {
     text-align: center;
-    padding: 20px 0;
-}
-
-.empty-cart .fa-shopping-cart {
-    font-size: 4rem;
-    color: #999999;
-    margin-bottom: 1.5rem;
+    padding: 4.1rem 0 7.1rem;
 }
 
 .cart-item {
@@ -943,6 +937,7 @@ section{
     .card.shadow.subscription {
         padding: 6.3rem 4rem !important;
     }
+
 }
 
 
