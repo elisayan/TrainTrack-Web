@@ -1,4 +1,6 @@
 <section class="search-subscription-section">
+    <div class="row">
+        <div class="col-12 col-md-6">
 <?php if(isset($templateParams["errore_ricerca_abbonamento"])):?>
             <p class="error"><?php echo $templateParams["errore_ricerca_abbonamento"]; ?></p>
             <?php endif; ?>
@@ -59,4 +61,30 @@
                 
         </div>
     </form>
+    </div>
+    <div class="col-12 col-md-6">
+            <div id="carouselExampleIndicators" class="carousel slide mb-5" data-bs-ride="carousel">
+
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="./img/blue.png" class="d-block w-100 img-carousel" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="./img/red.png" class="d-block w-100 img-carousel" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="./img/green.png" class="d-block w-100 img-carousel" alt="...">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </a>
+            </div>
+            </div>
+        </div>
+
+    </div>
 </section>
