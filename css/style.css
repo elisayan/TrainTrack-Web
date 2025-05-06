@@ -865,7 +865,6 @@ section{
     font-size: 0.9rem;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .cart-item-details {
         grid-template-columns: 1fr;
@@ -941,6 +940,9 @@ section{
         width: calc(33.333% - 20px);
     }
     
+    .card.shadow.subscription {
+        padding: 6.3rem 4rem !important;
+    }
 }
 
 
