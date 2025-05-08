@@ -1,14 +1,13 @@
 <section class="order-section">
+    <div class="order text-center">
     <h3>Grazie!</h3>
     <p>Il tuo ordine è stato ricevuto con successo.</p>
-    <p>Riceverai un'email di conferma a breve.</p>
     <p>Se hai domande, non esitare a contattarci.</p>
-    <p>Il tuo ordine è stato elaborato e il pagamento è andato a buon fine.</p>
-    <p>Di seguito trovi i dettagli del tuo ordine:</p>
+    </div>
     <div class="row">
         <div class="col-12 col-md-6">
             <h2>Biglietti</h2>
-                <div class="card shadow p-4 order-service">
+                <div class="card shadow p-4 mb-4 order-service">
                     <div class="order-service-header">
                         <span class="order-service-type">Biglietto</span>
                         <span class="order-service-price"><?php echo number_format($templateParams["ticket_price"], 2); ?>€</span>
@@ -37,7 +36,7 @@
                     </div>
                 </div>
             <h2>Abbonamenti</h2>
-                <div class="card shadow p-4 order-service">
+                <div class="card shadow p-4 mb-4 order-service">
                     <div class="order-service-header">
                         <span class="order-service-type">Abbonamento</span>
                         <span class="order-service-price"><?php echo number_format($templateParams["subscription_price"], 2); ?>€</span>
@@ -66,7 +65,7 @@
                 </div>
         </div>
         <div class="col-12 col-md-6">
-            <div class="card shadow p-4 order-summary">
+            <div class="card shadow p-4 mb-4 order-summary">
                 <h2>Riepilogo Ordine</h2>
                 <div class="order-summary-details">
                     <p><strong>Totale Biglietti:</strong> <?php echo number_format($templateParams["ticket_price"], 2); ?>€</p>

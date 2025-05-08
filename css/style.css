@@ -745,7 +745,7 @@ section{
     padding-top: 0 !important;
 }
 
-.cart-section , .checkout-section, .search-ticket-section, .search-subscription-section, .payment-section {
+.cart-section , .checkout-section, .search-ticket-section, .search-subscription-section, .payment-section, .order-section {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 10px;
