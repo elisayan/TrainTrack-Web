@@ -48,7 +48,7 @@
                 <input type="hidden" name="stazione-arrivo-sub" value="<?php echo $destinationStationSub; ?>">
                 <input type="hidden" name="tipo-treno-sub" value="<?php echo $trainType; ?>">
                 <input type="hidden" name="durata" value="<?php echo $abbonamento['durata']; ?>">
-                <input type="hidden" name="prezzo-sub" value="<?php echo $abbonamento['prezzo']; ?>">
+                <input type="hidden" name="prezzo-sub" value="<?php echo number_format($abbonamento['prezzo'], 2); ?>">
             <div class="card-body col-12">
                 <div class="row justify-content-center">
                     <div class="col-5 type">

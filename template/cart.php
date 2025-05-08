@@ -12,7 +12,7 @@
         <?php if(!empty($templateParams["cart_items"]["tickets"])): ?>
             <h2>Biglietti</h2>
             <?php foreach($templateParams["cart_items"]["tickets"] as $ticket): ?>
-                <div class="card shadow p-2. cart-item">
+                <div class="card shadow p-4 cart-item">
                     <div class="cart-item-header">
                         <span class="cart-item-type">Biglietto</span>
                         <span class="cart-item-price"><?php echo number_format($ticket["Prezzo"], 2); ?>€</span>
@@ -63,7 +63,7 @@
                         <span class="cart-item-price"><?php echo number_format($subscription["Prezzo"], 2); ?>€</span>
                     </div>
                     
-                    <div class="cart-item-details">
+                    <div class="card-body cart-item-details">
                         <div>
                             <h4>Partenza</h4>
                             <p><?php echo $subscription["NomePartenza"]; ?></p>

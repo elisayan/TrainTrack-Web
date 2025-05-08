@@ -76,7 +76,7 @@
                                 <input type="text" readonly class="form-control-plaintext" id="orario-arrivo" value="<?php echo $biglietto["orarioarrivo"]; ?>" >
                             </div>
                         </div>
-                        <input type="text" readonly class="form-control-plaintext" id="prezzo" value="<?php echo $biglietto["prezzo"]; ?>€" >
+                        <input type="text" readonly class="form-control-plaintext" id="prezzo" value="<?php echo number_format($biglietto["prezzo"], 2); ?>€" >
                     </div>
                 </div>
                 <div class="row">
