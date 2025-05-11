@@ -1,7 +1,7 @@
 <div class="container-fluid mb-5">
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6 col-xl-4">
-            <form class="card shadow p-4 mt-5" action="#" method="POST">
+        <form id="loginForm" class="card shadow p-4 mt-5" action="#" method="POST">   
                 <h2 class="text-center mb-4">Login</h2>
 
                 <?php if (isset($templateParams["errorelogin"])): ?>
