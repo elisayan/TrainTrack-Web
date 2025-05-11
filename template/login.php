@@ -4,12 +4,7 @@
         <form id="loginForm" class="card shadow p-4 mt-5" action="#" method="POST">   
                 <h2 class="text-center mb-4">Login</h2>
 
-                <?php if (isset($templateParams["errorelogin"])): ?>
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Errore:</strong> <?php echo htmlspecialchars($templateParams["errorelogin"]); ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                <?php endif; ?>
+                <div id="errorMessage" class="alert alert-danger d-none" role="alert"></div>
 
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>

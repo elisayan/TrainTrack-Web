@@ -21,10 +21,22 @@ async function login(email, password) {
             window.location.href = "home.php";
         } else {
             console.log("Login fallito: " + json["errorelogin"]);
-            //document.getElementById("errorMessage").innerText = json["errorelogin"];
+            showError(json["errorelogin"]);
         }
     } catch (error) {
         console.log("Errore durante il login: " + error.message);
+        showError("Errore di connessione. Riprova.");
+    }
+}
+
+function showError(message) {
+    const errorContainer = document.getElementById("errorMessage");
+
+    if (errorContainer) {
+        errorContainer.innerText = message;
+        errorContainer.classList.remove("d-none");
+    } else {
+        alert(message);
     }
 }
 
@@ -33,5 +45,6 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
+
     login(email, password);
 });
