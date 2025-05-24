@@ -6,16 +6,22 @@ if (!isset($_SESSION["email"])) {
     exit();
 }
 
-$templateParams["titolo"] = "TrainTrack - Profilo Macchinista";
-$templateParams["nome"] = "template/profilo-macchinista.php";
-$templateParams["azione"] = "template/aggiungi-percorso.php";
-$templateParams['js'][] = 'js/aggiungi-percorso.js';
+$templateParams = [
+    'nome'       => 'template/profilo-macchinista.php',
+    'titolo'     => 'TrainTrack - Profilo Macchinista',
+    'azione'     => 'template/aggiungi-percorso.php',
+    'js'         => ['js/aggiungi-percorso.js'],
+    'user'       => $dbh->getUserByEmail($_SESSION["email"]),
+    'treni'      => $dbh->getTreniDisponibili(),
+    'stazioni'   => $dbh->getStazioniDisponibili(),
+    'macchinisti'=> $dbh->getMacchinisti(),
+];
 
-$email = $_SESSION["email"];
-$user = $dbh->getUserByEmail($email);
-$treni = $dbh->getTreniDisponibili();
-
-if(isset($_POST["cod_percorso"]) && isset($_POST["cod_treno"]) && isset($_POST["email_macchinista"]) && isset($_POST["tempo_percorrenza"]) && isset($_POST["prezzo"])){
+if ( isset($_POST["cod_percorso"])
+     && isset($_POST["cod_treno"])
+     && isset($_POST["email_macchinista"])
+     && isset($_POST["tempo_percorrenza"])
+     && isset($_POST["prezzo"]) ) {
     $cod_treno = $_POST["cod_treno"];
     $posti_totali = null;
     
@@ -54,5 +60,5 @@ if(isset($_POST["cod_percorso"]) && isset($_POST["cod_treno"]) && isset($_POST["
     }
 }
 
-require 'template/base.php';
+require __DIR__ . '/template/base.php';
 ?>

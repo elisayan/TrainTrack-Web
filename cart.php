@@ -3,7 +3,7 @@ require_once 'bootstrap.php';
 
 
 $templateParams = [
-    "nome" => "cart.php",
+    "nome" => "template/cart.php",
     "titolo" => "Carrello",
     "errorecarrello" => "Il tuo carrello è vuoto",
     "cart_items" => [],

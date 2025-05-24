@@ -220,7 +220,6 @@ class DatabaseHelper
         $stmt->bind_param('sssss');
         return $stmt->execute();
     }
-
  
     public function addToCart($codServizio, $quantita, $email = null, $sessionId = null) {
         try {
@@ -281,7 +280,6 @@ class DatabaseHelper
         return $success;
     }
     
-        
     public function getCartItems($email = null, $sessionId = null) {
         $result = ['tickets' => [], 'subscriptions' => []];
             
@@ -327,8 +325,7 @@ class DatabaseHelper
     
         return $result;
     }
-    
-        
+          
     private function getOrCreateCart($email = null, $sessionId = null) {
         $codCarrello = $this->getCartId($email, $sessionId);
             
@@ -343,7 +340,6 @@ class DatabaseHelper
             
         return false;
     }
-    
         
     private function getCartId($email = null, $sessionId = null) {
         if ($email) {
@@ -363,7 +359,6 @@ class DatabaseHelper
         return $cart ? $cart['CodCarrello'] : false;
     }
     
-        
     public function updateCartTotal($codCarrello) {
         try {
             $stmt = $this->db->prepare("SELECT SUM(dc.Quantità * s.Prezzo) AS Total
@@ -453,6 +448,21 @@ class DatabaseHelper
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getMacchinisti() {
+        $query = "SELECT Email FROM Persona WHERE TipoPersona = 'macchinista'";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Errore prepare(): " . $this->db->error);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $emails = [];
+        while ($row = $result->fetch_assoc()) {
+            $emails[] = $row['Email'];
+        }
+        return $emails;
     }
 
     public function getTicketOrders($email) {
