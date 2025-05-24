@@ -582,6 +582,14 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getStazioniDisponibili(){
+        $query = "SELECT *  FROM Stazione";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function creaPercorso($codicePercorso, $codiceTreno, $email, $durata, $prezzo, $posti){
         $query = "INSERT INTO Percorso (CodPercorso, CodTreno, Email, TempoPercorrenza, Prezzo, PostiDisponibili) 
                   VALUES (?, ?, ?, ?, ?, ?)";
