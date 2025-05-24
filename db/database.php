@@ -39,17 +39,17 @@ class DatabaseHelper
     }
 
     public function getTicketsBySearch($departureStation, $destinationStation, $departureDate, $departureTime, $numberTickets){
-        $query ="SELECT 	s.codservizio as CodServizio,
-	s.tipotreno as tipotreno,
-	s.datapartenza as datapartenza,
-	s.orariopartenza as orariopartenza,
-	a2.data as dataarrivo,
-	a2.orarioarrivoprevisto as orarioarrivo,
-	(p.prezzo / (SELECT max(a.ordine)
-	 	     FROM attraversato a
-	 	     where a.codpercorso = s.codpercorso)
-	 * (a2.ordine - a1.ordine)) as prezzo,
-	(t.PostiTotali - (SELECT COUNT(*)
+        $query ="SELECT s.codservizio as CodServizio,
+                        s.tipotreno as tipotreno,
+                        s.datapartenza as datapartenza,
+                        s.orariopartenza as orariopartenza,
+                        a2.data as dataarrivo,
+                        a2.orarioarrivoprevisto as orarioarrivo,
+                        (p.prezzo / (SELECT max(a.ordine)
+                FROM attraversato a
+                where a.codpercorso = s.codpercorso)
+                        * (a2.ordine - a1.ordine)) as prezzo,
+                        (t.PostiTotali - (SELECT COUNT(*)
                       FROM Servizio s1
                       JOIN Stazione sp2 ON s1.stazionepartenza = sp2.codstazione 
                       JOIN Stazione sa2 ON s1.stazionearrivo = sa2.codstazione
@@ -58,29 +58,29 @@ class DatabaseHelper
                       AND sa2.nome = ?
                       AND s1.datapartenza = s.datapartenza
                       AND s1.orariopartenza = s.orariopartenza)) as postidisponibili
-FROM servizio s
-join stazione sp on s.stazionepartenza = sp.codstazione
-join stazione sa on s.stazionearrivo = sa.codstazione
-join percorso p on s.codpercorso = p.codpercorso
-join attraversato a1 on s.codpercorso = a1.codpercorso AND s.stazionepartenza = a1.codstazione AND s.datapartenza = a1.data
-join attraversato a2 on s.codpercorso = a2.codpercorso AND s.stazionearrivo = a2.codstazione 
-JOIN treno t ON p.codtreno = t.codtreno 
-where s.email = 'macchinista@traintrack.com'
-AND sp.nome = ?
-AND sa.nome = ?
-AND s.datapartenza >= ?
-AND s.orariopartenza >= ?
-AND s.datapartenza <= a2.data
-AND (t.PostiTotali - (SELECT COUNT(*)
-                      FROM Servizio s1
-                      JOIN Stazione sp2 ON s1.stazionepartenza = sp2.codstazione 
-                      JOIN Stazione sa2 ON s1.stazionearrivo = sa2.codstazione
-                      WHERE s1.email != 'macchinista@traintrack.com' 
-                      AND sp2.nome = ?
-                      AND sa2.nome = ?
-                      AND s1.datapartenza = s.datapartenza
-                      AND s1.orariopartenza = s.orariopartenza)) > ?
-        ORDER BY s.OrarioPartenza";
+                FROM servizio s
+                join stazione sp on s.stazionepartenza = sp.codstazione
+                join stazione sa on s.stazionearrivo = sa.codstazione
+                join percorso p on s.codpercorso = p.codpercorso
+                join attraversato a1 on s.codpercorso = a1.codpercorso AND s.stazionepartenza = a1.codstazione AND s.datapartenza = a1.data
+                join attraversato a2 on s.codpercorso = a2.codpercorso AND s.stazionearrivo = a2.codstazione 
+                JOIN treno t ON p.codtreno = t.codtreno 
+                where s.email = 'macchinista@traintrack.com'
+                AND sp.nome = ?
+                AND sa.nome = ?
+                AND s.datapartenza >= ?
+                AND s.orariopartenza >= ?
+                AND s.datapartenza <= a2.data
+                AND (t.PostiTotali - (SELECT COUNT(*)
+                                    FROM Servizio s1
+                                    JOIN Stazione sp2 ON s1.stazionepartenza = sp2.codstazione 
+                                    JOIN Stazione sa2 ON s1.stazionearrivo = sa2.codstazione
+                                    WHERE s1.email != 'macchinista@traintrack.com' 
+                                    AND sp2.nome = ?
+                                    AND sa2.nome = ?
+                                    AND s1.datapartenza = s.datapartenza
+                                    AND s1.orariopartenza = s.orariopartenza)) > ?
+                        ORDER BY s.OrarioPartenza";
         $stmt = $this->db->prepare($query);
         if (!$stmt) {
             die("Prepare failed: " . $this->db->error);
@@ -223,50 +223,45 @@ AND (t.PostiTotali - (SELECT COUNT(*)
 
  
     public function addToCart($codServizio, $quantita, $email = null, $sessionId = null) {
-            try {
-                
-                $codCarrello = $this->getOrCreateCart($email, $sessionId);
-                if (!$codCarrello) {
-                    return false;
-                }
-        
-                // Check if item already exists in cart
-                $stmt = $this->db->prepare("SELECT CodDettaglioCarrello, Quantità FROM DettaglioCarrello 
-                                          WHERE CodCarrello = ? AND CodServizio = ?");
-                $stmt->bind_param("ii", $codCarrello, $codServizio);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $existingItem = $result->fetch_assoc();
-        
-                if ($existingItem) {
-                    // Update quantity if item exists
-                    $newQuantity = $existingItem['Quantità'] + $quantita;
-                    $stmt = $this->db->prepare("UPDATE DettaglioCarrello SET Quantità = ? 
-                                              WHERE CodDettaglioCarrello = ?");
-                    $stmt->bind_param("ii", $newQuantity, $existingItem['CodDettaglioCarrello']);
-                    $success = $stmt->execute();
-                } else {
-                    // Add new item
-                    $stmt = $this->db->prepare("INSERT INTO DettaglioCarrello (CodServizio, Quantità, CodCarrello) 
-                                              VALUES (?, ?, ?)");
-                    $stmt->bind_param("iii", $codServizio, $quantita, $codCarrello);
-                    $success = $stmt->execute();
-                }
-        
-                // Update cart total price
-                if ($success) {
-                    $this->updateCartTotal($codCarrello);
-                }
-                
-                return $success;
-            } catch (Exception $e) {
-                error_log("Error adding to cart: " . $e->getMessage());
+        try {
+            
+            $codCarrello = $this->getOrCreateCart($email, $sessionId);
+            if (!$codCarrello) {
                 return false;
             }
+    
+            $stmt = $this->db->prepare("SELECT CodDettaglioCarrello, Quantità FROM DettaglioCarrello 
+                                        WHERE CodCarrello = ? AND CodServizio = ?");
+            $stmt->bind_param("ii", $codCarrello, $codServizio);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $existingItem = $result->fetch_assoc();
+    
+            if ($existingItem) {
+                $newQuantity = $existingItem['Quantità'] + $quantita;
+                $stmt = $this->db->prepare("UPDATE DettaglioCarrello SET Quantità = ? 
+                                            WHERE CodDettaglioCarrello = ?");
+                $stmt->bind_param("ii", $newQuantity, $existingItem['CodDettaglioCarrello']);
+                $success = $stmt->execute();
+            } else {
+                $stmt = $this->db->prepare("INSERT INTO DettaglioCarrello (CodServizio, Quantità, CodCarrello) 
+                                            VALUES (?, ?, ?)");
+                $stmt->bind_param("iii", $codServizio, $quantita, $codCarrello);
+                $success = $stmt->execute();
+            }
+    
+            if ($success) {
+                $this->updateCartTotal($codCarrello);
+            }
+            
+            return $success;
+        } catch (Exception $e) {
+            error_log("Error adding to cart: " . $e->getMessage());
+            return false;
         }
+    }
     
     public function removeFromCart($codDettaglioCarrello) {
-            // Get cart ID FROM the item
         $stmt = $this->db->prepare("SELECT CodCarrello FROM DettaglioCarrello WHERE CodDettaglioCarrello = ?");
         $stmt->bind_param("i", $codDettaglioCarrello);
         $stmt->execute();
@@ -274,15 +269,13 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         $item = $result->fetch_assoc();
             
         if (!$item) {
-            return false; // Item doesn't exist
+            return false;
         }
     
-            // Delete the item
         $stmt = $this->db->prepare("DELETE FROM DettaglioCarrello WHERE CodDettaglioCarrello = ?");
         $stmt->bind_param("i", $codDettaglioCarrello);
         $success = $stmt->execute();
     
-            // Update cart total price
         $this->updateCartTotal($item['CodCarrello']);
             
         return $success;
@@ -292,13 +285,11 @@ AND (t.PostiTotali - (SELECT COUNT(*)
     public function getCartItems($email = null, $sessionId = null) {
         $result = ['tickets' => [], 'subscriptions' => []];
             
-            // Get cart ID
         $codCarrello = $this->getCartId($email, $sessionId);
         if (!$codCarrello) {
-            return $result; // Empty cart
+            return $result;
         }
     
-            // Get all items in cart
         $stmt = $this->db->prepare("SELECT dc.CodDettaglioCarrello, dc.CodServizio, dc.Quantità, 
                                     s.Prezzo, s.Durata, s.Chilometraggio, s.TipoTreno,
                                     s.StazionePartenza, s.StazioneArrivo, s.DataPartenza, s.OrarioPartenza,
@@ -328,10 +319,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
     
         foreach ($items as $item) {
             if ($item['Durata'] !== null && $item['Chilometraggio'] !== null) {
-                    // This is a subscription
                 $result['subscriptions'][] = $item;
             } else {
-                    // This is a ticket
                 $result['tickets'][] = $item;
             }
         }
@@ -341,14 +330,11 @@ AND (t.PostiTotali - (SELECT COUNT(*)
     
         
     private function getOrCreateCart($email = null, $sessionId = null) {
-            // Try to get existing cart
         $codCarrello = $this->getCartId($email, $sessionId);
             
         if ($codCarrello) {
             return $codCarrello;
         }
-    
-            // Create new cart
         $stmt = $this->db->prepare("INSERT INTO Carrello (Email, SessionID) VALUES (?, ?)");
         $stmt->bind_param("ss", $email, $sessionId);
         if ($stmt->execute()) {
@@ -361,11 +347,9 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         
     private function getCartId($email = null, $sessionId = null) {
         if ($email) {
-                // For logged in users
             $stmt = $this->db->prepare("SELECT CodCarrello FROM Carrello WHERE Email = ?");
             $stmt->bind_param("s", $email);
         } elseif ($sessionId) {
-                // For guests
             $stmt = $this->db->prepare("SELECT CodCarrello FROM Carrello WHERE SessionID = ?");
             $stmt->bind_param("s", $sessionId);
         } else {
@@ -381,54 +365,47 @@ AND (t.PostiTotali - (SELECT COUNT(*)
     
         
     public function updateCartTotal($codCarrello) {
-            try {
-                // Calculate new total
-                $stmt = $this->db->prepare("SELECT SUM(dc.Quantità * s.Prezzo) AS Total
-                                          FROM DettaglioCarrello dc
-                                          JOIN Servizio s ON dc.CodServizio = s.CodServizio
-                                          WHERE dc.CodCarrello = ?");
-                $stmt->bind_param("i", $codCarrello);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $row = $result->fetch_assoc();
-                $total = $row['Total'] ?? 0;
-        
-                // Update cart
-                $stmt = $this->db->prepare("UPDATE Carrello SET PrezzoTotale = ? WHERE CodCarrello = ?");
-                $stmt->bind_param("di", $total, $codCarrello);
-                return $stmt->execute();
-            } catch (Exception $e) {
-                error_log("Error updating cart total: " . $e->getMessage());
-                return false;
-            }
+        try {
+            $stmt = $this->db->prepare("SELECT SUM(dc.Quantità * s.Prezzo) AS Total
+                                        FROM DettaglioCarrello dc
+                                        JOIN Servizio s ON dc.CodServizio = s.CodServizio
+                                        WHERE dc.CodCarrello = ?");
+            $stmt->bind_param("i", $codCarrello);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            $total = $row['Total'] ?? 0;
+    
+            $stmt = $this->db->prepare("UPDATE Carrello SET PrezzoTotale = ? WHERE CodCarrello = ?");
+            $stmt->bind_param("di", $total, $codCarrello);
+            return $stmt->execute();
+        } catch (Exception $e) {
+            error_log("Error updating cart total: " . $e->getMessage());
+            return false;
         }
+    }
     
         
     public function transferGuestCart($sessionId, $email) {
-            // Check if user already has a cart
         $userCartId = $this->getCartId($email);
         $guestCartId = $this->getCartId(null, $sessionId);
     
         if (!$guestCartId) {
-            return true; // No guest cart to transfer
+            return true;
         }
     
         if ($userCartId) {
-                // Merge guest cart into user's existing cart
             $stmt = $this->db->prepare("UPDATE DettaglioCarrello SET CodCarrello = ? 
                                           WHERE CodCarrello = ?");
             $stmt->bind_param("ii", $userCartId, $guestCartId);
             $stmt->execute();
     
-                // Delete guest cart
             $stmt = $this->db->prepare("DELETE FROM Carrello WHERE CodCarrello = ?");
             $stmt->bind_param("i", $guestCartId);
             $stmt->execute();
     
-                // Update user cart total
             $this->updateCartTotal($userCartId);
         } else {
-                // Simply assign guest cart to user
             $stmt = $this->db->prepare("UPDATE Carrello SET Email = ?, SessionID = NULL 
                                           WHERE CodCarrello = ?");
             $stmt->bind_param("si", $email, $guestCartId);
@@ -633,7 +610,7 @@ AND (t.PostiTotali - (SELECT COUNT(*)
     }
 
     public function aggiungiStazioniAttraversate(){
-        
+        //TODO
     }
 
     public function cambiaOrario($percorso, $stazione, $orario_partenza, $orario_arrivo){
@@ -695,8 +672,5 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         
         return $stmtBuono->execute();
     }
-    
-
-
 }
 ?>
