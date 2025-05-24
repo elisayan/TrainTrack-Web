@@ -1,17 +1,10 @@
-<?php
-// TrainTrack-Web/template/aggiungi-percorso.php
-// Variabili disponibili: $treni, $stazioni, $macchinisti
-?>
-
 <form action="#" method="POST">
-    <!-- Nuovo Percorso -->
     <div class="card mb-5 shadow-sm">
         <div class="card-header">
             <h4 class="mb-0">Nuovo Percorso</h4>
         </div>
         <div class="card-body">
             <div class="row">
-                <!-- Codice Percorso -->
                 <div class="col-md-6 mb-3">
                     <label for="cod_percorso" class="form-label">Codice Percorso</label>
                     <input type="text" class="form-control" id="cod_percorso" name="cod_percorso"
@@ -21,7 +14,6 @@
                     </div>
                 </div>
 
-                <!-- Codice Treno -->
                 <div class="col-md-6 mb-3">
                     <label for="cod_treno" class="form-label">Codice Treno</label>
                     <select class="form-select" id="cod_treno" name="cod_treno" required>
@@ -35,12 +27,11 @@
                     <div class="invalid-feedback">Selezionare un treno valido</div>
                 </div>
 
-                <!-- Email Macchinista -->
                 <div class="col-md-4 mb-3">
                     <label for="email_macchinista" class="form-label">Email Macchinista</label>
                     <select class="form-select" id="email_macchinista" name="email_macchinista" required>
                         <option value="" selected disabled>Seleziona un macchinista</option>
-                        <?php foreach ($macchinisti as $email): ?>
+                        <?php foreach($templateParams['macchinisti'] as $email): ?>
                             <option value="<?= htmlspecialchars($email) ?>">
                                 <?= htmlspecialchars($email) ?>
                             </option>
@@ -49,7 +40,6 @@
                     <div class="invalid-feedback">Selezionare un macchinista valido</div>
                 </div>
 
-                <!-- Durata -->
                 <div class="col-md-4 mb-3">
                     <label for="tempo_percorrenza" class="form-label">Durata (minuti)</label>
                     <input type="number" class="form-control" id="tempo_percorrenza" name="tempo_percorrenza"
@@ -57,7 +47,6 @@
                     <div class="invalid-feedback">Inserire un valore tra 10 e 600 minuti</div>
                 </div>
 
-                <!-- Prezzo -->
                 <div class="col-md-4 mb-3">
                     <label for="prezzo" class="form-label">Prezzo (€)</label>
                     <input type="number" step="0.01" class="form-control" id="prezzo" name="prezzo"
@@ -68,13 +57,11 @@
         </div>
     </div>
 
-    <!-- Stazioni Attraversate -->
     <div class="card mb-5 shadow-sm">
         <div class="card-header">
             <h4 class="mb-0">Stazioni Attraversate</h4>
         </div>
         <div class="card-body">
-            <!-- Container principale -->
             <div id="stazioni-container">
                 <div class="station-entry row mb-4">
                     <div class="col-md-3 mb-3">
@@ -107,7 +94,6 @@
                 </div>
             </div>
 
-            <!-- Template nascosto per il clone -->
             <template id="station-template">
                 <div class="station-entry row mb-4">
                     <div class="col-md-3 mb-3">
@@ -146,6 +132,5 @@
         </div>
     </div>
 
-    <!-- Bottone di salvataggio unico -->
     <button type="submit" class="btn btn-success px-4">Salva Percorso e Stazioni</button>
 </form>

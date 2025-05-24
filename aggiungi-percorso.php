@@ -60,5 +60,5 @@ if ( isset($_POST["cod_percorso"])
     }
 }
 
-require __DIR__ . '/template/base.php';
+require 'template/base.php';
 ?>
