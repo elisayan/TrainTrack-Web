@@ -1,12 +1,10 @@
 <?php
 require_once 'bootstrap.php';
 
-// Carico i treni e le stazioni dal DB
-$treni     = $dbh->getTreniDisponibili();      // Metodo già esistente :contentReference[oaicite:0]{index=0}
-$stazioni  = $dbh->getStazioniDisponibili();   // Metodo aggiunto :contentReference[oaicite:1]{index=1}
+$treni     = $dbh->getTreniDisponibili();
+$stazioni  = $dbh->getStazioniDisponibili();
 ?>
 
-<!-- Form 1: Nuovo Percorso -->
 <form action="#" method="POST">
     <div class="card mb-5 shadow-sm">
         <div class="card-header">
@@ -70,60 +68,79 @@ $stazioni  = $dbh->getStazioniDisponibili();   // Metodo aggiunto :contentRefere
     </div>
 </form>
 
-<!-- Form 2: Stazioni Attraversate -->
 <form action="#" method="POST">
-    <div id="station-container" class="card mb-5 shadow-sm">
-        <div class="card-header">
-            <h4 class="mb-0">Stazioni Attraversate</h4>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <!-- Codice Stazione: da text a select popolato da DB -->
-                <div class="col-md-3 mb-3">
-                    <label for="cod_stazione" class="form-label">Codice Stazione</label>
-                    <select class="form-select" name="cod_stazione[]" required>
-                        <option value="" selected disabled>Seleziona una stazione</option>
-                        <?php foreach ($stazioni as $st): ?>
-                            <option value="<?= htmlspecialchars($st['CodStazione']) ?>">
-                                <?= htmlspecialchars($st['CodStazione']) ?> – <?= htmlspecialchars($st['Nome']) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <div class="invalid-feedback">Selezionare una stazione valida</div>
-                </div>
-
-                <div class="col-md-3 mb-3">
-                    <label for="ordine" class="form-label">Ordine</label>
-                    <input type="number" class="form-control" name="ordine[]"
-                           min="1" max="20" required>
-                    <div class="invalid-feedback">Inserire un ordine valido (1–20)</div>
-                </div>
-
-                <div class="col-md-3 mb-3">
-                    <label for="binario" class="form-label">Binario</label>
-                    <input type="number" class="form-control" name="binario[]"
-                           min="1" max="50" required>
-                    <div class="invalid-feedback">Binario non valido</div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="orario_partenza_previsto" class="form-label">Partenza</label>
-                    <input type="time" class="form-control"
-                           name="orario_partenza_previsto[]" required>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label for="orario_arrivo_previsto" class="form-label">Arrivo</label>
-                    <input type="time" class="form-control"
-                           name="orario_arrivo_previsto[]" required>
-                </div>
-            </div>
-
-            <button type="button" class="btn btn-outline-primary" onclick="cloneStation()">
-                Aggiungi Altra Stazione
-            </button>
-        </div>
+  <div class="card mb-5 shadow-sm">
+    <div class="card-header">
+      <h4 class="mb-0">Stazioni Attraversate</h4>
     </div>
+    <div class="card-body">
+      <div id="stazioni-container">
+        <div class="station-entry row mb-4">
+          <div class="col-md-3">
+            <label class="form-label">Codice Stazione</label>
+            <select class="form-select" name="cod_stazione[]" required>
+              <option value="" selected disabled>Seleziona una stazione</option>
+              <?php foreach ($stazioni as $st): ?>
+                <option value="<?= htmlspecialchars($st['CodStazione']) ?>">
+                  <?= htmlspecialchars($st['CodStazione']) ?> – <?= htmlspecialchars($st['Nome']) ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Ordine</label>
+            <input type="number" class="form-control" name="ordine[]" min="1" max="20" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Binario</label>
+            <input type="number" class="form-control" name="binario[]" min="1" max="50" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Arrivo</label>
+            <input type="time" class="form-control" name="orario_arrivo_previsto[]" required>
+          </div>
+          <div class="col-md-3 mt-3">
+            <label class="form-label">Partenza</label>
+            <input type="time" class="form-control" name="orario_partenza_previsto[]" required>
+          </div>
+        </div>
+      </div>
+
+      <template id="station-template">
+        <div class="station-entry row mb-4">
+          <div class="col-md-3">
+            <label class="form-label">Codice Stazione</label>
+            <select class="form-select" name="cod_stazione[]" required>
+              <option value="" selected disabled>Seleziona una stazione</option>
+              <?php foreach ($stazioni as $st): ?>
+                <option value="<?= htmlspecialchars($st['CodStazione']) ?>">
+                  <?= htmlspecialchars($st['CodStazione']) ?> – <?= htmlspecialchars($st['Nome']) ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Ordine</label>
+            <input type="number" class="form-control" name="ordine[]" min="1" max="20" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Binario</label>
+            <input type="number" class="form-control" name="binario[]" min="1" max="50" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Arrivo</label>
+            <input type="time" class="form-control" name="orario_arrivo_previsto[]" required>
+          </div>
+          <div class="col-md-3 mt-3">
+            <label class="form-label">Partenza</label>
+            <input type="time" class="form-control" name="orario_partenza_previsto[]" required>
+          </div>
+        </div>
+      </template>
+
+      <button type="button" class="btn btn-outline-primary" onclick="cloneStation()">
+        Aggiungi Altra Stazione
+      </button>
+    </div>
+  </div>
 </form>
