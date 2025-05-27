@@ -730,3 +730,4 @@ JOIN Percorso p ON p.Email = 'macchinista@traintrack.com'
 JOIN Treno t ON p.CodTreno = t.CodTreno
 WHERE ta.Chilometraggio = 100 AND p.CodPercorso IN ('PR006', 'PR006R');
 
+
