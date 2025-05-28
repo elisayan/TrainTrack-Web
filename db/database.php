@@ -3,13 +3,35 @@ class DatabaseHelper
 {
     private $db;
 
-    public function __construct($servername, $username, $password, $dbname, $port)
-    {
-        $this->db = new mysqli($servername, $username, $password, $dbname, $port);
+    // public function __construct($servername, $username, $password, $dbname, $port)
+    // {
+    //     $this->db = new mysqli($servername, $username, $password, $dbname, $port);
+    //     if ($this->db->connect_error) {
+    //         die("Connection failed: " .$this->db->connect_error);
+    //     }
+    // }
+
+    public function __construct() {
+        // XAMPP MySQL defaults su macOS
+        $servername = '127.0.0.1';
+        $username   = 'root';
+        $password   = '';         // password vuota di default
+        $dbname     = 'traintrack';
+        $port       = 3306;       // porta MySQL di XAMPP
+
+        $this->db = new mysqli(
+            $servername,
+            $username,
+            $password,
+            $dbname,
+            $port
+        );
+
         if ($this->db->connect_error) {
-            die("Connection failed: " .$this->db->connect_error);
+            die("Connection failed: " . $this->db->connect_error);
         }
     }
+
 
     public function getStations(){
         $query = "SELECT Nome as nome_stazioni FROM stazione ORDER BY Nome";
@@ -499,7 +521,7 @@ AND (t.PostiTotali - (SELECT COUNT(*)
 
         return true;
     }
-
+    
     public function checkLogin($email, $password){
         $query = "SELECT * FROM persona WHERE email=? AND password=?";
         $stmt = $this->db->prepare($query);

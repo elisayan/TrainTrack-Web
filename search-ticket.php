@@ -18,7 +18,7 @@ if(isset($_GET["stazione_partenza"]) && isset($_GET["stazione_arrivo"]) && isset
 }
 
 $templateParams["titolo"] = "Ricerca Biglietto";
-$templateParams["nome"] = "search-ticket-home.php";
+$templateParams["nome"] = "template/search-ticket-home.php";
 $templateParams["nome_stazioni"] = $dbh->getStations();
 
 require 'template/base.php';

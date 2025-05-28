@@ -2,7 +2,7 @@
 require_once 'bootstrap.php';
 
 $templateParams = [
-    "nome" => "checkout.php",
+    "nome" => "template/checkout.php",
     "titolo" => "Checkout",
     "cart_items" => [],
     "total_price" => 0,

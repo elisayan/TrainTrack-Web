@@ -14,7 +14,7 @@ if(isset($_GET["stazione_partenza"]) && isset($_GET["stazione_arrivo"]) && isset
         
 
         $templateParams["titolo"] = "Risultati Ricerca Biglietto";
-        $templateParams["nome"] = "search-ticket-results.php";
+        $templateParams["nome"] = "template/search-ticket-results.php";
 
         $templateParams["biglietti"] = $dbh->getTickets($departureStation, $destinationStation, $departureDate, $departureTime, $numberTickets, 6);
     }
@@ -22,7 +22,7 @@ if(isset($_GET["stazione_partenza"]) && isset($_GET["stazione_arrivo"]) && isset
         $templateParams["titolo"] = "Biglietto non trovato"; 
         $templateParams["biglietti"] = array();   
         $templateParams["errore_ricerca_biglietto"] = "Biglietto non trovato";
-        $templateParams["nome"] = "search-ticket-home.php";
+        $templateParams["nome"] = "template/search-ticket-home.php";
         $templateParams["nome_stazioni"] = $dbh->getStations();
     }
 
@@ -32,7 +32,7 @@ else{
     $templateParams["titolo"] = "Biglietto non trovato"; 
     $templateParams["biglietti"] = array(); 
     $templateParams["errore_ricerca_biglietto"] = "Biglietto non trovato";
-    $templateParams["nome"] = "search-ticket-home.php";
+    $templateParams["nome"] = "template/search-ticket-home.php";
     $templateParams["nome_stazioni"] = $dbh->getStations();
 }
 

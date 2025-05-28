@@ -2,7 +2,7 @@
 require_once 'bootstrap.php';
 
 $templateParams = [
-    "nome" => "order.php",
+    "nome" => "template/order.php",
     "titolo" => "Ordine",
     "user_logged_in" => isset($_SESSION['email'])
 ];

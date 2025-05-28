@@ -2,7 +2,7 @@
 require_once 'bootstrap.php';
 
 $templateParams = [
-    "nome" => "payment.php",
+    "nome" => "template/payment.php",
     "titolo" => "Pagamento",
     "user_logged_in" => isset($_SESSION['email']),
     "total_price" => 0,
