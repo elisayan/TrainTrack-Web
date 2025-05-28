@@ -3,34 +3,34 @@ class DatabaseHelper
 {
     private $db;
 
-    // public function __construct($servername, $username, $password, $dbname, $port)
-    // {
-    //     $this->db = new mysqli($servername, $username, $password, $dbname, $port);
-    //     if ($this->db->connect_error) {
-    //         die("Connection failed: " .$this->db->connect_error);
-    //     }
-    // }
-
-    public function __construct() {
-        // XAMPP MySQL defaults su macOS
-        $servername = '127.0.0.1';
-        $username   = 'root';
-        $password   = '';         // password vuota di default
-        $dbname     = 'traintrack';
-        $port       = 3306;       // porta MySQL di XAMPP
-
-        $this->db = new mysqli(
-            $servername,
-            $username,
-            $password,
-            $dbname,
-            $port
-        );
-
+    public function __construct($servername, $username, $password, $dbname, $port)
+    {
+        $this->db = new mysqli($servername, $username, $password, $dbname, $port);
         if ($this->db->connect_error) {
-            die("Connection failed: " . $this->db->connect_error);
+            die("Connection failed: " .$this->db->connect_error);
         }
     }
+
+    // public function __construct() {
+    //     // XAMPP MySQL defaults su macOS
+    //     $servername = '127.0.0.1';
+    //     $username   = 'root';
+    //     $password   = '';         // password vuota di default
+    //     $dbname     = 'traintrack';
+    //     $port       = 3306;       // porta MySQL di XAMPP
+
+    //     $this->db = new mysqli(
+    //         $servername,
+    //         $username,
+    //         $password,
+    //         $dbname,
+    //         $port
+    //     );
+
+    //     if ($this->db->connect_error) {
+    //         die("Connection failed: " . $this->db->connect_error);
+    //     }
+    // }
 
 
     public function getStations(){
@@ -252,7 +252,6 @@ AND (t.PostiTotali - (SELECT COUNT(*)
                     return false;
                 }
         
-                // Check if item already exists in cart
                 $stmt = $this->db->prepare("SELECT CodDettaglioCarrello, Quantità FROM DettaglioCarrello 
                                           WHERE CodCarrello = ? AND CodServizio = ?");
                 $stmt->bind_param("ii", $codCarrello, $codServizio);
@@ -261,21 +260,18 @@ AND (t.PostiTotali - (SELECT COUNT(*)
                 $existingItem = $result->fetch_assoc();
         
                 if ($existingItem) {
-                    // Update quantity if item exists
                     $newQuantity = $existingItem['Quantità'] + $quantita;
                     $stmt = $this->db->prepare("UPDATE DettaglioCarrello SET Quantità = ? 
                                               WHERE CodDettaglioCarrello = ?");
                     $stmt->bind_param("ii", $newQuantity, $existingItem['CodDettaglioCarrello']);
                     $success = $stmt->execute();
                 } else {
-                    // Add new item
                     $stmt = $this->db->prepare("INSERT INTO DettaglioCarrello (CodServizio, Quantità, CodCarrello) 
                                               VALUES (?, ?, ?)");
                     $stmt->bind_param("iii", $codServizio, $quantita, $codCarrello);
                     $success = $stmt->execute();
                 }
         
-                // Update cart total price
                 if ($success) {
                     $this->updateCartTotal($codCarrello);
                 }
@@ -288,7 +284,6 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         }
     
     public function removeFromCart($codDettaglioCarrello) {
-            // Get cart ID FROM the item
         $stmt = $this->db->prepare("SELECT CodCarrello FROM DettaglioCarrello WHERE CodDettaglioCarrello = ?");
         $stmt->bind_param("i", $codDettaglioCarrello);
         $stmt->execute();
@@ -296,15 +291,13 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         $item = $result->fetch_assoc();
             
         if (!$item) {
-            return false; // Item doesn't exist
+            return false;
         }
     
-            // Delete the item
         $stmt = $this->db->prepare("DELETE FROM DettaglioCarrello WHERE CodDettaglioCarrello = ?");
         $stmt->bind_param("i", $codDettaglioCarrello);
         $success = $stmt->execute();
     
-            // Update cart total price
         $this->updateCartTotal($item['CodCarrello']);
             
         return $success;
@@ -314,13 +307,11 @@ AND (t.PostiTotali - (SELECT COUNT(*)
     public function getCartItems($email = null, $sessionId = null) {
         $result = ['tickets' => [], 'subscriptions' => []];
             
-            // Get cart ID
         $codCarrello = $this->getCartId($email, $sessionId);
         if (!$codCarrello) {
-            return $result; // Empty cart
+            return $result;
         }
     
-            // Get all items in cart
         $stmt = $this->db->prepare("SELECT dc.CodDettaglioCarrello, dc.CodServizio, dc.Quantità, 
                                     s.Prezzo, s.Durata, s.Chilometraggio, s.TipoTreno,
                                     s.StazionePartenza, s.StazioneArrivo, s.DataPartenza, s.OrarioPartenza,
@@ -350,10 +341,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
     
         foreach ($items as $item) {
             if ($item['Durata'] !== null && $item['Chilometraggio'] !== null) {
-                    // This is a subscription
                 $result['subscriptions'][] = $item;
             } else {
-                    // This is a ticket
                 $result['tickets'][] = $item;
             }
         }
@@ -363,14 +352,12 @@ AND (t.PostiTotali - (SELECT COUNT(*)
     
         
     private function getOrCreateCart($email = null, $sessionId = null) {
-            // Try to get existing cart
         $codCarrello = $this->getCartId($email, $sessionId);
             
         if ($codCarrello) {
             return $codCarrello;
         }
     
-            // Create new cart
         $stmt = $this->db->prepare("INSERT INTO Carrello (Email, SessionID) VALUES (?, ?)");
         $stmt->bind_param("ss", $email, $sessionId);
         if ($stmt->execute()) {
@@ -383,11 +370,9 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         
     private function getCartId($email = null, $sessionId = null) {
         if ($email) {
-                // For logged in users
             $stmt = $this->db->prepare("SELECT CodCarrello FROM Carrello WHERE Email = ?");
             $stmt->bind_param("s", $email);
         } elseif ($sessionId) {
-                // For guests
             $stmt = $this->db->prepare("SELECT CodCarrello FROM Carrello WHERE SessionID = ?");
             $stmt->bind_param("s", $sessionId);
         } else {
@@ -404,7 +389,6 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         
     public function updateCartTotal($codCarrello) {
             try {
-                // Calculate new total
                 $stmt = $this->db->prepare("SELECT SUM(dc.Quantità * s.Prezzo) AS Total
                                           FROM DettaglioCarrello dc
                                           JOIN Servizio s ON dc.CodServizio = s.CodServizio
@@ -415,7 +399,6 @@ AND (t.PostiTotali - (SELECT COUNT(*)
                 $row = $result->fetch_assoc();
                 $total = $row['Total'] ?? 0;
         
-                // Update cart
                 $stmt = $this->db->prepare("UPDATE Carrello SET PrezzoTotale = ? WHERE CodCarrello = ?");
                 $stmt->bind_param("di", $total, $codCarrello);
                 return $stmt->execute();
@@ -461,16 +444,13 @@ AND (t.PostiTotali - (SELECT COUNT(*)
     // }
 
     public function transferGuestCart(string $sessionId, string $email): bool {
-        // 1) recupera l’ID dei due carrelli
         $userCartId  = $this->getCartId($email);
         $guestCartId = $this->getCartId(null, $sessionId);
 
-        // 2) niente da fare se non c’è carrello guest
         if (!$guestCartId) {
             return true;
         }
 
-        // 3) se coincidono, basta rimuovere la SessionID
         if ($userCartId && $userCartId === $guestCartId) {
             $stmt = $this->db->prepare(
                 "UPDATE Carrello
@@ -483,9 +463,7 @@ AND (t.PostiTotali - (SELECT COUNT(*)
             return true;
         }
 
-        // 4) se c’è già un cart utente diverso, sposta i dettagli e cancella il guest
         if ($userCartId) {
-            // 4a) muovi tutti i DettaglioCarrello
             $stmt = $this->db->prepare(
                 "UPDATE DettaglioCarrello
                     SET CodCarrello = ?
@@ -495,7 +473,6 @@ AND (t.PostiTotali - (SELECT COUNT(*)
             $stmt->execute();
             $stmt->close();
 
-            // 4b) elimina il carrello guest (ora “vuoto”)
             $stmt = $this->db->prepare(
                 "DELETE FROM Carrello
                 WHERE CodCarrello = ?"
@@ -504,11 +481,9 @@ AND (t.PostiTotali - (SELECT COUNT(*)
             $stmt->execute();
             $stmt->close();
 
-            // 4c) aggiorna il totale
             $this->updateCartTotal($userCartId);
 
         } else {
-            // 5) altrimenti assegna il guest cart all’utente loggato
             $stmt = $this->db->prepare(
                 "UPDATE Carrello
                     SET Email = ?, SessionID = NULL
