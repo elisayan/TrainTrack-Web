@@ -17,14 +17,16 @@
                 <div class="col-md-6 mb-3">
                     <label for="cod_treno" class="form-label">Codice Treno</label>
                     <select class="form-select" id="cod_treno" name="cod_treno" required>
-                        <option value="" selected disabled>Seleziona un treno</option>
-                        <?php foreach ($treni as $treno): ?>
+                        <option value="" selected disabled>Seleziona un treno…</option>
+                        <?php foreach($templateParams['treni'] as $treno): ?>
                             <option value="<?= htmlspecialchars($treno['CodTreno']) ?>">
                                 <?= htmlspecialchars($treno['CodTreno']) ?> – <?= htmlspecialchars($treno['Tipo']) ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
-                    <div class="invalid-feedback">Selezionare un treno valido</div>
+                    <div class="invalid-feedback">
+                        Selezionare un treno valido
+                    </div>
                 </div>
 
                 <div class="col-md-4 mb-3">
@@ -64,16 +66,19 @@
         <div class="card-body">
             <div id="stazioni-container">
                 <div class="station-entry row mb-4">
-                    <div class="col-md-3 mb-3">
-                        <label class="form-label">Codice Stazione</label>
-                        <select class="form-select" name="cod_stazione[]" required>
-                            <option value="" selected disabled>Seleziona una stazione</option>
-                            <?php foreach ($stazioni as $st): ?>
+                    <div class="col-md-6 mb-3">
+                        <label for="cod_stazione" class="form-label">Codice Stazione</label>
+                        <select class="form-select" id="cod_stazione" name="cod_stazione[]" required>
+                            <option value="" selected disabled>Seleziona una stazione…</option>
+                            <?php foreach($templateParams['stazioni'] as $st): ?>
                                 <option value="<?= htmlspecialchars($st['CodStazione']) ?>">
                                     <?= htmlspecialchars($st['CodStazione']) ?> – <?= htmlspecialchars($st['Nome']) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
+                        <div class="invalid-feedback">
+                            Selezionare una stazione valida
+                        </div>
                     </div>
                     <div class="col-md-3 mb-3">
                         <label class="form-label">Ordine</label>
