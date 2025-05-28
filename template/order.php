@@ -77,8 +77,12 @@
             <div class="card shadow p-4 mb-4 order-summary">
                 <h2>Riepilogo Ordine</h2>
                 <div class="order-summary-details">
+                    <?php if(!empty($templateParams["cart_items"]["tickets"])): ?>
                     <p><strong>Totale Biglietti:</strong> <?php echo number_format($templateParams["ticket_price"], 2); ?>€</p>
+                    <?php endif; ?>
+                    <?php if(!empty($templateParams["cart_items"]["subscriptions"])): ?>
                     <p><strong>Totale Abbonamenti:</strong> <?php echo number_format($templateParams["subscription_price"], 2); ?>€</p>
+                    <?php endif; ?>
                     <p><strong>Totale Ordine:</strong> <?php echo number_format($templateParams["total_price"], 2); ?>€</p>
                 </div>
                 <div class="order-summary-actions">

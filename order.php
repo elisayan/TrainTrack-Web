@@ -15,14 +15,18 @@ $cartItems = $dbh->getCartItems(
 if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
     $templateParams["cart_items"] = $cartItems;
     
+    $ticketsPrice = 0;
+    $subscriptionsPrice = 0;
     $totalPrice = 0;
     foreach ($cartItems['tickets'] as $ticket) {
-        $totalPrice += $ticket['Prezzo'] * $ticket['Quantità'];
+        $ticketsPrice += $ticket['Prezzo'] * $ticket['Quantità'];
     }
     foreach ($cartItems['subscriptions'] as $subscription) {
-        $totalPrice += $subscription['Prezzo'] * $subscription['Quantità'];
+        $subscriptionsPrice += $subscription['Prezzo'] * $subscription['Quantità'];
     }
-    $templateParams["total_price"] = $totalPrice;
+    $templateParams["total_price"] = $ticketsPrice + $subscriptionsPrice;
+    $templateParams["ticket_price"] = $ticketsPrice;
+    $templateParams["subscription_price"] = $subscriptionsPrice;
 }
 
 if(isset($_SESSION['email'])) {
