@@ -404,37 +404,99 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         }
     
         
-    public function transferGuestCart($sessionId, $email) {
-            // Check if user already has a cart
-        $userCartId = $this->getCartId($email);
+    // public function transferGuestCart($sessionId, $email) {
+    //         // Check if user already has a cart
+    //     $userCartId = $this->getCartId($email);
+    //     $guestCartId = $this->getCartId(null, $sessionId);
+    
+    //     if (!$guestCartId) {
+    //         return true; // No guest cart to transfer
+    //     }
+    
+    //     if ($userCartId) {
+    //             // Merge guest cart into user's existing cart
+    //         $stmt = $this->db->prepare("UPDATE DettaglioCarrello SET CodCarrello = ? 
+    //                                       WHERE CodCarrello = ?");
+    //         $stmt->bind_param("ii", $userCartId, $guestCartId);
+    //         $stmt->execute();
+    
+    //             // Delete guest cart
+    //         $stmt = $this->db->prepare("DELETE FROM Carrello WHERE CodCarrello = ?");
+    //         $stmt->bind_param("i", $guestCartId);
+    //         $stmt->execute();
+    
+    //             // Update user cart total
+    //         $this->updateCartTotal($userCartId);
+    //     } else {
+    //             // Simply assign guest cart to user
+    //         $stmt = $this->db->prepare("UPDATE Carrello SET Email = ?, SessionID = NULL 
+    //                                       WHERE CodCarrello = ?");
+    //         $stmt->bind_param("si", $email, $guestCartId);
+    //         $stmt->execute();
+    //     }
+    
+    //     return true;
+    // }
+
+    public function transferGuestCart(string $sessionId, string $email): bool {
+        // 1) recupera l’ID dei due carrelli
+        $userCartId  = $this->getCartId($email);
         $guestCartId = $this->getCartId(null, $sessionId);
-    
+
+        // 2) niente da fare se non c’è carrello guest
         if (!$guestCartId) {
-            return true; // No guest cart to transfer
+            return true;
         }
-    
-        if ($userCartId) {
-                // Merge guest cart into user's existing cart
-            $stmt = $this->db->prepare("UPDATE DettaglioCarrello SET CodCarrello = ? 
-                                          WHERE CodCarrello = ?");
-            $stmt->bind_param("ii", $userCartId, $guestCartId);
-            $stmt->execute();
-    
-                // Delete guest cart
-            $stmt = $this->db->prepare("DELETE FROM Carrello WHERE CodCarrello = ?");
+
+        // 3) se coincidono, basta rimuovere la SessionID
+        if ($userCartId && $userCartId === $guestCartId) {
+            $stmt = $this->db->prepare(
+                "UPDATE Carrello
+                    SET SessionID = NULL
+                WHERE CodCarrello = ?"
+            );
             $stmt->bind_param("i", $guestCartId);
             $stmt->execute();
-    
-                // Update user cart total
+            $stmt->close();
+            return true;
+        }
+
+        // 4) se c’è già un cart utente diverso, sposta i dettagli e cancella il guest
+        if ($userCartId) {
+            // 4a) muovi tutti i DettaglioCarrello
+            $stmt = $this->db->prepare(
+                "UPDATE DettaglioCarrello
+                    SET CodCarrello = ?
+                WHERE CodCarrello = ?"
+            );
+            $stmt->bind_param("ii", $userCartId, $guestCartId);
+            $stmt->execute();
+            $stmt->close();
+
+            // 4b) elimina il carrello guest (ora “vuoto”)
+            $stmt = $this->db->prepare(
+                "DELETE FROM Carrello
+                WHERE CodCarrello = ?"
+            );
+            $stmt->bind_param("i", $guestCartId);
+            $stmt->execute();
+            $stmt->close();
+
+            // 4c) aggiorna il totale
             $this->updateCartTotal($userCartId);
+
         } else {
-                // Simply assign guest cart to user
-            $stmt = $this->db->prepare("UPDATE Carrello SET Email = ?, SessionID = NULL 
-                                          WHERE CodCarrello = ?");
+            // 5) altrimenti assegna il guest cart all’utente loggato
+            $stmt = $this->db->prepare(
+                "UPDATE Carrello
+                    SET Email = ?, SessionID = NULL
+                WHERE CodCarrello = ?"
+            );
             $stmt->bind_param("si", $email, $guestCartId);
             $stmt->execute();
+            $stmt->close();
         }
-    
+
         return true;
     }
 
@@ -476,6 +538,21 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getMacchinisti() {
+        $query = "SELECT Email FROM Persona WHERE TipoPersona = 'macchinista'";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Errore prepare(): " . $this->db->error);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $emails = [];
+        while ($row = $result->fetch_assoc()) {
+            $emails[] = $row['Email'];
+        }
+        return $emails;
     }
 
     public function getTicketOrders($email) {
@@ -576,6 +653,14 @@ AND (t.PostiTotali - (SELECT COUNT(*)
 
     public function getTreniDisponibili(){
         $query = "SELECT *  FROM Treno";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getStazioniDisponibili(){
+        $query = "SELECT *  FROM Stazione";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         $result = $stmt->get_result();
