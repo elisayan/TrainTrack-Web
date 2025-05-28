@@ -39,7 +39,7 @@
                 </div>
                 <?php endforeach; ?>
             <?php endif; ?>
-
+        </div>
         <?php if(!empty($templateParams["cart_items"]["subscriptions"])): ?>
             <h2>Abbonamenti</h2>
         <?php foreach($templateParams["cart_items"]["subscriptions"] as $subscription): ?>
@@ -87,7 +87,7 @@
                 </div>
                 <div class="order-summary-actions">
                     <a href="index.php" class="btn btn-primary">Torna alla Home</a>
-                    <a href="orders.php" class="btn btn-secondary">Visualizza Ordini</a>
+                    <a href="orders.php" class="btn btn-outline-primary">Visualizza Ordini</a>
 
             </div>
 
