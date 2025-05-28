@@ -87,7 +87,7 @@
                 </div>
                 <div class="order-summary-actions">
                     <a href="index.php" class="btn btn-primary">Torna alla Home</a>
-                    <a href="orders.php" class="btn btn-outline-primary">Visualizza Ordini</a>
+                    <a href="ordini.php" class="btn btn-outline-primary">Visualizza Ordini</a>
 
             </div>
 
