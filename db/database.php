@@ -3,13 +3,35 @@ class DatabaseHelper
 {
     private $db;
 
-    public function __construct($servername, $username, $password, $dbname, $port)
-    {
-        $this->db = new mysqli($servername, $username, $password, $dbname, $port);
+    // public function __construct($servername, $username, $password, $dbname, $port)
+    // {
+    //     $this->db = new mysqli($servername, $username, $password, $dbname, $port);
+    //     if ($this->db->connect_error) {
+    //         die("Connection failed: " .$this->db->connect_error);
+    //     }
+    // }
+
+    public function __construct() {
+        // XAMPP MySQL defaults su macOS
+        $servername = '127.0.0.1';
+        $username   = 'root';
+        $password   = '';         // password vuota di default
+        $dbname     = 'traintrack';
+        $port       = 3306;       // porta MySQL di XAMPP
+
+        $this->db = new mysqli(
+            $servername,
+            $username,
+            $password,
+            $dbname,
+            $port
+        );
+
         if ($this->db->connect_error) {
-            die("Connection failed: " .$this->db->connect_error);
+            die("Connection failed: " . $this->db->connect_error);
         }
     }
+
 
     public function getStations(){
         $query = "SELECT Nome as nome_stazioni FROM stazione ORDER BY Nome";
@@ -404,40 +426,102 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         }
     
         
-    public function transferGuestCart($sessionId, $email) {
-            // Check if user already has a cart
-        $userCartId = $this->getCartId($email);
-        $guestCartId = $this->getCartId(null, $sessionId);
+    // public function transferGuestCart($sessionId, $email) {
+    //         // Check if user already has a cart
+    //     $userCartId = $this->getCartId($email);
+    //     $guestCartId = $this->getCartId(null, $sessionId);
     
-        if (!$guestCartId) {
-            return true; // No guest cart to transfer
-        }
+    //     if (!$guestCartId) {
+    //         return true; // No guest cart to transfer
+    //     }
     
-        if ($userCartId) {
-                // Merge guest cart into user's existing cart
-            $stmt = $this->db->prepare("UPDATE DettaglioCarrello SET CodCarrello = ? 
-                                          WHERE CodCarrello = ?");
-            $stmt->bind_param("ii", $userCartId, $guestCartId);
-            $stmt->execute();
+    //     if ($userCartId) {
+    //             // Merge guest cart into user's existing cart
+    //         $stmt = $this->db->prepare("UPDATE DettaglioCarrello SET CodCarrello = ? 
+    //                                       WHERE CodCarrello = ?");
+    //         $stmt->bind_param("ii", $userCartId, $guestCartId);
+    //         $stmt->execute();
     
-                // Delete guest cart
-            $stmt = $this->db->prepare("DELETE FROM Carrello WHERE CodCarrello = ?");
-            $stmt->bind_param("i", $guestCartId);
-            $stmt->execute();
+    //             // Delete guest cart
+    //         $stmt = $this->db->prepare("DELETE FROM Carrello WHERE CodCarrello = ?");
+    //         $stmt->bind_param("i", $guestCartId);
+    //         $stmt->execute();
     
-                // Update user cart total
-            $this->updateCartTotal($userCartId);
-        } else {
-                // Simply assign guest cart to user
-            $stmt = $this->db->prepare("UPDATE Carrello SET Email = ?, SessionID = NULL 
-                                          WHERE CodCarrello = ?");
-            $stmt->bind_param("si", $email, $guestCartId);
-            $stmt->execute();
-        }
+    //             // Update user cart total
+    //         $this->updateCartTotal($userCartId);
+    //     } else {
+    //             // Simply assign guest cart to user
+    //         $stmt = $this->db->prepare("UPDATE Carrello SET Email = ?, SessionID = NULL 
+    //                                       WHERE CodCarrello = ?");
+    //         $stmt->bind_param("si", $email, $guestCartId);
+    //         $stmt->execute();
+    //     }
     
+    //     return true;
+    // }
+
+        public function transferGuestCart(string $sessionId, string $email): bool
+{
+    // 1) recupera l’ID dei due carrelli
+    $userCartId  = $this->getCartId($email);
+    $guestCartId = $this->getCartId(null, $sessionId);
+
+    // 2) niente da fare se non c’è carrello guest
+    if (!$guestCartId) {
         return true;
     }
 
+    // 3) se coincidono, basta rimuovere la SessionID
+    if ($userCartId && $userCartId === $guestCartId) {
+        $stmt = $this->db->prepare(
+            "UPDATE Carrello
+                SET SessionID = NULL
+              WHERE CodCarrello = ?"
+        );
+        $stmt->bind_param("i", $guestCartId);
+        $stmt->execute();
+        $stmt->close();
+        return true;
+    }
+
+    // 4) se c’è già un cart utente diverso, sposta i dettagli e cancella il guest
+    if ($userCartId) {
+        // 4a) muovi tutti i DettaglioCarrello
+        $stmt = $this->db->prepare(
+            "UPDATE DettaglioCarrello
+                SET CodCarrello = ?
+              WHERE CodCarrello = ?"
+        );
+        $stmt->bind_param("ii", $userCartId, $guestCartId);
+        $stmt->execute();
+        $stmt->close();
+
+        // 4b) elimina il carrello guest (ora “vuoto”)
+        $stmt = $this->db->prepare(
+            "DELETE FROM Carrello
+              WHERE CodCarrello = ?"
+        );
+        $stmt->bind_param("i", $guestCartId);
+        $stmt->execute();
+        $stmt->close();
+
+        // 4c) aggiorna il totale
+        $this->updateCartTotal($userCartId);
+
+    } else {
+        // 5) altrimenti assegna il guest cart all’utente loggato
+        $stmt = $this->db->prepare(
+            "UPDATE Carrello
+                SET Email = ?, SessionID = NULL
+              WHERE CodCarrello = ?"
+        );
+        $stmt->bind_param("si", $email, $guestCartId);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    return true;
+}
     public function checkLogin($email, $password){
         $query = "SELECT * FROM persona WHERE email=? AND password=?";
         $stmt = $this->db->prepare($query);
