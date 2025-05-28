@@ -460,68 +460,68 @@ AND (t.PostiTotali - (SELECT COUNT(*)
     //     return true;
     // }
 
-        public function transferGuestCart(string $sessionId, string $email): bool
-{
-    // 1) recupera l’ID dei due carrelli
-    $userCartId  = $this->getCartId($email);
-    $guestCartId = $this->getCartId(null, $sessionId);
+    public function transferGuestCart(string $sessionId, string $email): bool {
+        // 1) recupera l’ID dei due carrelli
+        $userCartId  = $this->getCartId($email);
+        $guestCartId = $this->getCartId(null, $sessionId);
 
-    // 2) niente da fare se non c’è carrello guest
-    if (!$guestCartId) {
+        // 2) niente da fare se non c’è carrello guest
+        if (!$guestCartId) {
+            return true;
+        }
+
+        // 3) se coincidono, basta rimuovere la SessionID
+        if ($userCartId && $userCartId === $guestCartId) {
+            $stmt = $this->db->prepare(
+                "UPDATE Carrello
+                    SET SessionID = NULL
+                WHERE CodCarrello = ?"
+            );
+            $stmt->bind_param("i", $guestCartId);
+            $stmt->execute();
+            $stmt->close();
+            return true;
+        }
+
+        // 4) se c’è già un cart utente diverso, sposta i dettagli e cancella il guest
+        if ($userCartId) {
+            // 4a) muovi tutti i DettaglioCarrello
+            $stmt = $this->db->prepare(
+                "UPDATE DettaglioCarrello
+                    SET CodCarrello = ?
+                WHERE CodCarrello = ?"
+            );
+            $stmt->bind_param("ii", $userCartId, $guestCartId);
+            $stmt->execute();
+            $stmt->close();
+
+            // 4b) elimina il carrello guest (ora “vuoto”)
+            $stmt = $this->db->prepare(
+                "DELETE FROM Carrello
+                WHERE CodCarrello = ?"
+            );
+            $stmt->bind_param("i", $guestCartId);
+            $stmt->execute();
+            $stmt->close();
+
+            // 4c) aggiorna il totale
+            $this->updateCartTotal($userCartId);
+
+        } else {
+            // 5) altrimenti assegna il guest cart all’utente loggato
+            $stmt = $this->db->prepare(
+                "UPDATE Carrello
+                    SET Email = ?, SessionID = NULL
+                WHERE CodCarrello = ?"
+            );
+            $stmt->bind_param("si", $email, $guestCartId);
+            $stmt->execute();
+            $stmt->close();
+        }
+
         return true;
     }
-
-    // 3) se coincidono, basta rimuovere la SessionID
-    if ($userCartId && $userCartId === $guestCartId) {
-        $stmt = $this->db->prepare(
-            "UPDATE Carrello
-                SET SessionID = NULL
-              WHERE CodCarrello = ?"
-        );
-        $stmt->bind_param("i", $guestCartId);
-        $stmt->execute();
-        $stmt->close();
-        return true;
-    }
-
-    // 4) se c’è già un cart utente diverso, sposta i dettagli e cancella il guest
-    if ($userCartId) {
-        // 4a) muovi tutti i DettaglioCarrello
-        $stmt = $this->db->prepare(
-            "UPDATE DettaglioCarrello
-                SET CodCarrello = ?
-              WHERE CodCarrello = ?"
-        );
-        $stmt->bind_param("ii", $userCartId, $guestCartId);
-        $stmt->execute();
-        $stmt->close();
-
-        // 4b) elimina il carrello guest (ora “vuoto”)
-        $stmt = $this->db->prepare(
-            "DELETE FROM Carrello
-              WHERE CodCarrello = ?"
-        );
-        $stmt->bind_param("i", $guestCartId);
-        $stmt->execute();
-        $stmt->close();
-
-        // 4c) aggiorna il totale
-        $this->updateCartTotal($userCartId);
-
-    } else {
-        // 5) altrimenti assegna il guest cart all’utente loggato
-        $stmt = $this->db->prepare(
-            "UPDATE Carrello
-                SET Email = ?, SessionID = NULL
-              WHERE CodCarrello = ?"
-        );
-        $stmt->bind_param("si", $email, $guestCartId);
-        $stmt->execute();
-        $stmt->close();
-    }
-
-    return true;
-}
+    
     public function checkLogin($email, $password){
         $query = "SELECT * FROM persona WHERE email=? AND password=?";
         $stmt = $this->db->prepare($query);
