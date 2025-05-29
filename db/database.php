@@ -571,6 +571,17 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $emails;
     }
 
+    public function getPercorsiByMacchinista($email) {
+        $sql = "SELECT CodPercorso, CodTreno, TempoPercorrenza, Prezzo
+                FROM Percorso
+                WHERE Email = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        return $res->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getTicketOrders($email)
     {
         $query = "
@@ -663,7 +674,7 @@ AND (t.PostiTotali - (SELECT COUNT(*)
     public function notificaBenvenuto($email)
     {
         $query = "INSERT INTO StatoNotifica (CodNotifica, Email)
-                    SELECT (SELECT CodNotifica FROM Notifica WHERE CodNotifica = 'NOT001'), Email 
+                    SELECT (SELECT CodNotifica FROM Notifica WHERE CodNotifica = '1'), Email 
                     FROM Persona 
                     WHERE TipoPersona = 'cliente' AND 
                         TipoCliente = 'utente' AND
