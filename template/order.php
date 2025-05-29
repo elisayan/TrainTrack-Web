@@ -32,8 +32,8 @@
                         </div>
                         <div>
                             <h4>Passeggero</h4>
-                            <p>Nome: <?php echo $ticket["passenger_first_name"]; ?></p>
-                            <p>Cognome: <?php echo $ticket["passenger_last_name"]; ?></p>
+                            <p>Nome: <?php echo $ticket["passenger_name"]; ?></p>
+                            <p>Cognome: <?php echo $ticket["passenger_surname"]; ?></p>
                         </div>
                     </div>
                 </div>

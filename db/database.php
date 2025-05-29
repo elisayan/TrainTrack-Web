@@ -185,7 +185,7 @@ AND (t.PostiTotali - (SELECT COUNT(*)
                     s.Durata AS durata, 
                     ta.Prezzo AS prezzo,
                     s.Chilometraggio,
-                    s.CodServizio
+                    s.CodServizio as CodServizio
                   FROM Servizio s
                   JOIN TipoAbbonamento ta ON s.Durata = ta.Durata AND s.Chilometraggio = ta.Chilometraggio
                   JOIN Percorso p ON s.CodPercorso = p.CodPercorso
@@ -312,10 +312,11 @@ AND (t.PostiTotali - (SELECT COUNT(*)
             return $result;
         }
     
-        $stmt = $this->db->prepare("SELECT dc.CodDettaglioCarrello, dc.CodServizio, dc.Quantità, 
+        $stmt = $this->db->prepare("SELECT dc.CodDettaglioCarrello, dc.CodServizio as CodServizio, dc.Quantità, 
                                     s.Prezzo, s.Durata, s.Chilometraggio, s.TipoTreno,
                                     s.StazionePartenza, s.StazioneArrivo, s.DataPartenza, s.OrarioPartenza,
-                                    sp.Nome AS NomePartenza, sa.Nome AS NomeArrivo, a2.data as DataArrivo, a2.orarioarrivoprevisto as OrarioArrivo,
+                                    sp.Nome AS NomePartenza, sa.Nome AS NomeArrivo, a2.data as DataArrivo, a2.orarioarrivoprevisto as OrarioArrivo, 
+                                    s.CodPercorso,
                                     (t.PostiTotali - (SELECT COUNT(*)
                                             FROM Servizio s1
                                             JOIN Stazione sp2 ON s1.stazionepartenza = sp2.codstazione 
@@ -781,7 +782,72 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $stmtBuono->execute();
     }
     
+    public function insertTicket($email, $nomePasseggero, $cognomePasseggero, $codPercorso, $stazionePartenza, $stazioneArrivo, $tipoTreno, $dataPartenza, $orarioPartenza, $prezzo) {
+        $query = "INSERT INTO Servizio (email, NomePasseggero, CognomePasseggero, CodPercorso, StazionePartenza, StazioneArrivo, TipoTreno, DataPartenza, OrarioPartenza, Prezzo)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('sssssssssd', 
+            $email,
+            $nomePasseggero,
+            $cognomePasseggero,
+            $codPercorso,
+            $stazionePartenza,
+            $stazioneArrivo,
+            $tipoTreno,
+            $dataPartenza,
+            $orarioPartenza,
+            $prezzo
+        );
+        return $stmt->execute();
+    }
 
+    public function insertSubscription($email, $nomePasseggero, $cognomePasseggero, $codPercorso, $stazionePartenza, $stazioneArrivo, $tipoTreno, $dataPartenza, $durata, $chilometraggio, $prezzo) {
+        $query = "INSERT INTO Servizio (email, NomePasseggero, CognomePasseggero, codPercorso, StazionePartenza, StazioneArrivo, TipoTreno, DataPartenza, Durata, Chilometraggio, Prezzo)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('sssssssssid', 
+            $email,
+            $nomePasseggero,
+            $cognomePasseggero,
+            $codPercorso,
+            $stazionePartenza,
+            $stazioneArrivo,
+            $tipoTreno,
+            $dataPartenza,
+            $durata,
+            $chilometraggio,
+            $prezzo
+        );
+        return $stmt->execute();
+    }
+
+    public function insertGuest($nome, $cognome, $cf, $indirizzo, $telefono, $email) {
+        $query = "INSERT INTO persona (Nome, Cognome, CF, Indirizzo, Telefono, Email, SpesaTotale, TipoPersona, TipoCliente)
+                  VALUES (?, ?, ?, ?, ?, ?,  0, 'cliente', 'ospite')";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ssssss', $nome, $cognome, $cf, $indirizzo, $telefono, $email);
+    
+        if (!$stmt->execute()) {
+            return false;
+        }   
+
+    }
+
+    public function getRouteCode($ServiceID) {
+        $query = "SELECT s.CodPercorso
+                  FROM Servizio s
+                  WHERE s.CodServizio = ?";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            // Handle prepare error, e.g., log it or throw an exception
+            error_log("Prepare failed in getRouteCode: " . $this->db->error);
+            return []; // Return empty array or false on failure
+        }
+        $stmt->bind_param("i", $ServiceID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 
 }
 ?>
