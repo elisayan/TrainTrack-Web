@@ -664,11 +664,22 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function creaPercorso($codicePercorso, $codiceTreno, $email, $durata, $prezzo, $posti){
-        $query = "INSERT INTO Percorso (CodPercorso, CodTreno, Email, TempoPercorrenza, Prezzo, PostiDisponibili) 
-                  VALUES (?, ?, ?, ?, ?, ?)";
+    public function getPostiTotali() {
+
+    }
+
+    public function creaPercorso($codicePercorso, $codiceTreno, $email, $durata, $prezzo){
+        $query = "INSERT INTO Percorso
+                    (CodPercorso, CodTreno, Email, TempoPercorrenza, Prezzo)
+                VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('sssidi', $codicePercorso, $codiceTreno, $email, $durata, $prezzo, $posti);
+        $stmt->bind_param('sssii', 
+            $codicePercorso,
+            $codiceTreno,
+            $email,
+            $durata,
+            $prezzo
+        );
         return $stmt->execute();
     }
 

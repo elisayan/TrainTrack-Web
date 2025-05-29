@@ -4,6 +4,18 @@
             <h4 class="mb-0">Nuovo Percorso</h4>
         </div>
         <div class="card-body">
+            <!-- Qui mostriamo eventuali messaggi -->
+            <?php if (isset($templateParams["successo"])): ?>
+                <div class="alert alert-success">
+                    <?= htmlspecialchars($templateParams["successo"]) ?>
+                </div>
+            <?php endif; ?>
+            <?php if (isset($templateParams["errore"])): ?>
+                <div class="alert alert-danger">
+                    <?= htmlspecialchars($templateParams["errore"]) ?>
+                </div>
+            <?php endif; ?>
+
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="cod_percorso" class="form-label">Codice Percorso</label>
@@ -19,7 +31,7 @@
                     <select class="form-select" id="cod_treno" name="cod_treno" required>
                         <option value="" selected disabled>Seleziona un treno…</option>
                         <?php foreach($templateParams['treni'] as $treno): ?>
-                            <option value="<?= htmlspecialchars($treno['CodTreno']) ?>">
+                            <option value="<?= "{$treno['CodTreno']}|{$treno['Tipo']}" ?>">
                                 <?= htmlspecialchars($treno['CodTreno']) ?> – <?= htmlspecialchars($treno['Tipo']) ?>
                             </option>
                         <?php endforeach; ?>
@@ -65,12 +77,14 @@
         </div>
     </div>
 
+    <!-- Stazioni Attraversate -->
     <div class="card mb-5 shadow-sm">
         <div class="card-header">
             <h4 class="mb-0">Stazioni Attraversate</h4>
         </div>
         <div class="card-body">
             <div id="stazioni-container">
+                <!-- Primo blocco stazione -->
                 <div class="station-entry row mb-4">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Stazione</label>
@@ -105,6 +119,7 @@
                 </div>
             </div>
 
+            <!-- Template per clonare nuove stazioni -->
             <template id="station-template">
                 <div class="station-entry row mb-4">
                     <div class="col-md-6 mb-3">
