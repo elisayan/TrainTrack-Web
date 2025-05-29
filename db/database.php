@@ -858,5 +858,21 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function deleteCart($email = null, $sessionId = null) {
+        $codCarrello = $this->getCartId($email, $sessionId);
+        if (!$codCarrello) {
+            return false; // No cart to delete
+        }
+
+        $stmt = $this->db->prepare("DELETE FROM DettaglioCarrello WHERE CodCarrello = ?");
+        $stmt->bind_param("i", $codCarrello);
+        $stmt->execute();
+
+        $stmt = $this->db->prepare("DELETE FROM Carrello WHERE CodCarrello = ?");
+        $stmt->bind_param("i", $codCarrello);
+        return $stmt->execute();
+    }
+
+
 }
 ?>

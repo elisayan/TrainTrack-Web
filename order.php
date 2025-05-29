@@ -35,10 +35,10 @@ if(isset($_SESSION['email'])) {
 }
 
 if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['card-number']) && isset($_POST['expiry-date']) && isset($_POST['cvv'])) {
-    // Process the payment here
-    // Redirect to a success page or show a success message
-
-    
+    //$dbh->deleteCart(
+    //    isset($_SESSION['email']) ? $_SESSION['email'] : null,
+    //    session_id()
+    //);
     header("Location: order.php");
     exit;
 } else {
