@@ -1,30 +1,23 @@
--- Start with a clean slate (optional)
-DELETE FROM DettaglioCarrello;
-DELETE FROM Carrello;
-DELETE FROM DettaglioOrdine;
-DELETE FROM Ordine;
-DELETE FROM StatoNotifica;
-DELETE FROM Attivazione;
-DELETE FROM Utilizzo;
-DELETE FROM CheckIn;
-DELETE FROM BuonoSconto;
-DELETE FROM Servizio;
-DELETE FROM Attraversato;
-DELETE FROM Notifica;
-DELETE FROM Stazione;
-DELETE FROM TipoAbbonamento;
-DELETE FROM Percorso;
-DELETE FROM Persona;
-DELETE FROM Treno;
-ALTER TABLE Servizio AUTO_INCREMENT = 1;
-ALTER TABLE dettagliocarrello AUTO_INCREMENT = 1;
-ALTER TABLE carrello AUTO_INCREMENT = 1;
-
-
-
 -- 1. Add a macchinista (train driver) as a Persona
 INSERT INTO Persona (Email, Nome, Cognome, Indirizzo, Telefono, CF, Password, SpesaTotale, TipoPersona, TipoCliente, UltimaSpesaCoupon)
 VALUES ('macchinista@traintrack.com', 'Mario', 'Rossi', 'Via Roma 1, Bologna', '051123456', 'RSSMRA80A01H501R', 'train123', 0, 'macchinista', NULL, NULL);
+
+INSERT INTO Persona 
+    (Email, Nome, Cognome, Indirizzo, Telefono, CF, Password, SpesaTotale, TipoPersona, TipoCliente, UltimaSpesaCoupon)
+VALUES
+    ('utente@traintrack.com',   -- Email
+     'Luca',                    -- Nome
+     'Bianchi',                 -- Cognome
+     'Via Verdi 10, Milano',    -- Indirizzo
+     '02-98765432',             -- Telefono
+     'BNCLCU85M01F205X',        -- Codice Fiscale
+     'password123',             -- Password (in chiaro; idealmente va hashata!)
+     0,                         -- SpesaTotale iniziale
+     'cliente',                 -- TipoPersona
+     'utente',                  -- TipoCliente
+     NULL                       -- UltimaSpesaCoupon (nessun coupon usato)
+    );
+
 
 -- 2. Add 5 trains
 INSERT INTO Treno (CodTreno, PostiTotali, Tipo) VALUES
@@ -76,8 +69,8 @@ INSERT INTO TipoAbbonamento (Durata, Chilometraggio, Prezzo) VALUES
 
 
 -- Add some notifications
-INSERT INTO Notifica (CodNotifica, Descrizione, CodPercorso) VALUES
-('NOT001', 'Benvenuto su TrainTrack!', 'PR001');
+INSERT INTO Notifica ( Descrizione, CodPercorso) VALUES
+('Benvenuto su TrainTrack!', 'PR001');
 
 
 -- 5. Add attraversato records for each route with current date
