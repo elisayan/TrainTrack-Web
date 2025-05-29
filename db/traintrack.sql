@@ -21,7 +21,7 @@ use traintrack;
 
 create table Attivazione (
      Email varchar(50) not null,
-     CodNotifica varchar(50) not null,
+     CodNotifica int not null,
      constraint IDAttivazione primary key (Email, CodNotifica));
 
 create table Attraversato (
@@ -56,7 +56,7 @@ create table CheckIn (
      constraint FKValidazione_ID unique (CodServizio));
 
 create table Notifica (
-     CodNotifica varchar(50) not null,
+     CodNotifica int not null auto_increment,
      Descrizione varchar(500) not null,
      CodPercorso varchar(50) not null,
      constraint IDNOTIFICA primary key (CodNotifica));
@@ -159,7 +159,7 @@ create table DettaglioCarrello (
     
 create table StatoNotifica (
 	CodStatoNotifica int not null auto_increment,
-	CodNotifica varchar(50) not null,
+	CodNotifica int not null,
     Email varchar(50) not null,
     Letto boolean default false,
     constraint IDSTATONOTIFICA primary key (CodStatoNotifica)
