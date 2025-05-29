@@ -11,13 +11,13 @@ if (!isset($_SESSION["email"])) {
 }
 
 $templateParams = [
-    'nome'        => 'template/profilo-macchinista.php',
-    'titolo'      => 'TrainTrack - Profilo Macchinista',
-    'azione'      => 'template/aggiungi-percorso.php',
-    'js'          => ['js/aggiungi-percorso.js'],
-    'user'        => $dbh->getUserByEmail($_SESSION["email"]),
-    'treni'       => $dbh->getTreniDisponibili(),
-    'stazioni'    => $dbh->getStazioniDisponibili(),
+    'nome' => 'template/profilo-macchinista.php',
+    'titolo' => 'TrainTrack - Profilo Macchinista',
+    'azione' => 'template/aggiungi-percorso.php',
+    'js' => ['js/aggiungi-percorso.js'],
+    'user' => $dbh->getUserByEmail($_SESSION["email"]),
+    'treni' => $dbh->getTreniDisponibili(),
+    'stazioni' => $dbh->getStazioniDisponibili(),
     'macchinisti' => $dbh->getMacchinisti(),
 ];
 
@@ -28,18 +28,12 @@ if (
     isset($_POST["tempo_percorrenza"]) &&
     isset($_POST["prezzo"])
 ) {
-    // Estraggo codice e tipo treno
     list($cod_treno, $tipo_treno) = explode('|', $_POST['cod_treno']);
 
-    // *** DEBUG: stampo il codice treno selezionato ***
-    //echo "<pre>DEBUG: codice treno = " . htmlspecialchars($cod_treno) . "</pre>";
-
-    // Controllo che non esista già un percorso con quel codice
     if (empty($dbh->cercaPercorso($_POST["cod_percorso"]))) {
         $macchinista = $dbh->getUserByEmail($_POST["email_macchinista"]);
 
         if (!empty($macchinista) && !$dbh->isClient($_POST["email_macchinista"])) {
-            // Creazione del percorso (ora senza posti_totali)
             $result = $dbh->creaPercorso(
                 $_POST["cod_percorso"],
                 $cod_treno,

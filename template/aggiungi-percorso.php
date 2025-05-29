@@ -4,7 +4,6 @@
             <h4 class="mb-0">Nuovo Percorso</h4>
         </div>
         <div class="card-body">
-            <!-- Qui mostriamo eventuali messaggi -->
             <?php if (isset($templateParams["successo"])): ?>
                 <div class="alert alert-success">
                     <?= htmlspecialchars($templateParams["successo"]) ?>
@@ -77,14 +76,12 @@
         </div>
     </div>
 
-    <!-- Stazioni Attraversate -->
     <div class="card mb-5 shadow-sm">
         <div class="card-header">
             <h4 class="mb-0">Stazioni Attraversate</h4>
         </div>
         <div class="card-body">
             <div id="stazioni-container">
-                <!-- Primo blocco stazione -->
                 <div class="station-entry row mb-4">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Stazione</label>
@@ -121,6 +118,9 @@
 
             <!-- Template per clonare nuove stazioni -->
             <template id="station-template">
+                <div class="col-12">
+                    <hr class="my-4">
+                </div>
                 <div class="station-entry row mb-4">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Stazione</label>
