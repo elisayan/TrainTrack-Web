@@ -7,7 +7,7 @@ class DatabaseHelper
     {
         $this->db = new mysqli($servername, $username, $password, $dbname, $port);
         if ($this->db->connect_error) {
-            die("Connection failed: " .$this->db->connect_error);
+            die("Connection failed: " . $this->db->connect_error);
         }
     }
 
@@ -32,8 +32,8 @@ class DatabaseHelper
     //     }
     // }
 
-
-    public function getStations(){
+    public function getStations()
+    {
         $query = "SELECT Nome as nome_stazioni FROM stazione ORDER BY Nome";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
@@ -41,8 +41,9 @@ class DatabaseHelper
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-    
-    public function getDurations(){
+
+    public function getDurations()
+    {
         $query = "SELECT DISTINCT Durata as durate FROM TipoAbbonamento ORDER BY Durata DESC";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
@@ -51,7 +52,8 @@ class DatabaseHelper
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getTrainTypes(){
+    public function getTrainTypes()
+    {
         $query = "SELECT DISTINCT Tipo as tipo_treni FROM Treno ORDER BY Tipo DESC";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
@@ -60,8 +62,9 @@ class DatabaseHelper
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getTicketsBySearch($departureStation, $destinationStation, $departureDate, $departureTime, $numberTickets){
-        $query ="SELECT 	s.codservizio as CodServizio,
+    public function getTicketsBySearch($departureStation, $destinationStation, $departureDate, $departureTime, $numberTickets)
+    {
+        $query = "SELECT 	s.codservizio as CodServizio,
 	s.tipotreno as tipotreno,
 	s.datapartenza as datapartenza,
 	s.orariopartenza as orariopartenza,
@@ -115,7 +118,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getTickets($departureStation, $destinationStation, $departureDate, $departureTime, $numberTickets, $n=-1){
+    public function getTickets($departureStation, $destinationStation, $departureDate, $departureTime, $numberTickets, $n = -1)
+    {
         $query = "SELECT s.codservizio as CodServizio,
 	                     s.tipotreno as tipotreno,
 	                     s.datapartenza as datapartenza,
@@ -160,7 +164,7 @@ AND (t.PostiTotali - (SELECT COUNT(*)
                     ORDER BY s.orariopartenza";
 
         if ($n > 0) {
-        $query .= " LIMIT ?";
+            $query .= " LIMIT ?";
         }
 
         $stmt = $this->db->prepare($query);
@@ -177,7 +181,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getSubscriptions($departureStationSub, $destinationStationSub, $duration, $trainType) {
+    public function getSubscriptions($departureStationSub, $destinationStationSub, $duration, $trainType)
+    {
         $query = "SELECT
                     sa.Nome AS stazionepartenzasub, 
                     sp.Nome AS stazionearrivosub, 
@@ -200,20 +205,21 @@ AND (t.PostiTotali - (SELECT COUNT(*)
                   AND s.DataPartenza >= CURDATE()
                   ORDER BY ta.Prezzo
                   LIMIT 1";
-                  
+
         $stmt = $this->db->prepare($query);
         if (!$stmt) {
             die("Prepare failed: " . $this->db->error);
         }
-    
+
         $stmt->bind_param('ssssss', $departureStationSub, $destinationStationSub, $destinationStationSub, $departureStationSub, $duration, $trainType);
         $stmt->execute();
         $result = $stmt->get_result();
-    
+
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getSubscriptionID($departureStationSub, $destinationStationSub, $duration, $trainTypeSub){
+    public function getSubscriptionID($departureStationSub, $destinationStationSub, $duration, $trainTypeSub)
+    {
         $query = "SELECT s.codservizio
                     FROM Servizio s
                     JOIN TipoAbbonamento t ON s.Durata = t.Durata
@@ -229,7 +235,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $stmt->execute();
     }
 
-    public function getTicketID($departureStation, $destinationStation, $departureDate, $departureTime, $trainType){
+    public function getTicketID($departureStation, $destinationStation, $departureDate, $departureTime, $trainType)
+    {
         $query = "SELECT s.CodServizio
                     FROM Servizio s
                     WHERE s.StazionePartenza = ?
@@ -243,75 +250,77 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $stmt->execute();
     }
 
- 
-    public function addToCart($codServizio, $quantita, $email = null, $sessionId = null) {
-            try {
-                
-                $codCarrello = $this->getOrCreateCart($email, $sessionId);
-                if (!$codCarrello) {
-                    return false;
-                }
-        
-                $stmt = $this->db->prepare("SELECT CodDettaglioCarrello, Quantità FROM DettaglioCarrello 
-                                          WHERE CodCarrello = ? AND CodServizio = ?");
-                $stmt->bind_param("ii", $codCarrello, $codServizio);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $existingItem = $result->fetch_assoc();
-        
-                if ($existingItem) {
-                    $newQuantity = $existingItem['Quantità'] + $quantita;
-                    $stmt = $this->db->prepare("UPDATE DettaglioCarrello SET Quantità = ? 
-                                              WHERE CodDettaglioCarrello = ?");
-                    $stmt->bind_param("ii", $newQuantity, $existingItem['CodDettaglioCarrello']);
-                    $success = $stmt->execute();
-                } else {
-                    $stmt = $this->db->prepare("INSERT INTO DettaglioCarrello (CodServizio, Quantità, CodCarrello) 
-                                              VALUES (?, ?, ?)");
-                    $stmt->bind_param("iii", $codServizio, $quantita, $codCarrello);
-                    $success = $stmt->execute();
-                }
-        
-                if ($success) {
-                    $this->updateCartTotal($codCarrello);
-                }
-                
-                return $success;
-            } catch (Exception $e) {
-                error_log("Error adding to cart: " . $e->getMessage());
+
+    public function addToCart($codServizio, $quantita, $email = null, $sessionId = null)
+    {
+        try {
+
+            $codCarrello = $this->getOrCreateCart($email, $sessionId);
+            if (!$codCarrello) {
                 return false;
             }
+
+            $stmt = $this->db->prepare("SELECT CodDettaglioCarrello, Quantità FROM DettaglioCarrello 
+                                          WHERE CodCarrello = ? AND CodServizio = ?");
+            $stmt->bind_param("ii", $codCarrello, $codServizio);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $existingItem = $result->fetch_assoc();
+
+            if ($existingItem) {
+                $newQuantity = $existingItem['Quantità'] + $quantita;
+                $stmt = $this->db->prepare("UPDATE DettaglioCarrello SET Quantità = ? 
+                                              WHERE CodDettaglioCarrello = ?");
+                $stmt->bind_param("ii", $newQuantity, $existingItem['CodDettaglioCarrello']);
+                $success = $stmt->execute();
+            } else {
+                $stmt = $this->db->prepare("INSERT INTO DettaglioCarrello (CodServizio, Quantità, CodCarrello) 
+                                              VALUES (?, ?, ?)");
+                $stmt->bind_param("iii", $codServizio, $quantita, $codCarrello);
+                $success = $stmt->execute();
+            }
+
+            if ($success) {
+                $this->updateCartTotal($codCarrello);
+            }
+
+            return $success;
+        } catch (Exception $e) {
+            error_log("Error adding to cart: " . $e->getMessage());
+            return false;
         }
-    
-    public function removeFromCart($codDettaglioCarrello) {
+    }
+
+    public function removeFromCart($codDettaglioCarrello)
+    {
         $stmt = $this->db->prepare("SELECT CodCarrello FROM DettaglioCarrello WHERE CodDettaglioCarrello = ?");
         $stmt->bind_param("i", $codDettaglioCarrello);
         $stmt->execute();
         $result = $stmt->get_result();
         $item = $result->fetch_assoc();
-            
+
         if (!$item) {
             return false;
         }
-    
+
         $stmt = $this->db->prepare("DELETE FROM DettaglioCarrello WHERE CodDettaglioCarrello = ?");
         $stmt->bind_param("i", $codDettaglioCarrello);
         $success = $stmt->execute();
-    
+
         $this->updateCartTotal($item['CodCarrello']);
-            
+
         return $success;
     }
-    
-        
-    public function getCartItems($email = null, $sessionId = null) {
+
+
+    public function getCartItems($email = null, $sessionId = null)
+    {
         $result = ['tickets' => [], 'subscriptions' => []];
-            
+
         $codCarrello = $this->getCartId($email, $sessionId);
         if (!$codCarrello) {
             return $result;
         }
-    
         $stmt = $this->db->prepare("SELECT dc.CodDettaglioCarrello, dc.CodServizio as CodServizio, dc.Quantità, 
                                     s.Prezzo, s.Durata, s.Chilometraggio, s.TipoTreno,
                                     s.StazionePartenza, s.StazioneArrivo, s.DataPartenza, s.OrarioPartenza,
@@ -339,7 +348,7 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         $stmt->bind_param("i", $codCarrello);
         $stmt->execute();
         $items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-    
+
         foreach ($items as $item) {
             if ($item['Durata'] !== null && $item['Chilometraggio'] !== null) {
                 $result['subscriptions'][] = $item;
@@ -347,29 +356,31 @@ AND (t.PostiTotali - (SELECT COUNT(*)
                 $result['tickets'][] = $item;
             }
         }
-    
+
         return $result;
     }
-    
-        
-    private function getOrCreateCart($email = null, $sessionId = null) {
+
+
+    private function getOrCreateCart($email = null, $sessionId = null)
+    {
         $codCarrello = $this->getCartId($email, $sessionId);
-            
+
         if ($codCarrello) {
             return $codCarrello;
         }
-    
+
         $stmt = $this->db->prepare("INSERT INTO Carrello (Email, SessionID) VALUES (?, ?)");
         $stmt->bind_param("ss", $email, $sessionId);
         if ($stmt->execute()) {
             return $this->db->insert_id;
         }
-            
+
         return false;
     }
-    
-        
-    private function getCartId($email = null, $sessionId = null) {
+
+
+    private function getCartId($email = null, $sessionId = null)
+    {
         if ($email) {
             $stmt = $this->db->prepare("SELECT CodCarrello FROM Carrello WHERE Email = ?");
             $stmt->bind_param("s", $email);
@@ -379,58 +390,59 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         } else {
             return false;
         }
-    
+
         $stmt->execute();
         $result = $stmt->get_result();
         $cart = $result->fetch_assoc();
-            
+
         return $cart ? $cart['CodCarrello'] : false;
     }
-    
-        
-    public function updateCartTotal($codCarrello) {
-            try {
-                $stmt = $this->db->prepare("SELECT SUM(dc.Quantità * s.Prezzo) AS Total
+
+
+    public function updateCartTotal($codCarrello)
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT SUM(dc.Quantità * s.Prezzo) AS Total
                                           FROM DettaglioCarrello dc
                                           JOIN Servizio s ON dc.CodServizio = s.CodServizio
                                           WHERE dc.CodCarrello = ?");
-                $stmt->bind_param("i", $codCarrello);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $row = $result->fetch_assoc();
-                $total = $row['Total'] ?? 0;
-        
-                $stmt = $this->db->prepare("UPDATE Carrello SET PrezzoTotale = ? WHERE CodCarrello = ?");
-                $stmt->bind_param("di", $total, $codCarrello);
-                return $stmt->execute();
-            } catch (Exception $e) {
-                error_log("Error updating cart total: " . $e->getMessage());
-                return false;
-            }
+            $stmt->bind_param("i", $codCarrello);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            $total = $row['Total'] ?? 0;
+
+            $stmt = $this->db->prepare("UPDATE Carrello SET PrezzoTotale = ? WHERE CodCarrello = ?");
+            $stmt->bind_param("di", $total, $codCarrello);
+            return $stmt->execute();
+        } catch (Exception $e) {
+            error_log("Error updating cart total: " . $e->getMessage());
+            return false;
         }
-    
-        
+    }
+
+
     // public function transferGuestCart($sessionId, $email) {
     //         // Check if user already has a cart
     //     $userCartId = $this->getCartId($email);
     //     $guestCartId = $this->getCartId(null, $sessionId);
-    
+
     //     if (!$guestCartId) {
     //         return true; // No guest cart to transfer
     //     }
-    
+
     //     if ($userCartId) {
     //             // Merge guest cart into user's existing cart
     //         $stmt = $this->db->prepare("UPDATE DettaglioCarrello SET CodCarrello = ? 
     //                                       WHERE CodCarrello = ?");
     //         $stmt->bind_param("ii", $userCartId, $guestCartId);
     //         $stmt->execute();
-    
+
     //             // Delete guest cart
     //         $stmt = $this->db->prepare("DELETE FROM Carrello WHERE CodCarrello = ?");
     //         $stmt->bind_param("i", $guestCartId);
     //         $stmt->execute();
-    
+
     //             // Update user cart total
     //         $this->updateCartTotal($userCartId);
     //     } else {
@@ -440,12 +452,13 @@ AND (t.PostiTotali - (SELECT COUNT(*)
     //         $stmt->bind_param("si", $email, $guestCartId);
     //         $stmt->execute();
     //     }
-    
+
     //     return true;
     // }
 
-    public function transferGuestCart(string $sessionId, string $email): bool {
-        $userCartId  = $this->getCartId($email);
+    public function transferGuestCart(string $sessionId, string $email): bool
+    {
+        $userCartId = $this->getCartId($email);
         $guestCartId = $this->getCartId(null, $sessionId);
 
         if (!$guestCartId) {
@@ -497,18 +510,20 @@ AND (t.PostiTotali - (SELECT COUNT(*)
 
         return true;
     }
-    
-    public function checkLogin($email, $password){
+
+    public function checkLogin($email, $password)
+    {
         $query = "SELECT * FROM persona WHERE email=? AND password=?";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ss',$email, $password);
+        $stmt->bind_param('ss', $email, $password);
         $stmt->execute();
         $result = $stmt->get_result();
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function isClient($email){
+    public function isClient($email)
+    {
         $query = "SELECT tipopersona FROM persona WHERE email = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $email);
@@ -521,7 +536,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return false;
     }
 
-    public function registerUser($nome, $cognome, $cf, $indirizzo, $telefono, $email, $password){
+    public function registerUser($nome, $cognome, $cf, $indirizzo, $telefono, $email, $password)
+    {
         $query = "INSERT INTO  persona (Nome, Cognome, CF, Indirizzo, Telefono, Email, Password, SpesaTotale, TipoPersona, TipoCliente)
                     VALUES (?, ?, ?, ?, ?, ?, ?, 0, 'cliente', 'utente')";
         $stmt = $this->db->prepare($query);
@@ -529,7 +545,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $stmt->execute();
     }
 
-    public function getUserByEmail($email) {
+    public function getUserByEmail($email)
+    {
         $query = "SELECT * FROM persona WHERE Email = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $email);
@@ -538,7 +555,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getMacchinisti() {
+    public function getMacchinisti()
+    {
         $query = "SELECT Email FROM Persona WHERE TipoPersona = 'macchinista'";
         $stmt = $this->db->prepare($query);
         if (!$stmt) {
@@ -553,8 +571,9 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $emails;
     }
 
-    public function getTicketOrders($email) {
-        $query ="
+    public function getTicketOrders($email)
+    {
+        $query = "
             SELECT 
                 s.CodServizio,
                 s.NomePasseggero,
@@ -577,9 +596,10 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-    
-    public function getSubscriptionOrders($email) {
-        $query ="
+
+    public function getSubscriptionOrders($email)
+    {
+        $query = "
             SELECT 
                 s.CodServizio,
                 s.NomePasseggero,
@@ -604,7 +624,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getNotificheByUtente($email) {
+    public function getNotificheByUtente($email)
+    {
         $query = "SELECT n.CodNotifica, n.Descrizione, sn.Letto
               FROM Notifica n
               JOIN StatoNotifica sn ON n.CodNotifica = sn.CodNotifica
@@ -618,7 +639,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function segnaNotificaLetta($notifica, $email){
+    public function segnaNotificaLetta($notifica, $email)
+    {
         $query = "UPDATE StatoNotifica SN
                     SET SN.Letto = TRUE
                     WHERE SN.CodNotifica = ? AND SN.Email = ?";
@@ -627,7 +649,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $stmt->execute();
     }
 
-    public function cancellaNotifica($notifica, $email) {
+    public function cancellaNotifica($notifica, $email)
+    {
         $query = "DELETE sn 
                   FROM StatoNotifica sn
                   WHERE sn.CodNotifica = ? 
@@ -637,7 +660,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $stmt->execute();
     }
 
-    public function notificaBenvenuto($email){
+    public function notificaBenvenuto($email)
+    {
         $query = "INSERT INTO StatoNotifica (CodNotifica, Email)
                     SELECT (SELECT CodNotifica FROM Notifica WHERE CodNotifica = 'NOT001'), Email 
                     FROM Persona 
@@ -649,7 +673,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $stmt->execute();
     }
 
-    public function getTreniDisponibili(){
+    public function getTreniDisponibili()
+    {
         $query = "SELECT *  FROM Treno";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
@@ -657,7 +682,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getStazioniDisponibili(){
+    public function getStazioniDisponibili()
+    {
         $query = "SELECT *  FROM Stazione";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
@@ -665,16 +691,14 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getPostiTotali() {
-
-    }
-
-    public function creaPercorso($codicePercorso, $codiceTreno, $email, $durata, $prezzo){
+    public function creaPercorso($codicePercorso, $codiceTreno, $email, $durata, $prezzo)
+    {
         $query = "INSERT INTO Percorso
                     (CodPercorso, CodTreno, Email, TempoPercorrenza, Prezzo)
                 VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('sssii', 
+        $stmt->bind_param(
+            'sssii',
             $codicePercorso,
             $codiceTreno,
             $email,
@@ -684,7 +708,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $stmt->execute();
     }
 
-    public function cercaPercorso($codicePercorso){
+    public function cercaPercorso($codicePercorso)
+    {
         $query = "SELECT codPercorso
                     FROM Percorso
                     WHERE codPercorso = ?";
@@ -696,33 +721,76 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function notificaNuovoPercorso($testo, $percorso) {
+    public function notificaNuovoPercorso($testo, $percorso)
+    {
         $query = "INSERT INTO Notifica (Descrizione, CodPercorso) VALUES (?, ?)";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('ss', $testo, $percorso);
-        
+
         if (!$stmt->execute()) {
             return false;
         }
-    
+
         $codNotifica = $this->db->insert_id;
-    
+
         $queryStato = "INSERT INTO StatoNotifica (CodNotifica, Email, Letto)
                        SELECT ?, Email, FALSE
                        FROM Persona
                        WHERE TipoPersona = 'cliente' AND TipoCliente = 'utente'";
-    
+
         $stmtStato = $this->db->prepare($queryStato);
         $stmtStato->bind_param('i', $codNotifica);
-        
+
         return $stmtStato->execute();
     }
 
-    public function aggiungiStazioniAttraversate(){
-        
+    public function aggiungiStazioniAttraversate($codPercorso, $codStazioni, $ordini, $binari, $orariPartenza, $orariArrivo)
+    {
+        $sql = "
+            INSERT INTO Attraversato (
+                CodPercorso,
+                CodStazione,
+                Data,
+                Ordine,
+                OrarioPartenzaPrevisto,
+                OrarioArrivoPrevisto,
+                OrarioArrivoReale,
+                OrarioPartenzaReale,
+                Binario,
+                StatoArrivo,
+                StatoPartenza
+            ) VALUES (
+                ?, ?, CURDATE(), ?, ?, ?, ?, ?, ?, 'IN ATTESA', 'IN ATTESA'
+            )
+        ";
+        $stmt = $this->db->prepare($sql);
+        if (!$stmt) {
+            return false;
+        }
+
+        foreach ($codStazioni as $i => $codStazione) {
+            $stmt->bind_param(
+                "ssissssi",
+                $codPercorso,
+                $codStazione,
+                (int) $ordini[$i],
+                $orariPartenza[$i],
+                $orariArrivo[$i],
+                $orariArrivo[$i],
+                $orariPartenza[$i],
+                (int) $binari[$i]
+            );
+            if (!$stmt->execute()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
-    public function cambiaOrario($percorso, $stazione, $orario_partenza, $orario_arrivo){
+
+    public function cambiaOrario($percorso, $stazione, $orario_partenza, $orario_arrivo)
+    {
         $query = "UPDATE Attraversato
                     SET OrarioPartenzaPrevisto = ?,
                         OrarioArrivoPrevisto = ?
@@ -733,7 +801,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $stmt->execute();
     }
 
-    public function getPercorsi(){
+    public function getPercorsi()
+    {
         $query = "SELECT CodPercorso
                     FROM Percorso";
         $stmt = $this->db->prepare($query);
@@ -742,7 +811,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getStazioniOfPercorso($codicePercorso){
+    public function getStazioniOfPercorso($codicePercorso)
+    {
         $query = "SELECT s.Nome, s.CodStazione
                     FROM Attraversato a
                     JOIN Stazione s ON a.CodStazione = s.CodStazione
@@ -755,7 +825,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getBuoniScontoNonUtilizzate($email){
+    public function getBuoniScontoNonUtilizzate($email)
+    {
         $query = "SELECT *
                   FROM BuonoSconto
                   WHERE Email = ? 
@@ -768,17 +839,18 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-    
-    public function eliminaBuonoSconto($email, $buonoSconto) {
+
+    public function eliminaBuonoSconto($email, $buonoSconto)
+    {
         $queryUtilizzo = "DELETE FROM Utilizzo WHERE CodBuonoSconto = ?";
         $stmtUtilizzo = $this->db->prepare($queryUtilizzo);
         $stmtUtilizzo->bind_param('i', $buonoSconto);
         $stmtUtilizzo->execute();
-        
+
         $queryBuono = "DELETE FROM BuonoSconto WHERE CodBuonoSconto = ? AND Email = ?";
         $stmtBuono = $this->db->prepare($queryBuono);
         $stmtBuono->bind_param('is', $buonoSconto, $email);
-        
+
         return $stmtBuono->execute();
     }
     
@@ -872,7 +944,5 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         $stmt->bind_param("i", $codCarrello);
         return $stmt->execute();
     }
-
-
 }
 ?>
