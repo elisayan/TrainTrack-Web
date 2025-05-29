@@ -79,7 +79,9 @@ if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
         }
         
         
-        $dbh->insertGuest(
+        $existingGuest = $dbh->getGuestByEmail($_POST['email']);
+        if (empty($existingGuest)) {
+            $dbh->insertGuest(
             $_POST['name'],
             $_POST['surname'],
             $_POST['cf'],
@@ -87,6 +89,8 @@ if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
             $_POST['phone'],
             $_POST['email']
         );
+        }
+        
         
         
         foreach ($cartItems['tickets'] as $ticket) {

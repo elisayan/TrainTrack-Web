@@ -821,6 +821,15 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $stmt->execute();
     }
 
+    public function getGuestByEmail($email) {
+        $query = "SELECT * FROM persona WHERE Email = ? AND TipoPersona = 'cliente' AND TipoCliente = 'ospite'";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function insertGuest($nome, $cognome, $cf, $indirizzo, $telefono, $email) {
         $query = "INSERT INTO persona (Nome, Cognome, CF, Indirizzo, Telefono, Email, SpesaTotale, TipoPersona, TipoCliente)
                   VALUES (?, ?, ?, ?, ?, ?,  0, 'cliente', 'ospite')";
@@ -831,7 +840,7 @@ AND (t.PostiTotali - (SELECT COUNT(*)
             return false;
         }   
 
-    }
+    } 
 
     public function getRouteCode($ServiceID) {
         $query = "SELECT s.CodPercorso
