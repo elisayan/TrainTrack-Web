@@ -39,7 +39,7 @@
                 </div>
                 <?php endforeach; ?>
             <?php endif; ?>
-        </div>
+        
         <?php if(!empty($templateParams["cart_items"]["subscriptions"])): ?>
             <h2>Abbonamenti</h2>
         <?php foreach($templateParams["cart_items"]["subscriptions"] as $subscription): ?>
@@ -71,8 +71,10 @@
                     </div>
                 </div>
         </div>
+        </div>
             <?php endforeach; ?>
             <?php endif; ?>
+        
         <div class="col-12 col-md-6">
             <div class="card shadow p-4 mb-4 order-summary">
                 <h2>Riepilogo Ordine</h2>
