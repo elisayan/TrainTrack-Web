@@ -4,47 +4,39 @@ require_once 'bootstrap.php';
 $templateParams = [
     "nome" => "template/order.php",
     "titolo" => "Ordine",
-    "user_logged_in" => isset($_SESSION['email'])
+    "user_logged_in" => isset($_SESSION['email']),
+    "order_items" => [],
+    "total_price" => 0
 ];
 
-$cartItems = $dbh->getCartItems(
-    isset($_SESSION['email']) ? $_SESSION['email'] : null,
-    session_id()
-);
-
-if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
-    $templateParams["cart_items"] = $cartItems;
+// Check if we have a recent purchase in session
+if (isset($_SESSION['last_purchase'])) {
+    $templateParams["order_items"] = $_SESSION['last_purchase'];
     
-    $ticketsPrice = 0;
-    $subscriptionsPrice = 0;
+    // Calculate total price
     $totalPrice = 0;
-    foreach ($cartItems['tickets'] as $ticket) {
-        $ticketsPrice += $ticket['Prezzo'] * $ticket['Quantità'];
+    foreach ($_SESSION['last_purchase']['tickets'] as $ticket) {
+        $totalPrice += $ticket['Prezzo'] * $ticket['Quantità'];
     }
-    foreach ($cartItems['subscriptions'] as $subscription) {
-        $subscriptionsPrice += $subscription['Prezzo'] * $subscription['Quantità'];
+    foreach ($_SESSION['last_purchase']['subscriptions'] as $subscription) {
+        $totalPrice += $subscription['Prezzo'] * $subscription['Quantità'];
     }
-    $templateParams["total_price"] = $ticketsPrice + $subscriptionsPrice;
-    $templateParams["ticket_price"] = $ticketsPrice;
-    $templateParams["subscription_price"] = $subscriptionsPrice;
+    $templateParams["total_price"] = $totalPrice;
+    
+    // Clear the purchase from session so it doesn't show again on refresh
+    unset($_SESSION['last_purchase']);
 }
 
 if(isset($_SESSION['email'])) {
     $email = $_SESSION["email"];
     $user = $dbh->getUserByEmail($email);
+    $templateParams["user"] = $user[0] ?? null;
 }
 
-if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['card-number']) && isset($_POST['expiry-date']) && isset($_POST['cvv'])) {
-    //$dbh->deleteCart(
-    //    isset($_SESSION['email']) ? $_SESSION['email'] : null,
-    //    session_id()
-    //);
-    header("Location: order.php");
-    exit;
-} else {
-    // Handle the case where payment details are not provided
-    $templateParams["error_message"] = "Please fill in all payment details.";
-}
+$dbh->deleteCart(
+            isset($_SESSION['email']) ? $_SESSION['email'] : null,
+            session_id()
+        );
 
 require 'template/base.php';
 ?>
