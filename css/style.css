@@ -973,3 +973,84 @@ h2 {
     display: inline-block;
     margin-top: 20px;
 }
+
+/* Popular Routes Carousel */
+#popularRoutesCarousel {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.route-card {
+    cursor: pointer;
+    height: 373px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+}
+
+.route-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.route-title {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.route-description {
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.8;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.carousel-control-prev {
+    left: 15px;
+}
+
+.carousel-control-next {
+    right: 15px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: brightness(0) invert(1);
+}
+
+@media (max-width: 768px) {
+    .route-title {
+        font-size: 1.25rem;
+    }
+    
+    .route-description {
+        font-size: 0.9rem;
+    }
+    
+    .route-card {
+        height: 160px;
+    }
+}

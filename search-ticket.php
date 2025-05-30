@@ -20,6 +20,8 @@ if(isset($_GET["stazione_partenza"]) && isset($_GET["stazione_arrivo"]) && isset
 $templateParams["titolo"] = "Ricerca Biglietto";
 $templateParams["nome"] = "template/search-ticket-home.php";
 $templateParams["nome_stazioni"] = $dbh->getStations();
+$templateParams["js"] = array("js/search-ticket.js");
+
 
 require 'template/base.php';
 ?>
