@@ -40,8 +40,8 @@ if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
                 
                 $dbh->insertTicket(
                     $email,
-                    $user['nome'],
-                    $user['cognome'],
+                    $_POST['name'],
+                    $_POST['surname'],
                     $actualCodPercorso,
                     $ticket['NomePartenza'],
                     $ticket['NomeArrivo'],
@@ -55,8 +55,8 @@ if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
             foreach ($cartItems['subscriptions'] as $subscription) {
                 $dbh->insertSubscription(
                     $email,
-                    $user['nome'],
-                    $user['cognome'],
+                    $_POST['name'],
+                    $_POST['surname'],
                     $subscription['CodPercorso'],
                     $subscription['NomePartenza'],
                     $subscription['NomeArrivo'],

@@ -15,12 +15,17 @@ if (isset($_SESSION['last_purchase'])) {
     
     // Calculate total price
     $totalPrice = 0;
+    $subscriptionPrice = 0;
+    $ticketPrice = 0;
     foreach ($_SESSION['last_purchase']['tickets'] as $ticket) {
-        $totalPrice += $ticket['Prezzo'] * $ticket['Quantità'];
+        $ticketPrice += $ticket['Prezzo'] * $ticket['Quantità'];
     }
     foreach ($_SESSION['last_purchase']['subscriptions'] as $subscription) {
-        $totalPrice += $subscription['Prezzo'] * $subscription['Quantità'];
+        $subscriptionPrice += $subscription['Prezzo'] * $subscription['Quantità'];
     }
+    $totalPrice = $ticketPrice + $subscriptionPrice;
+    $templateParams["ticket_price"] = $ticketPrice; 
+    $templateParams["subscription_price"] = $subscriptionPrice;
     $templateParams["total_price"] = $totalPrice;
     
     // Clear the purchase from session so it doesn't show again on refresh
