@@ -975,13 +975,13 @@ h2 {
 }
 
 /* Popular Routes Carousel */
-#popularRoutesCarousel {
+#popularRoutesCarousel , #popularSubsCarousel {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.route-card {
+.route-card, .sub-card {
     cursor: pointer;
     height: 373px !important;
     display: flex;
@@ -994,7 +994,7 @@ h2 {
     border: 1px solid #e9ecef;
 }
 
-.route-card:hover {
+.route-card:hover, .sub-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }

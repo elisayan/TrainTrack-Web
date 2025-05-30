@@ -21,6 +21,8 @@ $templateParams["nome"] = "template/search-subscription-home.php";
 $templateParams["nome_stazioni"] = $dbh->getStations();
 $templateParams["durate"] = $dbh->getDurations();
 $templateParams["tipo_treni"] = $dbh->getTrainTypes();
+$templateParams["js"] = array("js/search-sub.js");
+
 
 
 require 'template/base.php';

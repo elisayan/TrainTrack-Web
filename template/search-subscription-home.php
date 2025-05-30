@@ -62,29 +62,46 @@
         </div>
     </form>
     </div>
-    <div class="col-12 col-md-6">
-            <div id="carouselExampleIndicators" class="carousel slide mb-5" data-bs-ride="carousel">
-
+    <!-- Carousel Section -->
+        <div class="col-12 col-md-6">
+            <div id="popularSubsCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
                 <div class="carousel-inner">
+            <!-- Popular Route 1 -->
                     <div class="carousel-item active">
-                        <img src="./img/blue.png" class="d-block w-100 img-carousel" alt="...">
+                        <div class="card sub-card shadow" onclick="searchSub('Bologna Centrale', 'Forlì', 'Intercity', 'Settimanale')">
+                            <div class="card-body">
+                                <h3 class="route-title">Bologna Centrale → Forlì</h3>
+                                <p class="route-description">Treno Intercity e Regionale</p>
+                            </div>
+                        </div>
                     </div>
+            
+            <!-- Popular Route 2 -->
                     <div class="carousel-item">
-                        <img src="./img/red.png" class="d-block w-100 img-carousel" alt="...">
+                        <div class="card sub-card shadow" onclick="searchSub('Piacenza', 'Parma', 'Frecciarossa', 'Mensile')">
+                            <div class="card-body">
+                                <h3 class="route-title">Piacenza → Parma</h3>
+                                <p class="route-description">Treno Frecciarossa e Regionale</p>
+                            </div>
+                        </div>
                     </div>
+            
+            <!-- Popular Route 3 -->
                     <div class="carousel-item">
-                        <img src="./img/green.png" class="d-block w-100 img-carousel" alt="...">
+                        <div class="card sub-card shadow" onclick="searchSub('Bologna Centrale', 'Ravenna', 'Regionale', 'Annuale')">
+                            <div class="card-body">
+                                <h3 class="route-title">Bologna Centrale → Ravenna</h3>
+                                <p class="route-description">Treno Intercity e Regionale</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <a class="carousel-control-prev" href="#popularSubsCarousel" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <a class="carousel-control-next" href="#popularSubsCarousel" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 </a>
-            </div>
             </div>
         </div>
-
-    </div>
 </section>
