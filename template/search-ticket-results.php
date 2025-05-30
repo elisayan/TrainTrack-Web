@@ -41,7 +41,7 @@
             </div>
         </div>
     </header>
-    <div class="card-deck">
+    <div class="ticket-grid">
         <?php foreach($templateParams["biglietti"] as $biglietto): ?>
         <article class="card shadow service p-2. mt-5">
         <form action="cart.php" method="POST">
