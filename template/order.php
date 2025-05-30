@@ -32,8 +32,8 @@
                         </div>
                         <div>
                             <h4>Passeggero</h4>
-                            <p>Nome: <?php echo $ticket["passenger_name"]; ?></p>
-                            <p>Cognome: <?php echo $ticket["passenger_surname"]; ?></p>
+                            <p>Nome: <?php echo $_SESSION['name']; ?></p>
+                            <p>Cognome: <?php echo $_SESSION['surname']; ?></p>
                         </div>
                     </div>
                 </div>
@@ -65,8 +65,8 @@
                         </div>
                         <div>
                             <h4>Passeggero</h4>
-                            <p>Nome: <?php echo $subscription["subscription_passenger_first_name"]; ?></p>
-                            <p>Cognome: <?php echo $subscription["subscription_passenger_last_name"]; ?></p>
+                            <p>Nome: <?php echo $_SESSION['name']; ?></p>
+                            <p>Cognome: <?php echo $_SESSION['surname']; ?></p>
                         </div>
                     </div>
                 </div>
