@@ -571,7 +571,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $emails;
     }
 
-    public function getPercorsiByMacchinista($email) {
+    public function getPercorsiByMacchinista($email)
+    {
         $sql = "SELECT CodPercorso, CodTreno, TempoPercorrenza, Prezzo
                 FROM Percorso
                 WHERE Email = ?";
@@ -799,17 +800,90 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return true;
     }
 
-
-    public function cambiaOrario($percorso, $stazione, $orario_partenza, $orario_arrivo)
+    public function cambiaOrario($codPercorso, $codStazione, $nuovoPartenza, $nuovoArrivo)
     {
-        $query = "UPDATE Attraversato
-                    SET OrarioPartenzaPrevisto = ?,
-                        OrarioArrivoPrevisto = ?
-                    WHERE CodPercorso = ?
-                    AND CodStazione = ?";
+        $sqlSel = "
+        SELECT OrarioPartenzaPrevisto, OrarioArrivoPrevisto
+          FROM Attraversato
+         WHERE CodPercorso = ? 
+           AND CodStazione = ?
+         LIMIT 1
+    ";
+        $stmtSel = $this->db->prepare($sqlSel);
+        $stmtSel->bind_param('ss', $codPercorso, $codStazione);
+        if (!$stmtSel->execute()) {
+            return false;
+        }
+        $res = $stmtSel->get_result()->fetch_assoc();
+        if (!$res) {
+            return false;
+        }
+        $oldPartenza = $res['OrarioPartenzaPrevisto'];
+        $oldArrivo = $res['OrarioArrivoPrevisto'];
+        $stmtSel->close();
+
+        $sqlUpd = "
+        UPDATE Attraversato
+           SET OrarioPartenzaPrevisto = ?, OrarioArrivoPrevisto = ?
+         WHERE CodPercorso = ? AND CodStazione = ?
+    ";
+        $stmtUpd = $this->db->prepare($sqlUpd);
+        $stmtUpd->bind_param('ssss', $nuovoPartenza, $nuovoArrivo, $codPercorso, $codStazione);
+        if (!$stmtUpd->execute()) {
+            return false;
+        }
+        $stmtUpd->close();
+
+        return [
+            'oldPartenza' => $oldPartenza,
+            'oldArrivo' => $oldArrivo
+        ];
+    }
+
+    public function notificaCambioOrario($codPercorso, $codStazione, $oldPartenza, $oldArrivo, $newPartenza, $newArrivo)
+    {
+        $oldP = substr($oldPartenza, 0, 5);
+        $oldA = substr($oldArrivo, 0, 5);
+        $newP = substr($newPartenza, 0, 5);
+        $newA = substr($newArrivo, 0, 5);
+
+        $descrizione = sprintf(
+            "Cambio orario Percorso %s – Stazione %s: Partenza da %s a %s, Arrivo da %s a %s",
+            $codPercorso,
+            $codStazione,
+            $oldP,
+            $newP,
+            $oldA,
+            $newA
+        );
+
+        $query = "INSERT INTO Notifica (Descrizione, CodPercorso) VALUES (?, ?)";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ssss', $orario_partenza, $orario_arrivo, $percorso, $stazione);
-        return $stmt->execute();
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param('ss', $descrizione, $codPercorso);
+        if (!$stmt->execute()) {
+            return false;
+        }
+
+        $codNotifica = $this->db->insert_id;
+        $stmt->close();
+
+        $queryStato = " INSERT INTO StatoNotifica (CodNotifica, Email, Letto)
+                        SELECT ?, Email, FALSE
+                        FROM Persona
+                        WHERE TipoPersona = 'cliente'
+                        AND TipoCliente = 'utente'    ";
+        $stmtStato = $this->db->prepare($queryStato);
+        if (!$stmtStato) {
+            return false;
+        }
+        $stmtStato->bind_param('i', $codNotifica);
+        $esito = $stmtStato->execute();
+        $stmtStato->close();
+
+        return $esito;
     }
 
     public function getPercorsi()
@@ -864,12 +938,14 @@ AND (t.PostiTotali - (SELECT COUNT(*)
 
         return $stmtBuono->execute();
     }
-    
-    public function insertTicket($email, $nomePasseggero, $cognomePasseggero, $codPercorso, $stazionePartenza, $stazioneArrivo, $tipoTreno, $dataPartenza, $orarioPartenza, $prezzo) {
+
+    public function insertTicket($email, $nomePasseggero, $cognomePasseggero, $codPercorso, $stazionePartenza, $stazioneArrivo, $tipoTreno, $dataPartenza, $orarioPartenza, $prezzo)
+    {
         $query = "INSERT INTO Servizio (email, NomePasseggero, CognomePasseggero, CodPercorso, StazionePartenza, StazioneArrivo, TipoTreno, DataPartenza, OrarioPartenza, Prezzo)
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('sssssssssd', 
+        $stmt->bind_param(
+            'sssssssssd',
             $email,
             $nomePasseggero,
             $cognomePasseggero,
@@ -884,11 +960,13 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $stmt->execute();
     }
 
-    public function insertSubscription($email, $nomePasseggero, $cognomePasseggero, $codPercorso, $stazionePartenza, $stazioneArrivo, $tipoTreno, $dataPartenza, $durata, $chilometraggio, $prezzo) {
+    public function insertSubscription($email, $nomePasseggero, $cognomePasseggero, $codPercorso, $stazionePartenza, $stazioneArrivo, $tipoTreno, $dataPartenza, $durata, $chilometraggio, $prezzo)
+    {
         $query = "INSERT INTO Servizio (email, NomePasseggero, CognomePasseggero, codPercorso, StazionePartenza, StazioneArrivo, TipoTreno, DataPartenza, Durata, Chilometraggio, Prezzo)
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('sssssssssid', 
+        $stmt->bind_param(
+            'sssssssssid',
             $email,
             $nomePasseggero,
             $cognomePasseggero,
@@ -904,7 +982,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $stmt->execute();
     }
 
-    public function getGuestByEmail($email) {
+    public function getGuestByEmail($email)
+    {
         $query = "SELECT * FROM persona WHERE Email = ? AND TipoPersona = 'cliente' AND TipoCliente = 'ospite'";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $email);
@@ -913,19 +992,21 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function insertGuest($nome, $cognome, $cf, $indirizzo, $telefono, $email) {
+    public function insertGuest($nome, $cognome, $cf, $indirizzo, $telefono, $email)
+    {
         $query = "INSERT INTO persona (Nome, Cognome, CF, Indirizzo, Telefono, Email, SpesaTotale, TipoPersona, TipoCliente)
                   VALUES (?, ?, ?, ?, ?, ?,  0, 'cliente', 'ospite')";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('ssssss', $nome, $cognome, $cf, $indirizzo, $telefono, $email);
-    
+
         if (!$stmt->execute()) {
             return false;
-        }   
+        }
 
-    } 
+    }
 
-    public function getRouteCode($ServiceID) {
+    public function getRouteCode($ServiceID)
+    {
         $query = "SELECT s.CodPercorso
                   FROM Servizio s
                   WHERE s.CodServizio = ?";
@@ -941,7 +1022,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function deleteCart($email = null, $sessionId = null) {
+    public function deleteCart($email = null, $sessionId = null)
+    {
         $codCarrello = $this->getCartId($email, $sessionId);
         if (!$codCarrello) {
             return false; // No cart to delete
