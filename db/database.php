@@ -1088,5 +1088,20 @@ AND (t.PostiTotali - (SELECT COUNT(*)
 
         return $this->updateCartTotal($codCarrello);
     }
+
+    public function aggiornaSpesaCliente($email, $amount)
+    {
+        $query = "UPDATE Persona
+                    SET SpesaTotale = SpesaTotale + ?
+                    WHERE Email = ?";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param("ds", $amount, $email);
+        $ok = $stmt->execute();
+        $stmt->close();
+        return $ok;
+    }
 }
 ?>

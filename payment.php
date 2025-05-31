@@ -15,7 +15,7 @@ $cartItems = $dbh->getCartItems(
 
 if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
     $templateParams["cart_items"] = $cartItems;
-    
+
     $totalPrice = 0;
     foreach ($cartItems['tickets'] as $ticket) {
         $totalPrice += $ticket['Prezzo'] * $ticket['Quantità'];
@@ -25,19 +25,20 @@ if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
     }
     $templateParams["total_price"] = $totalPrice;
 
-    if(isset($_POST['confirm_payment'])) {
+    if (isset($_POST['confirm_payment'])) {
         $_SESSION['last_purchase'] = $cartItems;
         $_SESSION['name'] = $_POST['name'] ?? '';
         $_SESSION['surname'] = $_POST['surname'] ?? '';
-        if(isset($_SESSION['email'])) {
+
+        if (isset($_SESSION['email'])) {
             $email = $_SESSION["email"];
-            $user = $dbh->getUserByEmail($email);
-            $user = $user[0];
-            
+
             foreach ($cartItems['tickets'] as $ticket) {
                 $routeCodeResult = $dbh->getRouteCode($ticket['CodServizio']);
-                $actualCodPercorso = !empty($routeCodeResult) ? $routeCodeResult[0]['CodPercorso'] : null;
-                
+                $actualCodPercorso = !empty($routeCodeResult)
+                    ? $routeCodeResult[0]['CodPercorso']
+                    : null;
+
                 $dbh->insertTicket(
                     $email,
                     $_POST['name'],
@@ -50,8 +51,8 @@ if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
                     $ticket['OrarioPartenza'],
                     $ticket['Prezzo']
                 );
-            }  
-            
+            }
+
             foreach ($cartItems['subscriptions'] as $subscription) {
                 $dbh->insertSubscription(
                     $email,
@@ -67,13 +68,16 @@ if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
                     $subscription['Prezzo']
                 );
             }
+
+            $dbh->aggiornaSpesaCliente($email, $totalPrice);
+
         } else {
-            if (!isset($_POST['name']) || !isset($_POST['surname']) || !isset($_POST['email']) ||
-                !isset($_POST['cf']) || !isset($_POST['address']) || !isset($_POST['phone'])) {
+            if (!isset($_POST['name']) || !isset($_POST['surname']) || !isset($_POST['email']) || !isset($_POST['cf']) || !isset($_POST['address']) || !isset($_POST['phone'])) {
                 die("Missing required guest information");
             }
-            
-            $existingGuest = $dbh->getGuestByEmail($_POST['email']);
+
+            $guestEmail = $_POST['email'];
+            $existingGuest = $dbh->getGuestByEmail($guestEmail);
             if (empty($existingGuest)) {
                 $dbh->insertGuest(
                     $_POST['name'],
@@ -81,16 +85,18 @@ if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
                     $_POST['cf'],
                     $_POST['address'],
                     $_POST['phone'],
-                    $_POST['email']
+                    $guestEmail
                 );
             }
-            
+
             foreach ($cartItems['tickets'] as $ticket) {
                 $routeCodeResult = $dbh->getRouteCode($ticket['CodServizio']);
-                $actualCodPercorso = !empty($routeCodeResult) ? $routeCodeResult[0]['CodPercorso'] : null;
+                $actualCodPercorso = !empty($routeCodeResult)
+                    ? $routeCodeResult[0]['CodPercorso']
+                    : null;
 
                 $dbh->insertTicket(
-                    $_POST['email'],
+                    $guestEmail,
                     $_POST['name'],
                     $_POST['surname'],
                     $actualCodPercorso,
@@ -101,11 +107,11 @@ if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
                     $ticket['OrarioPartenza'],
                     $ticket['Prezzo']
                 );
-            }  
-            
+            }
+
             foreach ($cartItems['subscriptions'] as $subscription) {
                 $dbh->insertSubscription(
-                    $_POST['email'],
+                    $guestEmail,
                     $_POST['name'],
                     $_POST['surname'],
                     $subscription['CodPercorso'],
@@ -115,11 +121,18 @@ if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
                     $subscription['DataPartenza'],
                     $subscription['Durata'],
                     $subscription['Chilometraggio'],
-                    $subscription['Prezzo']            
+                    $subscription['Prezzo']
                 );
             }
+
+            $dbh->aggiornaSpesaCliente($guestEmail, $totalPrice);
         }
-        
+
+        $dbh->deleteCart(
+            isset($_SESSION['email']) ? $_SESSION['email'] : null,
+            session_id()
+        );
+
         header("Location: order.php");
         exit;
     }
