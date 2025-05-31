@@ -11,7 +11,7 @@ if (!isUserLoggedIn()) {
 $email = $_SESSION["email"];
 
 if (!$dbh->isClient($email)) {
-    header("Location: login.php");
+    header("Location: percorsi.php");
     exit;
 }
 
