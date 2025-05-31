@@ -161,6 +161,10 @@
         </div>
     </div>
 
-    <button type="submit" class="btn btn-success px-4">Salva Percorso e Stazioni</button>
+    <div class="d-flex justify-content-center mb-5">
+        <button type="submit" class="btn btn-success px-4">
+            Salva Percorso e Stazioni
+        </button>
+    </div>
 </form>
 
