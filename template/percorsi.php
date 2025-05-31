@@ -13,7 +13,6 @@
                     <th>Codice Treno</th>
                     <th>Durata (min)</th>
                     <th>Prezzo (€)</th>
-                    <th>Azioni</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,12 +22,6 @@
                         <td><?= htmlspecialchars($p['CodTreno']) ?></td>
                         <td><?= htmlspecialchars($p['TempoPercorrenza']) ?></td>
                         <td><?= number_format($p['Prezzo'], 2, ',', '.') ?></td>
-                        <td>
-                            <a href="dettaglio-percorso.php?cod=<?= urlencode($p['CodPercorso']) ?>"
-                               class="btn btn-sm btn-outline-primary">
-                                Dettagli
-                            </a>
-                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
