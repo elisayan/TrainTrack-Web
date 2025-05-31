@@ -9,11 +9,9 @@ $templateParams = [
     "total_price" => 0
 ];
 
-// Check if we have a recent purchase in session
 if (isset($_SESSION['last_purchase'])) {
     $templateParams["order_items"] = $_SESSION['last_purchase'];
     
-    // Calculate total price
     $totalPrice = 0;
     $subscriptionPrice = 0;
     $ticketPrice = 0;
@@ -28,7 +26,6 @@ if (isset($_SESSION['last_purchase'])) {
     $templateParams["subscription_price"] = $subscriptionPrice;
     $templateParams["total_price"] = $totalPrice;
     
-    // Clear the purchase from session so it doesn't show again on refresh
     unset($_SESSION['last_purchase']);
 }
 
