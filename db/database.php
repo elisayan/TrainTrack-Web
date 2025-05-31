@@ -766,13 +766,9 @@ AND (t.PostiTotali - (SELECT COUNT(*)
                 Ordine,
                 OrarioPartenzaPrevisto,
                 OrarioArrivoPrevisto,
-                OrarioArrivoReale,
-                OrarioPartenzaReale,
-                Binario,
-                StatoArrivo,
-                StatoPartenza
+                Binario
             ) VALUES (
-                ?, ?, CURDATE(), ?, ?, ?, ?, ?, ?, 'IN ATTESA', 'IN ATTESA'
+                ?, ?, CURDATE(), ?, ?, ?, ?
             )
         ";
         $stmt = $this->db->prepare($sql);
@@ -781,34 +777,37 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         }
 
         foreach ($codStazioni as $i => $codStazione) {
+            $ordine = (int) $ordini[$i];
+            $partenzaPrev = $orariPartenza[$i];
+            $arrivoPrev = $orariArrivo[$i];
+            $binarioInt = (int) $binari[$i];
+
             $stmt->bind_param(
-                "ssissssi",
+                "ssissi",
                 $codPercorso,
                 $codStazione,
-                (int) $ordini[$i],
-                $orariPartenza[$i],
-                $orariArrivo[$i],
-                $orariArrivo[$i],
-                $orariPartenza[$i],
-                (int) $binari[$i]
+                $ordine,
+                $partenzaPrev,
+                $arrivoPrev,
+                $binarioInt
             );
             if (!$stmt->execute()) {
+                $stmt->close();
                 return false;
             }
         }
 
+        $stmt->close();
         return true;
     }
 
     public function cambiaOrario($codPercorso, $codStazione, $nuovoPartenza, $nuovoArrivo)
     {
-        $sqlSel = "
-        SELECT OrarioPartenzaPrevisto, OrarioArrivoPrevisto
-          FROM Attraversato
-         WHERE CodPercorso = ? 
-           AND CodStazione = ?
-         LIMIT 1
-    ";
+        $sqlSel = "SELECT OrarioPartenzaPrevisto, OrarioArrivoPrevisto
+                    FROM Attraversato
+                    WHERE CodPercorso = ? 
+                    AND CodStazione = ?
+                    LIMIT 1";
         $stmtSel = $this->db->prepare($sqlSel);
         $stmtSel->bind_param('ss', $codPercorso, $codStazione);
         if (!$stmtSel->execute()) {
@@ -822,11 +821,9 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         $oldArrivo = $res['OrarioArrivoPrevisto'];
         $stmtSel->close();
 
-        $sqlUpd = "
-        UPDATE Attraversato
-           SET OrarioPartenzaPrevisto = ?, OrarioArrivoPrevisto = ?
-         WHERE CodPercorso = ? AND CodStazione = ?
-    ";
+        $sqlUpd = "UPDATE Attraversato
+                    SET OrarioPartenzaPrevisto = ?, OrarioArrivoPrevisto = ?
+                    WHERE CodPercorso = ? AND CodStazione = ?";
         $stmtUpd = $this->db->prepare($sqlUpd);
         $stmtUpd->bind_param('ssss', $nuovoPartenza, $nuovoArrivo, $codPercorso, $codStazione);
         if (!$stmtUpd->execute()) {

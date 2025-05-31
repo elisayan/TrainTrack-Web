@@ -31,11 +31,11 @@ create table Attraversato (
      Ordine int not null,
      OrarioPartenzaPrevisto time not null,
      OrarioArrivoPrevisto time not null,
-     OrarioArrivoReale time not null,
-     OrarioPartenzaReale time not null,
+     OrarioArrivoReale time,
+     OrarioPartenzaReale time,
      Binario int not null,
-     StatoArrivo varchar(50) not null,
-     StatoPartenza varchar(50) not null,
+     StatoArrivo varchar(50),
+     StatoPartenza varchar(50),
      constraint IDAttraversato primary key (CodStazione, CodPercorso, Data));
 
 create table BuonoSconto (
