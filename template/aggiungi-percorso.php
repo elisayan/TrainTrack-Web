@@ -142,13 +142,14 @@
                         <input type="number" class="form-control" name="binario[]" min="1" max="50" required>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Partenza</label>
-                        <input type="time" class="form-control" name="orario_partenza_previsto[]" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
                         <label class="form-label">Arrivo</label>
                         <input type="time" class="form-control" name="orario_arrivo_previsto[]" required>
                     </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Partenza</label>
+                        <input type="time" class="form-control" name="orario_partenza_previsto[]" required>
+                    </div>
+
                 </div>
             </template>
 
