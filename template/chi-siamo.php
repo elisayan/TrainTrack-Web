@@ -7,10 +7,10 @@
         <div class="card border-0 shadow-sm p-4 mb-4 bg-light rounded-3">
             <p class="lead text-center mb-4">
                 <strong class="text-gradient-primary">TrainTrack</strong> è la piattaforma innovativa che rivoluziona il
-                modo di viaggiare in treno in Italia,
-                combinando <span class="text-decoration-underline">semplicità</span>, <span
-                    class="text-decoration-underline">trasparenza</span>
-                e <span class="text-decoration-underline">tecnologia avanzata</span>.
+                modo di viaggiare in treno in Italia, combinando
+                <span class="text-decoration-underline">semplicità</span>,
+                <span class="text-decoration-underline">trasparenza</span> e
+                <span class="text-decoration-underline">tecnologia avanzata</span>.
             </p>
 
             <div class="row g-4 mb-4">
