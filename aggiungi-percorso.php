@@ -78,7 +78,10 @@ if (
                     $listaNomi = implode(', ', $nomiStazioni);
 
                     $testoNotifica = sprintf(
-                        "È stato registrato un nuovo percorso (Codice: %s). Stazioni attraversate: %s.",
+                        "Nuovo percorso registrato\n" .
+                        "Codice percorso: %s\n" .
+                        "Stazioni: %s\n" .
+                        "\nIl percorso è ora disponibile nel sistema.",
                         $codPercorso,
                         $listaNomi
                     );

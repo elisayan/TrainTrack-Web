@@ -5,21 +5,23 @@
         </div>
         <div class="card-body">
             <?php if (isset($templateParams["successo"])): ?>
-                <div class="alert alert-success">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <?= htmlspecialchars($templateParams["successo"]) ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
             <?php if (isset($templateParams["errore"])): ?>
-                <div class="alert alert-danger">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <?= htmlspecialchars($templateParams["errore"]) ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
 
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="cod_percorso" class="form-label">Codice Percorso</label>
-                    <input type="text" class="form-control" id="cod_percorso" name="cod_percorso"
-                           pattern="[A-Z0-9]{4}" required>
+                    <input type="text" class="form-control" id="cod_percorso" name="cod_percorso" pattern="[A-Z0-9]{4}"
+                        required>
                     <div class="invalid-feedback">
                         Inserire un codice valido (4 caratteri alfanumerici maiuscoli)
                     </div>
@@ -57,8 +59,8 @@
 
                 <div class="col-md-4 mb-3">
                     <label for="tempo_percorrenza" class="form-label">Durata (minuti)</label>
-                    <input type="number" class="form-control" id="tempo_percorrenza" name="tempo_percorrenza"
-                           min="10" max="600" required>
+                    <input type="number" class="form-control" id="tempo_percorrenza" name="tempo_percorrenza" min="10"
+                        max="600" required>
                     <div class="invalid-feedback">
                         Inserire un valore tra 10 e 600 minuti
                     </div>
@@ -66,8 +68,8 @@
 
                 <div class="col-md-4 mb-3">
                     <label for="prezzo" class="form-label">Prezzo (€)</label>
-                    <input type="number" step="0.01" class="form-control" id="prezzo" name="prezzo"
-                           min="1" max="200" required>
+                    <input type="number" step="0.01" class="form-control" id="prezzo" name="prezzo" min="1" max="200"
+                        required>
                     <div class="invalid-feedback">
                         Inserire un prezzo valido (1–200 €)
                     </div>
@@ -150,9 +152,10 @@
                 </div>
             </template>
 
-            <button type="button" class="btn btn-outline-primary mb-3" onclick="cloneStation()">
+            <button type="button" class="btn btn-outline-primary d-block mx-auto mb-3" onclick="cloneStation()">
                 Aggiungi Altra Stazione
             </button>
+
         </div>
     </div>
 
