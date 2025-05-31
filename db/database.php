@@ -1103,5 +1103,81 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         $stmt->close();
         return $ok;
     }
+
+    public function notificaAcquistoBiglietti($emailCliente, $quantita, $codPercorso, $nomePasseggero, $cognomePasseggero)
+    {
+        $descrizione = sprintf(
+            "Hai appena acquistato %d biglietti per il percorso %s per il passeggero %s %s",
+            $quantita,
+            $codPercorso,
+            $nomePasseggero,
+            $cognomePasseggero
+        );
+
+        $query = "INSERT INTO Notifica (Descrizione, CodPercorso) VALUES (?, ?)";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param('ss', $descrizione, $codPercorso);
+        if (!$stmt->execute()) {
+            $stmt->close();
+            return false;
+        }
+        $codNotifica = $this->db->insert_id;
+        $stmt->close();
+
+        $queryStato = "
+        INSERT INTO StatoNotifica (CodNotifica, Email, Letto)
+        VALUES (?, ?, FALSE)
+    ";
+        $stmtStato = $this->db->prepare($queryStato);
+        if (!$stmtStato) {
+            return false;
+        }
+        $stmtStato->bind_param('is', $codNotifica, $emailCliente);
+        $ok = $stmtStato->execute();
+        $stmtStato->close();
+
+        return $ok;
+    }
+
+    public function notificaAcquistoAbbonamento($emailCliente, $codPercorso, $durataAbbonamento, $nomePasseggero, $cognomePasseggero)
+    {
+        $descrizione = sprintf(
+            "Hai appena acquistato un abbonamento %s per il percorso %s per il passeggero %s %s",
+            $durataAbbonamento,
+            $codPercorso,
+            $nomePasseggero,
+            $cognomePasseggero
+        );
+
+        $query = "INSERT INTO Notifica (Descrizione, CodPercorso) VALUES (?, ?)";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param('ss', $descrizione, $codPercorso);
+        if (!$stmt->execute()) {
+            $stmt->close();
+            return false;
+        }
+        $codNotifica = $this->db->insert_id;
+        $stmt->close();
+
+        $queryStato = "
+        INSERT INTO StatoNotifica (CodNotifica, Email, Letto)
+        VALUES (?, ?, FALSE)
+    ";
+        $stmtStato = $this->db->prepare($queryStato);
+        if (!$stmtStato) {
+            return false;
+        }
+        $stmtStato->bind_param('is', $codNotifica, $emailCliente);
+        $ok = $stmtStato->execute();
+        $stmtStato->close();
+
+        return $ok;
+    }
 }
 ?>
