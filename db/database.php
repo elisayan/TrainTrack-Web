@@ -1014,7 +1014,6 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         if (!$stmt->execute()) {
             return false;
         }
-
     }
 
     public function getRouteCode($ServiceID)
@@ -1024,9 +1023,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
                   WHERE s.CodServizio = ?";
         $stmt = $this->db->prepare($query);
         if (!$stmt) {
-            // Handle prepare error, e.g., log it or throw an exception
             error_log("Prepare failed in getRouteCode: " . $this->db->error);
-            return []; // Return empty array or false on failure
+            return [];
         }
         $stmt->bind_param("i", $ServiceID);
         $stmt->execute();
@@ -1038,7 +1036,7 @@ AND (t.PostiTotali - (SELECT COUNT(*)
     {
         $codCarrello = $this->getCartId($email, $sessionId);
         if (!$codCarrello) {
-            return false; // No cart to delete
+            return false;
         }
 
         $stmt = $this->db->prepare("DELETE FROM DettaglioCarrello WHERE CodCarrello = ?");
@@ -1048,6 +1046,47 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         $stmt = $this->db->prepare("DELETE FROM Carrello WHERE CodCarrello = ?");
         $stmt->bind_param("i", $codCarrello);
         return $stmt->execute();
+    }
+
+    public function updateCartItemQuantity($codDettaglioCarrello, $newQuantity)
+    {
+        $stmt = $this->db->prepare(
+            "SELECT CodCarrello
+         FROM DettaglioCarrello
+         WHERE CodDettaglioCarrello = ?"
+        );
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param("i", $codDettaglioCarrello);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $stmt->close();
+
+        if (!$row || !isset($row['CodCarrello'])) {
+            return false;
+        }
+
+        $codCarrello = (int) $row['CodCarrello'];
+
+        $stmt2 = $this->db->prepare(
+            "UPDATE DettaglioCarrello
+         SET Quantità = ?
+         WHERE CodDettaglioCarrello = ?"
+        );
+        if (!$stmt2) {
+            return false;
+        }
+        $stmt2->bind_param("ii", $newQuantity, $codDettaglioCarrello);
+        $success = $stmt2->execute();
+        $stmt2->close();
+
+        if (!$success) {
+            return false;
+        }
+
+        return $this->updateCartTotal($codCarrello);
     }
 }
 ?>
