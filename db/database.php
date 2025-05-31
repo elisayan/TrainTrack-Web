@@ -703,6 +703,21 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getStazioneByCodice($codStazione)
+    {
+        $query = "SELECT CodStazione, Nome FROM Stazione WHERE CodStazione = ?";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            return null;
+        }
+        $stmt->bind_param('s', $codStazione);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $row = $res->fetch_assoc();
+        $stmt->close();
+        return $row ?: null;
+    }
+
     public function creaPercorso($codicePercorso, $codiceTreno, $email, $durata, $prezzo)
     {
         $query = "INSERT INTO Percorso

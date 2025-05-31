@@ -8,12 +8,11 @@ if (!isset($_SESSION["email"])) {
 
 $templateParams["titolo"] = "TrainTrack - Profilo Macchinista";
 $templateParams["nome"] = "template/profilo-macchinista.php";
-$templateParams["js"] = ['js/aggiungi-percorso.js'];
 $templateParams["azione"] = "template/aggiungi-percorso.php";
+$templateParams["js"] = ['js/aggiungi-percorso.js'];
 
 $email = $_SESSION["email"];
-$user = $dbh->getUserByEmail($email);
-$templateParams["user"] = $user;
+$templateParams["user"] = $dbh->getUserByEmail($email);
 $templateParams["treni"] = $dbh->getTreniDisponibili();
 $templateParams["stazioni"] = $dbh->getStazioniDisponibili();
 $templateParams["macchinisti"] = $dbh->getMacchinisti();
@@ -24,21 +23,16 @@ if (
     isset($_POST["email_macchinista"]) &&
     isset($_POST["tempo_percorrenza"]) &&
     isset($_POST["prezzo"]) &&
-    isset($_POST["cod_stazione"]) &&
-    is_array($_POST["cod_stazione"]) &&
-    isset($_POST["ordine"]) &&
-    is_array($_POST["ordine"]) &&
-    isset($_POST["binario"]) &&
-    is_array($_POST["binario"]) &&
-    isset($_POST["orario_partenza_previsto"]) &&
-    is_array($_POST["orario_partenza_previsto"]) &&
-    isset($_POST["orario_arrivo_previsto"]) &&
-    is_array($_POST["orario_arrivo_previsto"])
+    isset($_POST["cod_stazione"]) && is_array($_POST["cod_stazione"]) &&
+    isset($_POST["ordine"]) && is_array($_POST["ordine"]) &&
+    isset($_POST["binario"]) && is_array($_POST["binario"]) &&
+    isset($_POST["orario_partenza_previsto"]) && is_array($_POST["orario_partenza_previsto"]) &&
+    isset($_POST["orario_arrivo_previsto"]) && is_array($_POST["orario_arrivo_previsto"])
 ) {
     list($codTreno, $tipoTreno) = explode('|', $_POST['cod_treno']);
-
     $codPercorso = $_POST["cod_percorso"];
     $percorsoEsistente = $dbh->cercaPercorso($codPercorso);
+
     if (!empty($percorsoEsistente)) {
         $templateParams["errore"] = "Codice percorso già esistente";
     } else {
@@ -74,10 +68,24 @@ if (
                 );
 
                 if ($resultStazioni) {
-                    $testoNotifica = "È stato registrato un nuovo percorso Nel sistema (Codice: $codPercorso)";
+                    $nomiStazioni = [];
+                    foreach ($codStazioni as $codSt) {
+                        $row = $dbh->getStazioneByCodice($codSt);
+                        if ($row && isset($row['Nome'])) {
+                            $nomiStazioni[] = $row['Nome'];
+                        }
+                    }
+                    $listaNomi = implode(', ', $nomiStazioni);
+
+                    $testoNotifica = sprintf(
+                        "È stato registrato un nuovo percorso (Codice: %s). Stazioni attraversate: %s.",
+                        $codPercorso,
+                        $listaNomi
+                    );
+
                     $dbh->notificaNuovoPercorso($testoNotifica, $codPercorso);
 
-                    $templateParams["successo"] = "Percorso e stazioni aggiunti con successo!";
+                    $templateParams["successo"] = "Percorso e stazioni aggiunti con successo! Notifica inviata.";
                 } else {
                     $templateParams["errore"] = "Percorso creato, ma errore nell'inserimento delle stazioni";
                 }
@@ -89,4 +97,3 @@ if (
 }
 
 require 'template/base.php';
-?>
