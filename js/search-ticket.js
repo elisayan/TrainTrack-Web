@@ -1,4 +1,3 @@
-// Initialize date and time inputs with current values
 function initializeDateTime() {
     const today = new Date();
     const year = today.getFullYear();
@@ -11,7 +10,6 @@ function initializeDateTime() {
     document.getElementById('orario_partenza').value = `${hours}:${minutes}`;
 }
 
-// Update ticket quantity
 function updateTickets(inputId, change) {
     const input = document.getElementById(inputId);
     let value = parseInt(input.value) + change;
@@ -19,9 +17,7 @@ function updateTickets(inputId, change) {
     input.value = value;
 }
 
-// Search route from carousel click
 function searchRoute(departure, destination) {
-    // Get current date and time
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -29,12 +25,10 @@ function searchRoute(departure, destination) {
     const hours = String(today.getHours()).padStart(2, '0');
     const minutes = String(today.getMinutes()).padStart(2, '0');
 
-    // Create a form dynamically
     const form = document.createElement('form');
     form.method = 'GET';
     form.action = 'search-tickets-results.php';
     
-    // Add hidden inputs
     const addInput = (name, value) => {
         const input = document.createElement('input');
         input.type = 'hidden';
@@ -50,16 +44,13 @@ function searchRoute(departure, destination) {
     addInput('numero_biglietti_adulti', '1');
     addInput('numero_biglietti_bambini', '0');
     
-    // Submit the form
     document.body.appendChild(form);
     form.submit();
 }
 
-// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     initializeDateTime();
     
-    // Add hover effects to route cards
     const routeCards = document.querySelectorAll('.route-card');
     routeCards.forEach(card => {
         card.addEventListener('mouseenter', function() {

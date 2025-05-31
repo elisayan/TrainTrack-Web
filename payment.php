@@ -26,7 +26,6 @@ if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
     $templateParams["total_price"] = $totalPrice;
 
     if(isset($_POST['confirm_payment'])) {
-        // Store purchased services in session
         $_SESSION['last_purchase'] = $cartItems;
         $_SESSION['name'] = $_POST['name'] ?? '';
         $_SESSION['surname'] = $_POST['surname'] ?? '';
@@ -121,9 +120,6 @@ if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
             }
         }
         
-        
-        
-        // Redirect to order page
         header("Location: order.php");
         exit;
     }
