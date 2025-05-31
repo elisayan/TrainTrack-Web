@@ -44,7 +44,8 @@
         <div class="col-6 col-md-3 mb-5">
             <a href="ordini.php" class="card-link">
                 <div class="card h-100 shadow hover-effect">
-                    <img src="./img/path.png" class="card-img-top p-3 img-card-custom" alt="Ordini">
+                    <img src="./img/<?= htmlspecialchars($templateParams['cardImage']) ?>"
+                        class="card-img-top p-3 img-card-custom"  alt="Percorsi">
                     <div class="card-body">
                         <h5 class="card-title">Percorsi</h5>
                         <p class="text-muted small">Visualizza i tuoi percorsi</p>
