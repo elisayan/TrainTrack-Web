@@ -69,7 +69,7 @@ INSERT INTO TipoAbbonamento (Durata, Chilometraggio, Prezzo) VALUES
 
 
 -- Add some notifications
-INSERT INTO Notifica ( Descrizione, CodPercorso) VALUES
+INSERT INTO Notifica (Descrizione, CodPercorso) VALUES
 ('Benvenuto su TrainTrack!', 'PR001');
 
 
