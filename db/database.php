@@ -951,6 +951,70 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         return $stmtBuono->execute();
     }
 
+    public function checkAvailableForCoupon($emailUtente)
+    {
+        $query = "SELECT SpesaTotale, UltimaSpesaCoupon
+                FROM Persona
+                WHERE Email = ?
+                AND TipoPersona = 'cliente'";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param('s', $emailUtente);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $row = $res->fetch_assoc();
+        $stmt->close();
+
+        if (!$row) {
+            return false;
+        }
+
+        $spesaTotale = floatval($row['SpesaTotale']);
+        $ultimaSpesaCoupon = intval($row['UltimaSpesaCoupon']);
+
+        $soglieRaggiunte = floor($spesaTotale / 100);
+        $sogliePrecedenti = floor($ultimaSpesaCoupon / 100);
+        $nuoveSoglie = $soglieRaggiunte - $sogliePrecedenti;
+
+        if ($nuoveSoglie <= 0) {
+            return true;
+        }
+
+        $insertCouponQuery = "INSERT INTO BuonoSconto (Importo, DataInizioValidita, DataScadenza, Email)
+                                VALUES (?, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 30 DAY), ?)";
+        $stmtIns = $this->db->prepare($insertCouponQuery);
+        if (!$stmtIns) {
+            return false;
+        }
+
+        $importoCoupon = 10.00;
+        for ($i = 0; $i < $nuoveSoglie; $i++) {
+            $stmtIns->bind_param('ds', $importoCoupon, $emailUtente);
+            if (!$stmtIns->execute()) {
+                $stmtIns->close();
+                return false;
+            }
+        }
+        $stmtIns->close();
+
+        $nuovaUltima = $soglieRaggiunte * 100;
+        $updateQuery = "UPDATE Persona
+                        SET UltimaSpesaCoupon = ?
+                        WHERE Email = ?
+                        AND TipoPersona = 'cliente'";
+                        $stmtUpd = $this->db->prepare($updateQuery);
+        if (!$stmtUpd) {
+            return false;
+        }
+        $stmtUpd->bind_param('is', $nuovaUltima, $emailUtente);
+        $ok = $stmtUpd->execute();
+        $stmtUpd->close();
+
+        return $ok;
+    }
+
     public function insertTicket($email, $nomePasseggero, $cognomePasseggero, $codPercorso, $stazionePartenza, $stazioneArrivo, $tipoTreno, $dataPartenza, $orarioPartenza, $prezzo)
     {
         $query = "INSERT INTO Servizio (email, NomePasseggero, CognomePasseggero, CodPercorso, StazionePartenza, StazioneArrivo, TipoTreno, DataPartenza, OrarioPartenza, Prezzo)

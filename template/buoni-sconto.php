@@ -111,7 +111,7 @@
         <h4 class="mb-3">Termini e condizioni</h4>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">• Ottieni un buono sconto da €10 ogni €100 di spesa</li>
-            <li class="list-group-item">• I buoni sconto scadono dopo 6 mesi dall'emissione</li>
+            <li class="list-group-item">• I buoni sconto hanno validità 30 giorni dall'emissione</li>
         </ul>
     </div>
 </div>

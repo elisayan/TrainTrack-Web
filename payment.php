@@ -90,6 +90,7 @@ if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
                 );
             }
             $dbh->aggiornaSpesaCliente($emailUtente, $totalPrice);
+            $dbh->checkAvailableForCoupon($emailUtente);
 
         } else {
             if (
@@ -157,8 +158,6 @@ if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
                     $subscription['Prezzo']
                 );
             }
-
-            $dbh->aggiornaSpesaCliente($guestEmail, $totalPrice);
         }
 
         header("Location: order.php");
