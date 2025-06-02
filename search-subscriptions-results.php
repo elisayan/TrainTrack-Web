@@ -29,7 +29,7 @@ if(isset($_GET["departure-station"]) && isset($_GET["destination-station"]) && i
 
 }
 else{
-    $templateParams["titolo"] = "Abbonamento non trovato"; 
+    $templateParams["titolo"] = "TrainTrack - Abbonamento non trovato"; 
     $templateParams["abbonamenti"] = array(); 
     $templateParams["errore_ricerca_abbonamento"] = "Abbonamento non trovato";
     $templateParams["nome"] = "template/search-subscription-home.php";

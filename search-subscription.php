@@ -16,7 +16,7 @@ if(isset($_GET["departure-station"]) && isset($_GET["destination-station"]) && i
     }
 } 
 
-$templateParams["titolo"] = "Ricerca Abbonamento";
+$templateParams["titolo"] = "TrainTrack - Ricerca Abbonamento";
 $templateParams["nome"] = "template/search-subscription-home.php";
 $templateParams["nome_stazioni"] = $dbh->getStations();
 $templateParams["durate"] = $dbh->getDurations();

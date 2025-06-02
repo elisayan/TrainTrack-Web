@@ -3,7 +3,7 @@ require_once 'bootstrap.php';
 
 $templateParams = [
     "nome" => "template/checkout.php",
-    "titolo" => "Checkout",
+    "titolo" => "TrainTrack - Checkout",
     "cart_items" => [],
     "total_price" => 0,
     "user_logged_in" => isset($_SESSION['email'])
