@@ -2,8 +2,8 @@
 require_once 'bootstrap.php';
 
 $templateParams = [
-    "nome"           => "template/payment.php", 
-    "titolo"         => "Pagamento",
+    "nome"           => "template/payment.php",
+    "titolo"         => "TrainTrack - Pagamento",
     "user_logged_in" => isset($_SESSION['email']),
     "total_price"    => 0,
 ];

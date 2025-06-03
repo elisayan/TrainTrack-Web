@@ -1,14 +1,9 @@
 <?php
-
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 require_once 'bootstrap.php';
-
 
 $templateParams = [
     "nome" => "template/cart.php",
-    "titolo" => "Carrello",
+    "titolo" => "TrainTrack - Carrello",
     "errorecarrello" => "Il tuo carrello è vuoto",
     "cart_items" => [],
     "total_price" => 0,
@@ -31,9 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $dbh->updateCartItemQuantity($_POST['item_id'], $newQuantity);
         header("Location: cart.php");
         exit();
-        
+
     } elseif (isset($_POST['ticket_id']) || isset($_POST['subscription_id'])) {
-        
+
         if (isset($_POST['ticket_id'])) {
             $dbh->addToCart(
                 $_POST['ticket_id'],
@@ -49,12 +44,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 session_id()
             );
         }
-        
+
         header("Location: cart.php");
         exit();
     }
 }
 
+if (isset($_POST['apply_discount']) && isset($_POST['discount_code'])) {
+    $codice = intval($_POST['discount_code']);
+    $email = $_SESSION['email'] ?? null;
+
+    if ($email) {
+        $buono = $dbh->verificaBuonoSconto($codice, $email);
+        if ($buono !== null) {
+            $nuovoTotale = $dbh->applicaScontoAlCarrello($buono["Importo"], $email);
+            if ($nuovoTotale !== false) {
+                $codServizio = $dbh->getPrimoServizioNelCarrello($email);
+                if ($codServizio !== null) {
+                    $dbh->segnaBuonoComeUtilizzato($codice, $codServizio);
+
+                    $templateParams["discount_success"] = true;
+                    $templateParams["discount_message"] = "Buono sconto applicato correttamente.";
+                    $templateParams["discount_amount"] = $buono["Importo"];
+                    $templateParams["discounted_total"] = $nuovoTotale;
+                } else {
+                    $templateParams["discount_success"] = false;
+                    $templateParams["discount_message"] = "Errore: nessun servizio trovato nel carrello.";
+                }
+            } else {
+                $templateParams["discount_success"] = false;
+                $templateParams["discount_message"] = "Errore nell'applicazione dello sconto al carrello.";
+            }
+        } else {
+            $templateParams["discount_success"] = false;
+            $templateParams["discount_message"] = "Codice non valido, scaduto o già usato.";
+        }
+    } else {
+        $templateParams["discount_success"] = false;
+        $templateParams["discount_message"] = "Devi essere loggato per usare un buono sconto.";
+    }
+}
 
 $cartItems = $dbh->getCartItems(
     isset($_SESSION['email']) ? $_SESSION['email'] : null,
@@ -65,8 +94,7 @@ $cartItems = $dbh->getCartItems(
 if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
     $templateParams["errorecarrello"] = "";
     $templateParams["cart_items"] = $cartItems;
-    
-    
+
     $totalPrice = 0;
     foreach ($cartItems['tickets'] as $ticket) {
         $totalPrice += $ticket['Prezzo'] * $ticket['Quantità'];

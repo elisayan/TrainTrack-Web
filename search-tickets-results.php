@@ -29,7 +29,7 @@ if(isset($_GET["stazione_partenza"]) && isset($_GET["stazione_arrivo"]) && isset
 
 }
 else{
-    $templateParams["titolo"] = "Biglietto non trovato"; 
+    $templateParams["titolo"] = "TrainTrack - Biglietto non trovato"; 
     $templateParams["biglietti"] = array(); 
     $templateParams["errore_ricerca_biglietto"] = "Biglietto non trovato";
     $templateParams["nome"] = "template/search-ticket-home.php";
