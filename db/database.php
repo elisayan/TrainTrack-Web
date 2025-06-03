@@ -1004,7 +1004,7 @@ AND (t.PostiTotali - (SELECT COUNT(*)
                         SET UltimaSpesaCoupon = ?
                         WHERE Email = ?
                         AND TipoPersona = 'cliente'";
-                        $stmtUpd = $this->db->prepare($updateQuery);
+        $stmtUpd = $this->db->prepare($updateQuery);
         if (!$stmtUpd) {
             return false;
         }
@@ -1229,10 +1229,8 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         $codNotifica = $this->db->insert_id;
         $stmt->close();
 
-        $queryStato = "
-        INSERT INTO StatoNotifica (CodNotifica, Email, Letto)
-        VALUES (?, ?, FALSE)
-    ";
+        $queryStato = "INSERT INTO StatoNotifica (CodNotifica, Email, Letto)
+                        VALUES (?, ?, FALSE)";
         $stmtStato = $this->db->prepare($queryStato);
         if (!$stmtStato) {
             return false;
@@ -1242,6 +1240,99 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         $stmtStato->close();
 
         return $ok;
+    }
+
+    public function verificaBuonoSconto($codice, $email)
+    {
+        $stmt = $this->db->prepare("SELECT * 
+                                            FROM BuonoSconto
+                                            WHERE CodBuonoSconto = ?
+                                            AND Email = ?
+                                            AND CURDATE() BETWEEN DataInizioValidita AND DataScadenza
+                                            AND CodBuonoSconto NOT IN (SELECT CodBuonoSconto 
+                                                                        FROM Utilizzo)");
+        $stmt->bind_param("is", $codice, $email);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        return $res->num_rows > 0 ? $res->fetch_assoc() : null;
+    }
+
+    public function applicaScontoAlCarrello($importoSconto, $email)
+    {
+        $stmt = $this->db->prepare("SELECT CodCarrello, PrezzoTotale 
+                                            FROM Carrello 
+                                            WHERE Email = ? 
+                                            ORDER BY CodCarrello 
+                                            DESC LIMIT 1");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        if ($res->num_rows > 0) {
+            $carrello = $res->fetch_assoc();
+            $codCarrello = $carrello["CodCarrello"];
+            $nuovoTotale = max(0, $carrello["PrezzoTotale"] - $importoSconto);
+
+            $update = $this->db->prepare("UPDATE Carrello 
+                                                    SET PrezzoTotale = ? 
+                                                    WHERE CodCarrello = ?");
+            $update->bind_param("di", $nuovoTotale, $codCarrello);
+            $update->execute();
+
+            return $nuovoTotale;
+        }
+        return false;
+    }
+
+    public function getPrimoServizioNelCarrello($email)
+    {
+        $stmt = $this->db->prepare("SELECT dc.CodServizio
+                                            FROM Carrello c
+                                            JOIN DettaglioCarrello dc ON c.CodCarrello = dc.CodCarrello
+                                            WHERE c.Email = ?
+                                            ORDER BY c.CodCarrello DESC, dc.CodDettaglioCarrello ASC
+                                            LIMIT 1");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        if ($res->num_rows > 0) {
+            return $res->fetch_assoc()["CodServizio"];
+        }
+        return null;
+    }
+
+    public function segnaBuonoComeUtilizzato($codiceBuono, $codServizio)
+    {
+        $oggi = date('Y-m-d');
+        $stmt = $this->db->prepare("INSERT INTO Utilizzo (CodBuonoSconto, CodServizio, Data)
+                                            VALUES (?, ?, ?)");
+        $stmt->bind_param("iis", $codiceBuono, $codServizio, $oggi);
+        return $stmt->execute();
+    }
+
+    public function getPrezzoTotaleCarrello($email = null, $sessionId)
+    {
+        if ($email !== null) {
+            $stmt = $this->db->prepare("SELECT PrezzoTotale 
+                                                FROM Carrello 
+                                                WHERE Email = ? 
+                                                ORDER BY CodCarrello DESC 
+                                                LIMIT 1");
+            $stmt->bind_param("s", $email);
+        } else {
+            $stmt = $this->db->prepare("SELECT PrezzoTotale 
+                                                FROM Carrello 
+                                                WHERE SessionID = ? 
+                                                ORDER BY CodCarrello DESC 
+                                                LIMIT 1");
+            $stmt->bind_param("s", $sessionId);
+        }
+
+        $stmt->execute();
+        $res = $stmt->get_result();
+        if ($res->num_rows > 0) {
+            return $res->fetch_assoc()["PrezzoTotale"];
+        }
+        return 0;
     }
 }
 ?>
