@@ -38,7 +38,7 @@
                                 <form method="post" class="quantity-form">
                                     <input type="hidden" name="item_id" value="<?php echo $ticket['CodDettaglioCarrello']; ?>">
                                     <label for="quantity">Quantità:</label>
-                                    <input type="number" name="quantity" value="<?php echo $ticket['Quantità']; ?>" min="1"
+                                    <input type="number" name="quantity" id="quantity" value="<?php echo $ticket['Quantità']; ?>" min="1"
                                         max="10">
                                     <button type="submit" name="update_quantity"
                                         class="btn btn-sm btn-outline-secondary">Aggiorna</button>
@@ -83,7 +83,7 @@
                                     <input type="hidden" name="item_id"
                                         value="<?php echo $subscription['CodDettaglioCarrello']; ?>">
                                     <label for="quantity">Quantità:</label>
-                                    <input type="number" name="quantity" value="<?php echo $subscription['Quantità']; ?>" min="1"
+                                    <input type="number" name="quantity" id="quantity" value="<?php echo $subscription['Quantità']; ?>" min="1"
                                         max="10">
                                     <button type="submit" name="update_quantity"
                                         class="btn btn-sm btn-outline-secondary">Aggiorna</button>
