@@ -21,11 +21,17 @@ if (isset($_SESSION['last_purchase'])) {
     foreach ($_SESSION['last_purchase']['subscriptions'] as $subscription) {
         $subscriptionPrice += $subscription['Prezzo'] * $subscription['Quantità'];
     }
-    $totalPrice = $ticketPrice + $subscriptionPrice;
+
     $templateParams["ticket_price"] = $ticketPrice; 
     $templateParams["subscription_price"] = $subscriptionPrice;
-    $templateParams["total_price"] = $totalPrice;
-    
+
+    if (isset($_SESSION["prezzo_finale"])) {
+        $templateParams["total_price"] = $_SESSION["prezzo_finale"];
+        unset($_SESSION["prezzo_finale"]);
+    } else {
+        $templateParams["total_price"] = $ticketPrice + $subscriptionPrice;
+    }
+
     unset($_SESSION['last_purchase']);
     
 }
