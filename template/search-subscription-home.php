@@ -71,7 +71,7 @@
                         <div class="card sub-card shadow" onclick="searchSub('Bologna Centrale', 'Forlì', 'Intercity', 'Settimanale')">
                             <div class="card-body">
                                 <h3 class="route-title">Bologna Centrale → Forlì</h3>
-                                <p class="route-description">Treno Intercity e Regionale</p>
+                                <p class="route-description">Treno Intercity durata settimanale</p>
                             </div>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
                         <div class="card sub-card shadow" onclick="searchSub('Piacenza', 'Parma', 'Frecciarossa', 'Mensile')">
                             <div class="card-body">
                                 <h3 class="route-title">Piacenza → Parma</h3>
-                                <p class="route-description">Treno Frecciarossa e Regionale</p>
+                                <p class="route-description">Treno Frecciarossa durata mensile</p>
                             </div>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                         <div class="card sub-card shadow" onclick="searchSub('Bologna Centrale', 'Ravenna', 'Regionale', 'Annuale')">
                             <div class="card-body">
                                 <h3 class="route-title">Bologna Centrale → Ravenna</h3>
-                                <p class="route-description">Treno Intercity e Regionale</p>
+                                <p class="route-description">Treno Regionale durata annuale</p>
                             </div>
                         </div>
                     </div>
