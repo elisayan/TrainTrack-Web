@@ -13,7 +13,10 @@ $cartItems = $dbh->getCartItems(
     session_id()
 );
 
-if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
+if (isset($_SESSION["prezzo_finale"])) {
+    $templateParams["total_price"] = $_SESSION["prezzo_finale"];
+    $totalPrice = $_SESSION["prezzo_finale"];
+} else if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
     $templateParams["cart_items"] = $cartItems; 
     $totalPrice = 0;
     foreach ($cartItems['tickets'] as $ticket) {
@@ -36,7 +39,10 @@ if (isset($_POST['proceed_to_payment_details'])) {
         $_SESSION['passenger_details_for_payment']['address'] = $_POST['address'] ?? '';
         $_SESSION['passenger_details_for_payment']['phone']   = $_POST['phone']   ?? '';
     }
+
+    var_dump("proceed to payment details");
 }
+
 else if (isset($_POST['confirm_actual_payment'])) { 
     $passengerData = $_SESSION['passenger_details_for_payment'] ?? null;
 
@@ -45,8 +51,12 @@ else if (isset($_POST['confirm_actual_payment'])) {
     }
 
     $_SESSION['last_purchase'] = $cartItems;
+    var_dump("enter if");
+
 
     if (isset($_SESSION['email'])) { 
+        var_dump($totalPrice);
+
         $emailUtente = $_SESSION["email"];
         $nomePas     = $passengerData['name'];
         $cognPas     = $passengerData['surname'];
@@ -78,6 +88,7 @@ else if (isset($_POST['confirm_actual_payment'])) {
             );
         }
         $dbh->aggiornaSpesaCliente($emailUtente, $totalPrice); 
+
         $dbh->checkAvailableForCoupon($emailUtente);
 
     } else { 
@@ -121,7 +132,6 @@ else if (isset($_POST['confirm_actual_payment'])) {
             );
         }
     }
-   
 
     header("Location: order.php");
     exit;

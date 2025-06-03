@@ -8,13 +8,12 @@
                     <div class="form-group">
                         <label for="name">Nome</label>
                         <input type="text" class="form-control" id="name" name="name"
-                            value="<?php $templateParams["user_logged_in"] ? $user[0]["Nome"] : ""; ?>" required>
+                            value="<?php echo $templateParams["user_logged_in"] ? $user[0]["Nome"] : ""; ?>" required>
                     </div>
                     <div class="form-group">
                         <label for="surname">Cognome</label>
                         <input type="text" class="form-control" id="surname" name="surname"
-                            value="<?php $templateParams["user_logged_in"] ? $user[0]["Cognome"] : ""; ?>" required>
-
+                             value="<?php echo $templateParams["user_logged_in"] ? $user[0]["Cognome"] : ""; ?>" required>
                     </div>
                     <?php if (!$templateParams["user_logged_in"]): ?>
                         <div class="form-group">
@@ -43,11 +42,21 @@
         <div class="col-12 col-md-6">
             <div class="card shadow p-4 cart-summary">
                 <h3>Riepilogo Ordine</h3>
-                <div class="summary-row">
-                    <span>Totale:</span>
-                    <span class="price"><?php echo number_format($templateParams["total_price"], 2); ?>€</span>
-                </div>
-
+                <?php if (isset($templateParams["discounted_total"])): ?>
+                    <div class="summary-row text-success">
+                        <span>Totale scontato:</span>
+                        <span class="price"><?php echo number_format($templateParams["discounted_total"], 2); ?>€</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Totale originale:</span>
+                        <span class="price text-decoration-line-through"><?php echo number_format($templateParams["total_price"], 2); ?>€</span>
+                    </div>
+                <?php else: ?>
+                    <div class="summary-row">
+                        <span>Totale:</span>
+                        <span class="price"><?php echo number_format($templateParams["total_price"], 2); ?>€</span>
+                    </div>
+                <?php endif; ?>
                 <button type="submit" class="checkout-btn" name="proceed_to_payment_details">
                     <?php echo $templateParams["user_logged_in"] ? 'Procedi al pagamento' : 'Paga come ospite'; ?>
                 </button>

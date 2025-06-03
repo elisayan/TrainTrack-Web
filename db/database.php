@@ -1149,6 +1149,9 @@ AND (t.PostiTotali - (SELECT COUNT(*)
 
     public function aggiornaSpesaCliente($email, $amount)
     {
+
+        var_dump($amount);
+
         $query = "UPDATE Persona
                     SET SpesaTotale = SpesaTotale + ?
                     WHERE Email = ?";
