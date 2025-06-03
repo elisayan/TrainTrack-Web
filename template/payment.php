@@ -26,13 +26,14 @@
                         <div class="row">
 
                             <div class="col-8">
-                                <div class="row">
-                                    <label for="expiry-date">Data di Scadenza</label>
+                                <div class="row">                                    
                                     <div class="col-4 form-group">
-                                        <input type="text" class="form-control" id="expiry-month" name="expiry-date" placeholder="MM" required>
+                                    <label for="expiry-month">Mese</label>
+                                        <input type="text" class="form-control" id="expiry-month" name="expiry-month" placeholder="MM" required>
                                     </div>
                                     <div class="col-8 form-group">
-                                        <input type="text" class="form-control" id="expiry-year" name="expiry-date" placeholder="YYYY" required>
+                                        <label for="expiry-month">Anno</label>
+                                        <input type="text" class="form-control" id="expiry-year" name="expiry-year" placeholder="YYYY" required>
                                     </div>
                                 </div>
                             </div>
