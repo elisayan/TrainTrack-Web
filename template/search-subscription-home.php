@@ -24,7 +24,7 @@
                     <div class="col-md-12 col-lg-6">
                         <label class="station sub" for="destination-station">Arrivo:</label>
                         <input class="form-control" list="datalistStation" id="destination-station" name="destination-station" required />
-                            <datalist id="datalistStation">
+                            <datalist>
                                 <?php foreach($templateParams["nome_stazioni"] as $stazione): ?>
                                 <option value="<?php echo $stazione["nome_stazioni"]; ?>">
                                 <?php endforeach; ?>
@@ -95,13 +95,13 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div><!-- 
                 <a class="carousel-control-prev" href="#popularSubsCarousel" role="button" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 </a>
                 <a class="carousel-control-next" href="#popularSubsCarousel" role="button" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                </a>
+                </a> -->
             </div>
         </div>
 </section>

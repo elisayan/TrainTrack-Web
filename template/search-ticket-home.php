@@ -131,12 +131,12 @@
                         </div>
                     </div>
                 </div>
-                <a class="carousel-control-prev" href="#popularRoutesCarousel" role="button" data-bs-slide="prev">
+                <!-- <a class="carousel-control-prev" href="#popularRoutesCarousel" role="button" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 </a>
                 <a class="carousel-control-next" href="#popularRoutesCarousel" role="button" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                </a>
+                </a> -->
             </div>
         </div>
     </div>
