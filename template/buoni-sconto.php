@@ -107,6 +107,10 @@
         <?php endforeach; ?>
     </div>
 
+    <div class="mt-4 mb-4 text-center">
+        <a href="profilo-cliente.php" class="btn btn-primary">Torna al Profilo</a>
+    </div>
+
     <div class="pt-4 mb-4">
         <h4 class="mb-3">Termini e condizioni</h4>
         <ul class="list-group list-group-flush">
