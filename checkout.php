@@ -14,22 +14,26 @@ $cartItems = $dbh->getCartItems(
     session_id()
 );
 
-if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
-    $templateParams["cart_items"] = $cartItems;
+// if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
+//     $templateParams["cart_items"] = $cartItems;
     
     
-    $totalPrice = 0;
-    foreach ($cartItems['tickets'] as $ticket) {
-        $totalPrice += $ticket['Prezzo'] * $ticket['Quantità'];
-    }
-    foreach ($cartItems['subscriptions'] as $subscription) {
-        $totalPrice += $subscription['Prezzo'] * $subscription['Quantità'];
-    }
-    $templateParams["total_price"] = $totalPrice;
-}
+//     $totalPrice = 0;
+//     foreach ($cartItems['tickets'] as $ticket) {
+//         $totalPrice += $ticket['Prezzo'] * $ticket['Quantità'];
+//     }
+//     foreach ($cartItems['subscriptions'] as $subscription) {
+//         $totalPrice += $subscription['Prezzo'] * $subscription['Quantità'];
+//     }
+//     $templateParams["total_price"] = $totalPrice;
+// }
 
+$templateParams["total_price"] = $dbh->getPrezzoTotaleCarrello(
+    $templateParams["user_logged_in"] ? $_SESSION['email'] : null,
+    session_id()
+);
 
-if(isset($_SESSION['email'])) {
+if (isset($_SESSION['email'])) {
     $email = $_SESSION["email"];
     $user = $dbh->getUserByEmail($email);
 }
