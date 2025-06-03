@@ -103,7 +103,7 @@
                 <div class="carousel-inner">
             <!-- Popular Route 1 -->
                     <div class="carousel-item active">
-                        <div class="card route-card shadow" onclick="searchRoute('Bologna Centrale', 'Forlì')">
+                        <div class="card route-card shadow" onclick="searchRoute('Bologna Centrale', 'Forlì')" role="button">
                             <div class="card-body">
                                 <h3 class="route-title">Bologna Centrale → Forlì</h3>
                                 <p class="route-description">Treno Intercity e Regionale</p>
@@ -113,7 +113,7 @@
             
             <!-- Popular Route 2 -->
                     <div class="carousel-item">
-                        <div class="card route-card shadow" onclick="searchRoute('Piacenza', 'Parma')">
+                        <div class="card route-card shadow" onclick="searchRoute('Piacenza', 'Parma')" role="button">
                             <div class="card-body">
                                 <h3 class="route-title">Piacenza → Parma</h3>
                                 <p class="route-description">Treno Frecciarossa e Regionale</p>
@@ -123,7 +123,7 @@
             
             <!-- Popular Route 3 -->
                     <div class="carousel-item">
-                        <div class="card route-card shadow" onclick="searchRoute('Bologna Centrale', 'Ravenna')">
+                        <div class="card route-card shadow" onclick="searchRoute('Bologna Centrale', 'Ravenna')" role="button">
                             <div class="card-body">
                                 <h3 class="route-title">Bologna Centrale → Ravenna</h3>
                                 <p class="route-description">Treno Intercity e Regionale</p>

@@ -68,7 +68,7 @@
                 <div class="carousel-inner">
             <!-- Popular Route 1 -->
                     <div class="carousel-item active">
-                        <div class="card sub-card shadow" onclick="searchSub('Bologna Centrale', 'Forlì', 'Intercity', 'Settimanale')">
+                        <div class="card sub-card shadow" onclick="searchSub('Bologna Centrale', 'Forlì', 'Intercity', 'Settimanale')" role="button">
                             <div class="card-body">
                                 <h3 class="route-title">Bologna Centrale → Forlì</h3>
                                 <p class="route-description">Treno Intercity durata settimanale</p>
@@ -78,7 +78,7 @@
             
             <!-- Popular Route 2 -->
                     <div class="carousel-item">
-                        <div class="card sub-card shadow" onclick="searchSub('Piacenza', 'Parma', 'Frecciarossa', 'Mensile')">
+                        <div class="card sub-card shadow" onclick="searchSub('Piacenza', 'Parma', 'Frecciarossa', 'Mensile')" role="button">
                             <div class="card-body">
                                 <h3 class="route-title">Piacenza → Parma</h3>
                                 <p class="route-description">Treno Frecciarossa durata mensile</p>
@@ -88,7 +88,7 @@
             
             <!-- Popular Route 3 -->
                     <div class="carousel-item">
-                        <div class="card sub-card shadow" onclick="searchSub('Bologna Centrale', 'Ravenna', 'Regionale', 'Annuale')">
+                        <div class="card sub-card shadow" onclick="searchSub('Bologna Centrale', 'Ravenna', 'Regionale', 'Annuale')" role="button">
                             <div class="card-body">
                                 <h3 class="route-title">Bologna Centrale → Ravenna</h3>
                                 <p class="route-description">Treno Regionale durata annuale</p>
