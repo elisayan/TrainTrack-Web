@@ -19,11 +19,11 @@
 
     <nav>
         <ul>
-            <li><a href="home.php"><img src="./img/home.png" alt="Home"><span>Home</span></a></li>
+            <li><a href="home.php"><img src="./img/home.png" alt=""><span>Home</span></a></li>
             
             <?php if (isUserLoggedIn()): ?>
                 <li class="dropdown">
-                    <a href="#" class="dropbtn"><img src="./img/user.png" alt="utente"><span>Utente ▾</span></a>
+                    <a href="#" class="dropbtn"><img src="./img/user.png" alt=""><span>Utente ▾</span></a>
                     <div class="dropdown-content">
                         <a href="login.php">Profilo</a>
                         <a href="logout.php">Logout</a>
@@ -33,7 +33,7 @@
                 <li><a href="login.php"><img src="./img/user.png" alt="utente"><span>Utente</span></a></li>
             <?php endif; ?>
             
-            <li><a href="cart.php"><img src="./img/cart.png" alt="carrello"><span>Carrello</span></a></li>
+            <li><a href="cart.php"><img src="./img/cart.png" alt=""><span>Carrello</span></a></li>
         </ul>
     </nav>
 
