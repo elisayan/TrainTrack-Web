@@ -8,7 +8,7 @@
             return strcmp($b['CodServizio'], $a['CodServizio']);
         });
         ?>
-        <div class="table-responsive">
+        <div class="table-responsive" tabindex="0">
             <table class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
@@ -56,7 +56,7 @@
             return strcmp($b['CodServizio'], $a['CodServizio']);
         });
         ?>
-        <div class="table-responsive">
+        <div class="table-responsive" tabindex="0">
             <table class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
