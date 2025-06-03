@@ -11,12 +11,13 @@
 </head>
 
 <body>
-    <div class="col-12 text-center header-intro">
-        <h2 class="display-4 mb-3">
-            <a href="home.php" class="logo-link">TrainTrack</a>
-        </h2>
-    </div>
-
+    <header>
+        <div class="col-12 text-center header-intro">
+            <h2 class="display-4 mb-3">
+                <a href="home.php" class="logo-link">TrainTrack</a>
+            </h2>
+        </div>
+    </header>
     <nav>
         <ul>
             <li><a href="home.php"><img src="./img/home.png" alt=""><span>Home</span></a></li>
