@@ -50,7 +50,7 @@
                         <span class="price"><?php echo number_format($templateParams["total_price"], 2); ?>€</span>
                     </div>
                     
-                    <button type="submit" class="checkout-btn" name="confirm_payment">
+                    <button type="submit" class="checkout-btn" name="proceed_to_payment_details">
                         <?php echo $templateParams["user_logged_in"] ? 'Procedi al pagamento' : 'Paga come ospite'; ?>
                     </button>
                 </form>

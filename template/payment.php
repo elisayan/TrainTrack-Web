@@ -1,7 +1,6 @@
 <section class="payment-section">
-    <form method="post" action="order.php">
+    <form method="post" action="payment.php">
         <div class="row">
-
             <div class="col-12 col-md-6">
                 <div class="card shadow p-4 card-info">
                     <h3>Dati Carta</h3>
@@ -53,7 +52,7 @@
                         <span>Importo: </span>
                         <span class="price"><?php echo number_format($templateParams["total_price"], 2); ?>€</span>
                     </div>
-                    <button type="submit" class="checkout-btn" onclick="window.location.href='order.php'">Procedi al pagamento</button>
+                    <button type="submit" class="checkout-btn" name="confirm_actual_payment">Procedi al pagamento</button>
                 </div>
             </div>
 
