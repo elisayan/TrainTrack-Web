@@ -70,10 +70,7 @@ class DatabaseHelper
 	s.orariopartenza as orariopartenza,
 	a2.data as dataarrivo,
 	a2.orarioarrivoprevisto as orarioarrivo,
-	(p.prezzo / (SELECT max(a.ordine)
-	 	     FROM attraversato a
-	 	     where a.codpercorso = s.codpercorso)
-	 * (a2.ordine - a1.ordine)) as prezzo,
+	s.prezzo,
 	(t.PostiTotali - (SELECT COUNT(*)
                       FROM Servizio s1
                       JOIN Stazione sp2 ON s1.stazionepartenza = sp2.codstazione 
@@ -126,10 +123,7 @@ AND (t.PostiTotali - (SELECT COUNT(*)
 	                     s.orariopartenza as orariopartenza,
 	                     a2.data as dataarrivo,
                     	 a2.orarioarrivoprevisto as orarioarrivo,
-	                     (p.prezzo / (SELECT max(a.ordine)
-	 	                              FROM attraversato a
-	 	                              where a.codpercorso = s.codpercorso)
-	                     * (a2.ordine - a1.ordine)) as prezzo,
+	                     s.prezzo,
 	                     (t.PostiTotali - (SELECT COUNT(*)
                                             FROM Servizio s1
                                             JOIN Stazione sp2 ON s1.stazionepartenza = sp2.codstazione 
