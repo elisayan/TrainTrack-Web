@@ -1305,31 +1305,5 @@ AND (t.PostiTotali - (SELECT COUNT(*)
         $stmt->bind_param("iis", $codiceBuono, $codServizio, $oggi);
         return $stmt->execute();
     }
-
-    public function getPrezzoTotaleCarrello($email = null, $sessionId)
-    {
-        if ($email !== null) {
-            $stmt = $this->db->prepare("SELECT PrezzoTotale 
-                                                FROM Carrello 
-                                                WHERE Email = ? 
-                                                ORDER BY CodCarrello DESC 
-                                                LIMIT 1");
-            $stmt->bind_param("s", $email);
-        } else {
-            $stmt = $this->db->prepare("SELECT PrezzoTotale 
-                                                FROM Carrello 
-                                                WHERE SessionID = ? 
-                                                ORDER BY CodCarrello DESC 
-                                                LIMIT 1");
-            $stmt->bind_param("s", $sessionId);
-        }
-
-        $stmt->execute();
-        $res = $stmt->get_result();
-        if ($res->num_rows > 0) {
-            return $res->fetch_assoc()["PrezzoTotale"];
-        }
-        return 0;
-    }
 }
 ?>
