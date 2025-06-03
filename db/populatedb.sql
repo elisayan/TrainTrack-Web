@@ -250,6 +250,19 @@ INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomeP
 INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, Durata, Chilometraggio) VALUES
 ('BO', 'RA', 'Passeggero', 'Generico', 'Intercity', CURDATE(), '20:00:00', 15.00, 'PR005', 'macchinista@traintrack.com', NULL, NULL);
 
+-- Servizi serali per la tratta Bologna → Ravenna (PR005)
+INSERT INTO Servizio (StazionePartenza, StazioneArrivo, NomePasseggero, CognomePasseggero, 
+                      TipoTreno, DataPartenza, OrarioPartenza, Prezzo, CodPercorso, Email, 
+                      Durata, Chilometraggio)
+VALUES
+('BO', 'RA', 'Passeggero', 'Serale', 'Regionale', CURDATE(), '18:00:00', 15.00, 'PR005', 'macchinista@traintrack.com', NULL, NULL),
+('BO', 'RA', 'Passeggero', 'Serale', 'Regionale', CURDATE(), '19:00:00', 15.00, 'PR005', 'macchinista@traintrack.com', NULL, NULL),
+('BO', 'RA', 'Passeggero', 'Serale', 'Regionale', CURDATE(), '20:00:00', 15.00, 'PR005', 'macchinista@traintrack.com', NULL, NULL),
+('BO', 'RA', 'Passeggero', 'Serale', 'Regionale', CURDATE(), '21:00:00', 15.00, 'PR005', 'macchinista@traintrack.com', NULL, NULL),
+('BO', 'RA', 'Passeggero', 'Serale', 'Regionale', CURDATE(), '22:00:00', 15.00, 'PR005', 'macchinista@traintrack.com', NULL, NULL),
+('BO', 'RA', 'Passeggero', 'Serale', 'Regionale', CURDATE(), '23:00:00', 15.00, 'PR005', 'macchinista@traintrack.com', NULL, NULL),
+('BO', 'RA', 'Passeggero', 'Serale', 'Regionale', CURDATE(), '00:00:00', 15.00, 'PR005', 'macchinista@traintrack.com', NULL, NULL);
+
 -- 1. Add services for the comprehensive regional route PR006 (Rimini->Forlì->Ravenna->Bologna->BLQ->Modena->Reggio->Parma->Piacenza)
 
 -- Rimini to all subsequent stations
