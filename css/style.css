@@ -849,6 +849,21 @@ section{
     font-size: 0.9rem;
 }
 
+.discount-section {
+    border-top: 1px dashed #dee2e6;
+    border-bottom: 1px dashed #dee2e6;
+    padding: 1rem 0;
+}
+
+.discount-form .input-group {
+    margin-bottom: 0.5rem;
+}
+
+.summary-row.text-success {
+    color: #198754;
+    font-weight: 500;
+}
+
 @media (max-width: 768px) {
     .cart-item-details {
         grid-template-columns: 1fr;
