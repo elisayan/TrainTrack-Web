@@ -122,7 +122,6 @@ else if (isset($_POST['confirm_actual_payment'])) {
         }
     }
    
-    unset($_SESSION['passenger_details_for_payment']);
 
     header("Location: order.php");
     exit;

@@ -32,8 +32,8 @@
                         </div>
                         <div>
                             <h4>Passeggero</h4>
-                            <p>Nome: <?php echo $_SESSION['name']; ?></p>
-                            <p>Cognome: <?php echo $_SESSION['surname']; ?></p>
+                            <p>Nome: <?php echo $_SESSION['passenger_details_for_payment']['name'] ?? ''; ?></p>
+                            <p>Cognome: <?php echo $_SESSION['passenger_details_for_payment']['surname'] ?? ''; ?></p>
                         </div>
                     </div>
                 </div>
@@ -65,8 +65,8 @@
                         </div>
                         <div>
                             <h4>Passeggero</h4>
-                            <p>Nome: <?php echo $_SESSION['name']; ?></p>
-                            <p>Cognome: <?php echo $_SESSION['surname']; ?></p>
+                            <p>Nome: <?php echo $_SESSION['passenger_details_for_payment']['name'] ?? ''; ?></p>
+                            <p>Cognome: <?php echo $_SESSION['passenger_details_for_payment']['surname'] ?? ''; ?></p>
                         </div>
                     </div>
             </div>

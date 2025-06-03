@@ -27,6 +27,7 @@ if (isset($_SESSION['last_purchase'])) {
     $templateParams["total_price"] = $totalPrice;
     
     unset($_SESSION['last_purchase']);
+    
 }
 
 if(isset($_SESSION['email'])) {
