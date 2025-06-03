@@ -50,6 +50,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+$cartItems = $dbh->getCartItems(
+    isset($_SESSION['email']) ? $_SESSION['email'] : null,
+    session_id()
+);
+
+if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
+    $templateParams["errorecarrello"] = "";
+    $templateParams["cart_items"] = $cartItems;
+
+    $totalPrice = 0;
+    foreach ($cartItems['tickets'] as $ticket) {
+        $totalPrice += $ticket['Prezzo'] * $ticket['Quantità'];
+    }
+    foreach ($cartItems['subscriptions'] as $subscription) {
+        $totalPrice += $subscription['Prezzo'] * $subscription['Quantità'];
+    }
+    $templateParams["total_price"] = $totalPrice;
+}
+
 if (isset($_POST['apply_discount']) && isset($_POST['discount_code'])) {
     $codice = intval($_POST['discount_code']);
     $email = $_SESSION['email'] ?? null;
@@ -85,24 +104,10 @@ if (isset($_POST['apply_discount']) && isset($_POST['discount_code'])) {
     }
 }
 
-$cartItems = $dbh->getCartItems(
-    isset($_SESSION['email']) ? $_SESSION['email'] : null,
-    session_id()
-);
-
-
-if (!empty($cartItems['tickets']) || !empty($cartItems['subscriptions'])) {
-    $templateParams["errorecarrello"] = "";
-    $templateParams["cart_items"] = $cartItems;
-
-    $totalPrice = 0;
-    foreach ($cartItems['tickets'] as $ticket) {
-        $totalPrice += $ticket['Prezzo'] * $ticket['Quantità'];
-    }
-    foreach ($cartItems['subscriptions'] as $subscription) {
-        $totalPrice += $subscription['Prezzo'] * $subscription['Quantità'];
-    }
-    $templateParams["total_price"] = $totalPrice;
+if (isset($templateParams["discounted_total"])) {
+    $_SESSION["prezzo_finale"] = $templateParams["discounted_total"];
+} else {
+    $_SESSION["prezzo_finale"] = $templateParams["total_price"];
 }
 
 require 'template/base.php';
