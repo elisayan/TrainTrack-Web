@@ -1,20 +1,15 @@
-<div class="container-fluid">
-    <div class="row">
+<div class="container-fluid my-4">
+    <div class="row align-items-start">
         <div class="col-12 d-md-none py-2">
-            <button
-                class="btn btn-outline-primary"
-                type="button"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#sidebarOffcanvas"
-                aria-controls="sidebarOffcanvas"
-            >
+            <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
                 ☰ Menu
             </button>
         </div>
 
         <div class="col-md-3">
             <div class="collapse d-md-block" id="sidebarCollapse">
-                <div class="bg-light rounded p-3 h-100 sidebar">
+                <div class="bg-light rounded p-3 sidebar">
                     <h4 class="mb-3"><a href="profilo-macchinista.php">Azioni</a></h4>
                     <nav class="nav flex-column">
                         <a class="nav-link" href="aggiungi-percorso.php">Aggiungi Percorso</a>
@@ -24,20 +19,12 @@
             </div>
         </div>
 
-        <div
-            class="offcanvas offcanvas-start d-md-none"
-            tabindex="-1"
-            id="sidebarOffcanvas"
-            aria-labelledby="sidebarOffcanvasLabel"
-        >
+        <div class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="sidebarOffcanvas"
+            aria-labelledby="sidebarOffcanvasLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="sidebarOffcanvasLabel">Azioni</h5>
-                <button
-                    type="button"
-                    class="btn-close text-reset"
-                    data-bs-dismiss="offcanvas"
-                    aria-label="Chiudi"
-                ></button>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Chiudi"></button>
             </div>
             <div class="offcanvas-body">
                 <ul class="nav flex-column">
@@ -55,7 +42,7 @@
             <?php if (isset($templateParams["azione"])): ?>
                 <?php require($templateParams["azione"]); ?>
             <?php else: ?>
-                <div class="welcome-message p-3">
+                <div class="welcome-message p-3 ms-md-3">
                     <h3>Benvenuto, <?= htmlspecialchars($user[0]["Nome"]) ?>!</h3>
                     <p>Da questa dashboard puoi:</p>
                     <ul class="welcome-list">
@@ -67,4 +54,3 @@
         </div>
     </div>
 </div>
-
