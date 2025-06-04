@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -14,15 +15,15 @@
 <body>
     <header>
         <div class="col-12 text-center header-intro">
-            <h2 class="display-4 mb-3">
+            <h1 class="display-4 mb-3">
                 <a href="home.php" class="logo-link">TrainTrack</a>
-            </h2>
+            </h1>
         </div>
     </header>
     <nav>
         <ul>
-            <li><a href="home.php"><img src="./img/home.png" alt=""><span>Home</span></a></li>
-            
+            <li><a href="home.php"><img src="./img/home.png" alt="Home"></a></li>
+
             <?php if (isUserLoggedIn()): ?>
                 <li class="dropdown">
                     <a href="#" class="dropbtn"><img src="./img/user.png" alt=""><span>Utente ▾</span></a>
@@ -34,7 +35,7 @@
             <?php else: ?>
                 <li><a href="login.php"><img src="./img/user.png" alt=""><span>Utente</span></a></li>
             <?php endif; ?>
-            
+
             <li><a href="cart.php"><img src="./img/cart.png" alt=""><span>Carrello</span></a></li>
         </ul>
     </nav>
@@ -42,12 +43,12 @@
 
     <main>
         <?php
-        if(isset($templateParams["nome"])){
+        if (isset($templateParams["nome"])) {
             require($templateParams["nome"]);
         }
         ?>
     </main>
-    
+
     <footer class="footer-container">
         <div class="footer-links">
             <a href="chi-siamo.php" class="footer-link">Chi Siamo</a>
@@ -77,13 +78,14 @@
     </footer>
 
     <?php
-    if(isset($templateParams["js"])):
-        foreach($templateParams["js"] as $script):
-    ?>
-        <script src="<?php echo $script; ?>"></script>
-    <?php
+    if (isset($templateParams["js"])):
+        foreach ($templateParams["js"] as $script):
+            ?>
+            <script src="<?php echo $script; ?>"></script>
+            <?php
         endforeach;
     endif;
     ?>
 </body>
+
 </html>
