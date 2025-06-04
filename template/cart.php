@@ -94,7 +94,7 @@
                                 <form method="post" aria-label="Rimuovi <?php echo $subscription_description; ?>">
                                     <input type="hidden" name="item_id" value="<?php echo $subscription['CodDettaglioCarrello']; ?>">
                                     <button type="submit" name="remove_item" class="btn-remove">
-                                        <i class="fas fa-trash-alt"></i> Rimuovi
+                                        Rimuovi
                                     </button>
                                 </form>
                             </div>
