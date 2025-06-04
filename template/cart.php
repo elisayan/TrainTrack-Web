@@ -12,6 +12,10 @@
                 <?php if (!empty($templateParams["cart_items"]["tickets"])): ?>
                     <h2>Biglietti</h2>
                     <?php foreach ($templateParams["cart_items"]["tickets"] as $ticket): ?>
+                        <?php
+                            $ticket_form_id_suffix = htmlspecialchars($ticket['CodDettaglioCarrello']);
+                            $ticket_description = "biglietto da " . htmlspecialchars($ticket["NomePartenza"]) . " a " . htmlspecialchars($ticket["NomeArrivo"]) . " del " . htmlspecialchars($ticket["DataPartenza"]);
+                        ?>
                         <div class="card shadow p-4 cart-item">
                             <div class="cart-item-header">
                                 <span class="cart-item-type">Biglietto</span>
@@ -20,33 +24,31 @@
                             <div class="card-body cart-item-details">
                                 <div>
                                     <h4>Partenza</h4>
-                                    <p><?php echo $ticket["NomePartenza"]; ?></p>
-                                    <p><?php echo $ticket["DataPartenza"]; ?>             <?php echo $ticket["OrarioPartenza"]; ?></p>
+                                    <p><?php echo htmlspecialchars($ticket["NomePartenza"]); ?></p>
+                                    <p><?php echo htmlspecialchars($ticket["DataPartenza"]); ?>             <?php echo htmlspecialchars($ticket["OrarioPartenza"]); ?></p>
                                 </div>
                                 <div>
                                     <h4>Arrivo</h4>
-                                    <p><?php echo $ticket["NomeArrivo"]; ?></p>
-                                    <p><?php echo $ticket["DataArrivo"]; ?>             <?php echo $ticket["OrarioArrivo"]; ?></p>
+                                    <p><?php echo htmlspecialchars($ticket["NomeArrivo"]); ?></p>
+                                    <p><?php echo htmlspecialchars($ticket["DataArrivo"]); ?>             <?php echo htmlspecialchars($ticket["OrarioArrivo"]); ?></p>
                                 </div>
                                 <div>
                                     <h4>Dettagli</h4>
-                                    <p>Treno: <?php echo $ticket["TipoTreno"]; ?></p>
-                                    <p>Posti disponibili: <?php echo $ticket["postidisponibili"]; ?></p>
+                                    <p>Treno: <?php echo htmlspecialchars($ticket["TipoTreno"]); ?></p>
+                                    <p>Posti disponibili: <?php echo htmlspecialchars($ticket["postidisponibili"]); ?></p>
                                 </div>
                             </div>
                             <div class="cart-item-actions">
-                                <form method="post" class="quantity-form">
+                                <form method="post" class="quantity-form" aria-label="Modifica quantità per <?php echo $ticket_description; ?>">
                                     <input type="hidden" name="item_id" value="<?php echo $ticket['CodDettaglioCarrello']; ?>">
-                                    <label for="quantity">Quantità:</label>
-                                    <input type="number" name="quantity" id="quantity" value="<?php echo $ticket['Quantità']; ?>" min="1"
-                                        max="10">
-                                    <button type="submit" name="update_quantity"
-                                        class="btn btn-sm btn-outline-secondary">Aggiorna</button>
+                                    <label for="quantity_ticket_<?php echo $ticket_form_id_suffix; ?>">Quantità:</label>
+                                    <input type="number" name="quantity" id="quantity_ticket_<?php echo $ticket_form_id_suffix; ?>" value="<?php echo $ticket['Quantità']; ?>" min="1" max="10">
+                                    <button type="submit" name="update_quantity" class="btn btn-sm btn-outline-secondary">Aggiorna</button>
                                 </form>
-                                <form method="post">
+                                <form method="post" aria-label="Rimuovi <?php echo $ticket_description; ?>">
                                     <input type="hidden" name="item_id" value="<?php echo $ticket['CodDettaglioCarrello']; ?>">
                                     <button type="submit" name="remove_item" class="btn-remove">
-                                        <i class="fas fa-trash-alt"></i> Rimuovi
+                                        Rimuovi
                                     </button>
                                 </form>
                             </div>
@@ -57,6 +59,10 @@
                 <?php if (!empty($templateParams["cart_items"]["subscriptions"])): ?>
                     <h2>Abbonamenti</h2>
                     <?php foreach ($templateParams["cart_items"]["subscriptions"] as $subscription): ?>
+                        <?php
+                            $subscription_form_id_suffix = htmlspecialchars($subscription['CodDettaglioCarrello']);
+                            $subscription_description = "abbonamento da " . htmlspecialchars($subscription["NomePartenza"]) . " a " . htmlspecialchars($subscription["NomeArrivo"]) . " (" . htmlspecialchars($subscription["Durata"]) . ")";
+                        ?>
                         <div class="card shadow p-4 cart-item">
                             <div class="cart-item-header">
                                 <span class="cart-item-type">Abbonamento</span>
@@ -65,32 +71,28 @@
                             <div class="card-body cart-item-details">
                                 <div>
                                     <h4>Partenza</h4>
-                                    <p><?php echo $subscription["NomePartenza"]; ?></p>
+                                    <p><?php echo htmlspecialchars($subscription["NomePartenza"]); ?></p>
                                 </div>
                                 <div>
                                     <h4>Arrivo</h4>
-                                    <p><?php echo $subscription["NomeArrivo"]; ?></p>
+                                    <p><?php echo htmlspecialchars($subscription["NomeArrivo"]); ?></p>
                                 </div>
                                 <div>
                                     <h4>Dettagli</h4>
-                                    <p>Treno: <?php echo $subscription["TipoTreno"]; ?></p>
-                                    <p>Durata: <?php echo $subscription["Durata"]; ?></p>
-                                    <p>Valido dal: <?php echo $subscription["DataPartenza"]; ?></p>
+                                    <p>Treno: <?php echo htmlspecialchars($subscription["TipoTreno"]); ?></p>
+                                    <p>Durata: <?php echo htmlspecialchars($subscription["Durata"]); ?></p>
+                                    <p>Valido dal: <?php echo htmlspecialchars($subscription["DataPartenza"]); ?></p>
                                 </div>
                             </div>
                             <div class="cart-item-actions">
-                                <form method="post" class="quantity-form">
-                                    <input type="hidden" name="item_id"
-                                        value="<?php echo $subscription['CodDettaglioCarrello']; ?>">
-                                    <label for="quantity">Quantità:</label>
-                                    <input type="number" name="quantity" id="quantity" value="<?php echo $subscription['Quantità']; ?>" min="1"
-                                        max="10">
-                                    <button type="submit" name="update_quantity"
-                                        class="btn btn-sm btn-outline-secondary">Aggiorna</button>
+                                <form method="post" class="quantity-form" aria-label="Modifica quantità per <?php echo $subscription_description; ?>">
+                                    <input type="hidden" name="item_id" value="<?php echo $subscription['CodDettaglioCarrello']; ?>">
+                                    <label for="quantity_subscription_<?php echo $subscription_form_id_suffix; ?>">Quantità:</label>
+                                    <input type="number" name="quantity" id="quantity_subscription_<?php echo $subscription_form_id_suffix; ?>" value="<?php echo $subscription['Quantità']; ?>" min="1" max="10">
+                                    <button type="submit" name="update_quantity" class="btn btn-sm btn-outline-secondary">Aggiorna</button>
                                 </form>
-                                <form method="post">
-                                    <input type="hidden" name="item_id"
-                                        value="<?php echo $subscription['CodDettaglioCarrello']; ?>">
+                                <form method="post" aria-label="Rimuovi <?php echo $subscription_description; ?>">
+                                    <input type="hidden" name="item_id" value="<?php echo $subscription['CodDettaglioCarrello']; ?>">
                                     <button type="submit" name="remove_item" class="btn-remove">
                                         <i class="fas fa-trash-alt"></i> Rimuovi
                                     </button>
@@ -118,10 +120,10 @@
                     <?php endif; ?>
 
                     <div class="discount-section mt-3 mb-3">
-                        <form method="post" class="discount-form">
+                        <form method="post" class="discount-form" aria-label="Applica codice sconto">
                             <div class="input-group" style="height: 38px;">
                                 <input type="text" name="discount_code" class="form-control h-100 border-end-0"
-                                    placeholder="Inserisci codice sconto">
+                                    placeholder="Inserisci codice sconto" aria-label="Codice sconto">
                                 <button type="submit" name="apply_discount"
                                     class="btn btn-primary h-100 px-3 d-flex align-items-center">
                                     Applica
