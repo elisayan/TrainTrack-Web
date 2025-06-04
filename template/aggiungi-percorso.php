@@ -1,7 +1,7 @@
 <form action="#" method="POST">
     <div class="card mb-5 shadow-sm">
         <div class="card-header">
-            <h4 class="mb-0">Nuovo Percorso</h4>
+            <h2 class="mb-0">Nuovo Percorso</h2>
         </div>
         <div class="card-body">
             <?php if (isset($templateParams["successo"])): ?>
@@ -80,14 +80,14 @@
 
     <div class="card mb-5 shadow-sm">
         <div class="card-header">
-            <h4 class="mb-0">Stazioni Attraversate</h4>
+            <h2 class="mb-0">Stazioni Attraversate</h2>
         </div>
         <div class="card-body">
             <div id="stazioni-container">
                 <div class="station-entry row mb-4">
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Stazione</label>
-                        <select class="form-select" name="cod_stazione[]" required>
+                        <label for="cod_stazione_1" class="form-label">Stazione</label>
+                        <select class="form-select" id="cod_stazione_1" name="cod_stazione[]" required>
                             <option value="" selected disabled>Seleziona una stazione…</option>
                             <?php foreach ($templateParams['stazioni'] as $st): ?>
                                 <option value="<?= htmlspecialchars($st['CodStazione']) ?>">
@@ -98,20 +98,27 @@
                         <div class="invalid-feedback">Selezionare una stazione valida</div>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <label class="form-label">Ordine</label>
-                        <input type="number" class="form-control" name="ordine[]" min="1" max="20" required>
+                        <label for="ordine_stazione" class="form-label">Ordine</label>
+                        <input type="number" id="ordine_stazione" class="form-control" name="ordine[]" min="1" max="20"
+                            required>
                     </div>
+
                     <div class="col-md-3 mb-3">
-                        <label class="form-label">Binario</label>
-                        <input type="number" class="form-control" name="binario[]" min="1" max="50" required>
+                        <label for="binario_stazione" class="form-label">Binario</label>
+                        <input type="number" id="binario_stazione" class="form-control" name="binario[]" min="1"
+                            max="50" required>
                     </div>
+
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Partenza</label>
-                        <input type="time" class="form-control" name="orario_partenza_previsto[]" required>
+                        <label for="partenza_stazione" class="form-label">Partenza</label>
+                        <input type="time" id="partenza_stazione" class="form-control" name="orario_partenza_previsto[]"
+                            required>
                     </div>
+
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Arrivo</label>
-                        <input type="time" class="form-control" name="orario_arrivo_previsto[]" required>
+                        <label for="arrivo_stazione" class="form-label">Arrivo</label>
+                        <input type="time" id="arrivo_stazione" class="form-control" name="orario_arrivo_previsto[]"
+                            required>
                     </div>
                 </div>
             </div>
@@ -122,8 +129,8 @@
                 </div>
                 <div class="station-entry row mb-4">
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Stazione</label>
-                        <select class="form-select" name="cod_stazione[]" required>
+                        <label for="cod_stazione_2" class="form-label">Stazione</label>
+                        <select class="form-select" id="cod_stazione_2" name="cod_stazione[]" required>
                             <option value="" selected disabled>Seleziona una stazione…</option>
                             <?php foreach ($templateParams['stazioni'] as $st): ?>
                                 <option value="<?= htmlspecialchars($st['CodStazione']) ?>">
@@ -134,20 +141,23 @@
                         <div class="invalid-feedback">Selezionare una stazione valida</div>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <label class="form-label">Ordine</label>
-                        <input type="number" class="form-control" name="ordine[]" min="1" max="20" required>
+                        <label for="ordine_1" class="form-label">Ordine</label>
+                        <input type="number" class="form-control" id="ordine_1" name="ordine[]" min="1" max="20"
+                            required>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <label class="form-label">Binario</label>
-                        <input type="number" class="form-control" name="binario[]" min="1" max="50" required>
+                        <label for="ordine_2" class="form-label">Binario</label>
+                        <input type="number" class="form-control" id="ordine_2" name="binario[]" min="1" max="50"
+                            required>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Arrivo</label>
-                        <input type="time" class="form-control" name="orario_arrivo_previsto[]" required>
+                        <label for="ordine_3" class="form-label">Arrivo</label>
+                        <input type="time" class="form-control" id="ordine_3" name="orario_arrivo_previsto[]" required>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Partenza</label>
-                        <input type="time" class="form-control" name="orario_partenza_previsto[]" required>
+                        <label for="ordine_4" class="form-label">Partenza</label>
+                        <input type="time" class="form-control" id="ordine_4" name="orario_partenza_previsto[]"
+                            required>
                     </div>
 
                 </div>
