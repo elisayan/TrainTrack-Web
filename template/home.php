@@ -10,7 +10,7 @@
                 <div class="card h-100 shadow hover-effect">
                     <img src="./img/ticket.png" class="card-img-top p-3 img-card-custom" alt="Biglietti">
                     <div class="card-body">
-                        <h5 class="card-title">Biglietti</h5>
+                        <h2 class="card-title">Biglietti</h2>
                         <p class="text-muted small">Acquista i tuoi biglietti</p>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
                 <div class="card h-100 shadow hover-effect">
                     <img src="./img/subscription.png" class="card-img-top p-3 img-card-custom" alt="Abbonamenti">
                     <div class="card-body">
-                        <h5 class="card-title">Abbonamenti</h5>
+                        <h2 class="card-title">Abbonamenti</h2>
                         <p class="text-muted small">Scopri le nostre offerte</p>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                 <div class="card h-100 shadow hover-effect">
                     <img src="./img/profile.png" class="card-img-top p-3 img-card-custom" alt="Profilo">
                     <div class="card-body">
-                        <h5 class="card-title">Profilo</h5>
+                        <h2 class="card-title">Profilo</h2>
                         <p class="text-muted small">Gestisci il tuo account</p>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                     <img src="./img/path.png"
                         class="card-img-top p-3 img-card-custom"  alt="Percorsi">
                     <div class="card-body">
-                        <h5 class="card-title">Percorsi</h5>
+                        <h2 class="card-title">Percorsi</h2>
                         <p class="text-muted small">Visualizza i tuoi percorsi</p>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
 
     <div class="col-12 mb-3">
         <div class="alert alert-info">
-            <h4>Promozioni Attive</h4>
+            <h3>Promozioni Attive</h3>
             <p>Scopri le nostre offerte speciali per viaggi frequenti!</p>
         </div>
     </div>
