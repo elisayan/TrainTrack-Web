@@ -18,7 +18,7 @@
                         ?>
                         <div class="card shadow p-4 cart-item">
                             <div class="cart-item-header">
-                                <span class="cart-item-type">Biglietto</span>
+                                <h3><span class="cart-item-type">Biglietto</span></h3>
                                 <span class="cart-item-price"><?php echo number_format($ticket["Prezzo"], 2); ?>€</span>
                             </div>
                             <div class="card-body cart-item-details">
@@ -65,7 +65,7 @@
                         ?>
                         <div class="card shadow p-4 cart-item">
                             <div class="cart-item-header">
-                                <span class="cart-item-type">Abbonamento</span>
+                                <h3><span class="cart-item-type">Abbonamento</span></h3>
                                 <span class="cart-item-price"><?php echo number_format($subscription["Prezzo"], 2); ?>€</span>
                             </div>
                             <div class="card-body cart-item-details">
@@ -122,7 +122,8 @@
                     <div class="discount-section mt-3 mb-3">
                         <form method="post" class="discount-form" aria-label="Applica codice sconto">
                             <div class="input-group" style="height: 38px;">
-                                <input type="text" name="discount_code" class="form-control h-100 border-end-0"
+                                <label for="discount_code" class="form-label visually-hidden">Inserisci codice sconto</label>
+                                <input type="text" name="discount_code" id="discount_code" class="form-control h-100 border-end-0"
                                     placeholder="Inserisci codice sconto" aria-label="Codice sconto">
                                 <button type="submit" name="apply_discount"
                                     class="btn btn-primary h-100 px-3 d-flex align-items-center">
