@@ -76,23 +76,28 @@ if (isset($_POST['apply_discount']) && isset($_POST['discount_code'])) {
     if ($email) {
         $buono = $dbh->verificaBuonoSconto($codice, $email);
         if ($buono !== null) {
-            $nuovoTotale = $dbh->applicaScontoAlCarrello($buono["Importo"], $email);
-            if ($nuovoTotale !== false) {
-                $codServizio = $dbh->getPrimoServizioNelCarrello($email);
-                if ($codServizio !== null) {
-                    $dbh->segnaBuonoComeUtilizzato($codice, $codServizio);
+            if ($buono['Importo'] > $totalPrice) {
+                $nuovoTotale = $dbh->applicaScontoAlCarrello($buono["Importo"], $email);
+                if ($nuovoTotale !== false) {
+                    $codServizio = $dbh->getPrimoServizioNelCarrello($email);
+                    if ($codServizio !== null) {
+                        $dbh->segnaBuonoComeUtilizzato($codice, $codServizio);
 
-                    $templateParams["discount_success"] = true;
-                    $templateParams["discount_message"] = "Buono sconto applicato correttamente.";
-                    $templateParams["discount_amount"] = $buono["Importo"];
-                    $templateParams["discounted_total"] = $nuovoTotale;
+                        $templateParams["discount_success"] = true;
+                        $templateParams["discount_message"] = "Buono sconto applicato correttamente.";
+                        $templateParams["discount_amount"] = $buono["Importo"];
+                        $templateParams["discounted_total"] = $nuovoTotale;
+                    } else {
+                        $templateParams["discount_success"] = false;
+                        $templateParams["discount_message"] = "Errore: nessun servizio trovato nel carrello.";
+                    }
                 } else {
                     $templateParams["discount_success"] = false;
-                    $templateParams["discount_message"] = "Errore: nessun servizio trovato nel carrello.";
+                    $templateParams["discount_message"] = "Errore nell'applicazione dello sconto al carrello.";
                 }
             } else {
                 $templateParams["discount_success"] = false;
-                $templateParams["discount_message"] = "Errore nell'applicazione dello sconto al carrello.";
+                $templateParams["discount_message"] = "Questo codice sconto è applicabile solo a ordini di importo superiore a 10€.";
             }
         } else {
             $templateParams["discount_success"] = false;
