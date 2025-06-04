@@ -3,7 +3,7 @@
 
         <div class="col-12 col-md-6">
             <div class="card shadow p-4 cart-summary">
-                <h3>Dati Passeggero</h3>
+                <h2>Dati Passeggero</h2>
                 <form method="post" action="payment.php">
                     <div class="form-group">
                         <label for="name">Nome</label>
@@ -41,7 +41,7 @@
 
         <div class="col-12 col-md-6">
             <div class="card shadow p-4 cart-summary">
-                <h3>Riepilogo Ordine</h3>
+                <h2>Riepilogo Ordine</h2>
                 <?php if (isset($templateParams["discounted_total"])): ?>
                     <div class="summary-row text-success">
                         <span>Totale scontato:</span>
