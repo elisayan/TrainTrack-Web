@@ -22,7 +22,7 @@
         <div class="row g-4">
             <div class="col-12 col-md-6">
                 <div class="h-100 border p-3 rounded">
-                    <h5 class="text-muted mb-3">1. Seleziona Percorso</h5>
+                    <h3 class="h5 text-secondary mb-3 fw-semibold">1. Seleziona Percorso</h3>
                     <form action="#" method="POST">
                         <div class="form-floating mb-3">
                             <select class="form-select" id="cod_percorso" name="cod_percorso" required>
@@ -47,7 +47,7 @@
             <?php if (isset($_POST['cod_percorso']) && !empty($stazioni)): ?>
                 <div class="col-12 col-md-6">
                     <div class="h-100 border p-3 rounded">
-                        <h5 class="text-muted mb-3">2. Modifica Orario</h5>
+                        <h3 class="h5 text-secondary mb-3 fw-semibold">2. Modifica Orario</h3>
                         <form action="#" method="POST">
                             <input type="hidden" name="cod_percorso"
                                 value="<?= htmlspecialchars($_POST['cod_percorso']) ?>">

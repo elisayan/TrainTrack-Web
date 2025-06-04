@@ -57,7 +57,7 @@
 
     <div class="col-12 mb-3">
         <div class="alert alert-info">
-            <h3>Promozioni Attive</h3>
+            <h3 class="underline-custom">Promozioni Attive</h3>
             <p>Scopri le nostre offerte speciali per viaggi frequenti!</p>
         </div>
     </div>

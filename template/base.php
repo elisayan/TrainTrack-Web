@@ -18,6 +18,7 @@
             <h1 class="display-4 mb-3">
                 <a href="home.php" class="logo-link">TrainTrack</a>
             </h1>
+            <div class="decorative-line mx-auto mt-4 w-40"></div>
         </div>
     </header>
     <nav>

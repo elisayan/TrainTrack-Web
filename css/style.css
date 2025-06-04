@@ -348,9 +348,16 @@ h1 {
 
 h3 {
     font-size: 1.75rem;
+    /* border-bottom: 2px solid #2a7ab0; */
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.underline-custom {
     border-bottom: 2px solid #2a7ab0;
     padding-bottom: 0.5rem;
     display: inline-block;
+    margin-bottom: 1rem;
 }
 
 body {
