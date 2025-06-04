@@ -4,6 +4,7 @@
             <div class="col-md-7 col-lg-5">
                 <div class="row">
                     <div class="col-auto">
+                        <label for="stazione-partenza-tic-header" class="form-label visually-hidden">Stazione di partenza</label>
                         <input type="text" readonly class="form-control-plaintext station" aria-label="Stazione di partenza" id="stazione-partenza-tic-header"
                             value="<?php echo htmlspecialchars($departureStation); ?>">
                     </div>
@@ -11,6 +12,7 @@
                         <img src="./img/next.png" alt="">
                     </div>
                     <div class="col-auto">
+                        <label for="stazione-arrivo-tic-header" class="form-label visually-hidden">Stazione di arrivo</label>
                         <input type="text" readonly class="form-control-plaintext station" aria-label="Stazione di arrivo" id="stazione-arrivo-tic-header"
                             value="<?php echo htmlspecialchars($destinationStation); ?>">
                     </div>
@@ -69,21 +71,25 @@
                                     value="<?php echo htmlspecialchars($biglietto["tipotreno"]); ?>">
                                 <div class="row">
                                     <div class="col-7">
-                                        <input type="text" readonly class="form-control-plaintext" aria-label="Data di partenza"
+                                        <label for="data-di-partenza_<?php echo $unique_suffix; ?>" class="form-label visually-hidden">Data di partenza</label>
+                                        <input type="text" id="data-di-partenza_<?php echo $unique_suffix; ?>" readonly class="form-control-plaintext" aria-label="Data di partenza"
                                             value="<?php echo htmlspecialchars($biglietto["datapartenza"]); ?>">
                                     </div>
                                     <div class="col-5">
-                                        <input type="text" readonly class="form-control-plaintext" aria-label="Orario di partenza"
+                                        <label for="orario-di-partenza_<?php echo $unique_suffix; ?>" class="form-label visually-hidden">Orario di partenza</label>
+                                        <input type="text" id="orario-di-partenza_<?php echo $unique_suffix; ?>" readonly class="form-control-plaintext" aria-label="Orario di partenza"
                                             value="<?php echo htmlspecialchars($biglietto["orariopartenza"]); ?>">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-7">
-                                        <input type="text" readonly class="form-control-plaintext" aria-label="Data di arrivo"
+                                        <label for="data-di-arrivo_<?php echo $unique_suffix; ?>" class="form-label visually-hidden">Data di arrivo</label>
+                                        <input type="text" id="data-di-arrivo_<?php echo $unique_suffix; ?>" readonly class="form-control-plaintext" aria-label="Data di arrivo"
                                             value="<?php echo htmlspecialchars($biglietto["dataarrivo"]); ?>">
                                     </div>
                                     <div class="col-5">
-                                        <input type="text" readonly class="form-control-plaintext" aria-label="Orario di arrivo"
+                                        <label for="orario-di-arrivo_<?php echo $unique_suffix; ?>" class="form-label visually-hidden">Orario di arrivo</label>
+                                        <input type="text" id="orario-di-arrivo_<?php echo $unique_suffix; ?>" readonly class="form-control-plaintext" aria-label="Orario di arrivo"
                                             value="<?php echo htmlspecialchars($biglietto["orarioarrivo"]); ?>">
                                     </div>
                                 </div>
