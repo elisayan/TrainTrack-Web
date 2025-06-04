@@ -1,13 +1,13 @@
 <section class="order-section">
     <div class="order text-center">
-        <h3>Grazie!</h3>
+        <h2>Grazie!</h2>
         <p>Il tuo ordine è stato ricevuto con successo.</p>
         <p>Se hai domande, non esitare a contattarci.</p>
     </div>
     <div class="row">
         <div class="col-12 col-md-6">
             <?php if (!empty($templateParams["order_items"]["tickets"])): ?>
-                <h2>Biglietti</h2>
+                <h3>Biglietti</h3>
                 <?php foreach ($templateParams["order_items"]["tickets"] as $ticket): ?>
                     <div class="card shadow p-4 mb-4 order-service">
                         <div class="order-service-header">
@@ -41,7 +41,7 @@
             <?php endif; ?>
 
             <?php if (!empty($templateParams["order_items"]["subscriptions"])): ?>
-                <h2>Abbonamenti</h2>
+                <h3>Abbonamenti</h3>
                 <?php foreach ($templateParams["order_items"]["subscriptions"] as $subscription): ?>
                     <div class="card shadow p-4 mb-4 order-service">
                         <div class="order-service-header">
@@ -77,7 +77,7 @@
         </div>
         <div class="col-12 col-md-6">
             <div class="card shadow p-4 mb-4 order-summary">
-                <h2>Riepilogo Ordine</h2>
+                <h3>Riepilogo Ordine</h3>
                 <div class="order-summary-details">
                     <?php if (!empty($templateParams["order_items"]["tickets"])): ?>
                         <p><strong>Totale Biglietti:</strong>
