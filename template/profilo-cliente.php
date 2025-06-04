@@ -7,49 +7,49 @@
                 <div class="card-body">
                     <h3 class="card-title mb-4 fs-5">Informazioni Personali</h3>
                     <div class="mb-3">
-                        <label class="form-label fs-6"><b>Nome:</b></label>
+                        <label class="form-label fs-6"><strong>Nome:</strong></label>
                         <div class="form-control-static fs-6">
                             <?php echo htmlspecialchars($user[0]["Nome"] ?? "N/A"); ?>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fs-6"><b>Cognome:</b></label>
+                        <label class="form-label fs-6"><strong>Cognome:</strong></label>
                         <div class="form-control-static fs-6">
                             <?php echo htmlspecialchars($user[0]["Cognome"] ?? "N/A"); ?>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fs-6"><b>Email:</b></label>
+                        <label class="form-label fs-6"><strong>Email:</strong></label>
                         <div class="form-control-static fs-6">
                             <?php echo htmlspecialchars($user[0]["Email"] ?? "N/A"); ?>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fs-6"><b>Indirizzo:</b></label>
+                        <label class="form-label fs-6"><strong>Indirizzo:</strong></label>
                         <div class="form-control-static fs-6">
                             <?php echo htmlspecialchars($user[0]["Indirizzo"] ?? "N/A"); ?>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fs-6"><b>Telefono:</b></label>
+                        <label class="form-label fs-6"><strong>Telefono:</strong></label>
                         <div class="form-control-static fs-6">
                             <?php echo htmlspecialchars($user[0]["Telefono"] ?? "N/A"); ?>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fs-6"><b>Codice Fiscale:</b></label>
+                        <label class="form-label fs-6"><strong>Codice Fiscale:</strong></label>
                         <div class="form-control-static fs-6">
                             <?php echo htmlspecialchars($user[0]["CF"] ?? "N/A"); ?>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fs-6"><b>Spesa Totale:</b></label>
+                        <label class="form-label fs-6"><strong>Spesa Totale:</strong></label>
                         <div class="form-control-static fs-6">
                             €<?php echo number_format($user[0]["SpesaTotale"] ?? 0, 2); ?>
                         </div>
