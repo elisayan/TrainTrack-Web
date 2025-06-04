@@ -107,7 +107,7 @@
                     <div class="carousel-item active">
                         <div class="card route-card shadow" onclick="searchRoute('Bologna Centrale', 'Forlì')" role="button">
                             <div class="card-body">
-                                <h3 class="route-title">Bologna Centrale → Forlì</h3>
+                                <h2 class="route-title">Bologna Centrale → Forlì</h2>
                                 <p class="route-description">Treno Intercity e Regionale</p>
                             </div>
                         </div>
@@ -117,7 +117,7 @@
                     <div class="carousel-item">
                         <div class="card route-card shadow" onclick="searchRoute('Piacenza', 'Parma')" role="button">
                             <div class="card-body">
-                                <h3 class="route-title">Piacenza → Parma</h3>
+                                <h2 class="route-title">Piacenza → Parma</h2>
                                 <p class="route-description">Treno Frecciarossa e Regionale</p>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                     <div class="carousel-item">
                         <div class="card route-card shadow" onclick="searchRoute('Bologna Centrale', 'Ravenna')" role="button">
                             <div class="card-body">
-                                <h3 class="route-title">Bologna Centrale → Ravenna</h3>
+                                <h2 class="route-title">Bologna Centrale → Ravenna</h2>
                                 <p class="route-description">Treno Intercity e Regionale</p>
                             </div>
                         </div>
