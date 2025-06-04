@@ -36,31 +36,31 @@
                                 <div class="col-md-6 col-lg-6">
                                     <div class="row adult justify-content-end">
                                         <div class="col-auto passenger">
-                                            <label for="numero_biglietti_adulti"><img src="./img/user.png" alt="Adult Icon"></label>
+                                            <label for="numero_biglietti_adulti"><img src="./img/user.png" alt="Biglietti per adulti"></label>
                                         </div>
                                         <div class="col-auto passenger">
-                                            <button type="button" class="passenger" onclick="updateTickets('numero_biglietti_adulti', -1)"><img src="./img/minus.png" alt="Decrease"></button>
+                                            <button type="button" class="passenger" onclick="updateTickets('numero_biglietti_adulti', -1)"><img src="./img/minus.png" alt="Togli un biglietto per adulto"></button>
                                         </div>
                                         <div class="col-auto passenger">
-                                            <input type="text" value="1" id="numero_biglietti_adulti" name="numero_biglietti_adulti" readonly>
+                                            <input type="text" value="1" id="numero_biglietti_adulti" name="numero_biglietti_adulti" aria-label="numero biglietti per adulti aggiunti" readonly>
                                         </div>
                                         <div class="col-auto passenger">
-                                            <button type="button" class="passenger" onclick="updateTickets('numero_biglietti_adulti', 1)"><img src="./img/more.png" alt="Increase"></button>
+                                            <button type="button" class="passenger" onclick="updateTickets('numero_biglietti_adulti', 1)"><img src="./img/more.png" alt="Aggiungi un biglietto per adulto"></button>
                                         </div>
                                     </div>
 
                                     <div class="row kid justify-content-end">
                                         <div class="col-auto passenger">
-                                            <label class="kid" for="numero_biglietti_bambini"><img src="./img/user.png" alt="Child Icon"></label>
+                                            <label class="kid" for="numero_biglietti_bambini"><img src="./img/user.png" alt="Biglietti per bambini"></label>
                                         </div>
                                         <div class="col-auto passenger">
-                                            <button type="button" class="passenger" onclick="updateTickets('numero_biglietti_bambini', -1)"><img src="./img/minus.png" alt="Decrease"></button>
+                                            <button type="button" class="passenger" onclick="updateTickets('numero_biglietti_bambini', -1)"><img src="./img/minus.png" alt="Togli un biglietto per un bambino"></button>
                                         </div>
                                         <div class="col-auto passenger">
-                                            <input type="text" value="0" id="numero_biglietti_bambini" name="numero_biglietti_bambini" readonly>
+                                            <input type="text" value="0" id="numero_biglietti_bambini" name="numero_biglietti_bambini" aria-label="numero di biglietti per bambini aggiunti" readonly>
                                         </div>
                                         <div class="col-auto passenger">
-                                            <button type="button" class="passenger" onclick="updateTickets('numero_biglietti_bambini', 1)"><img src="./img/more.png" alt="Increase"></button>
+                                            <button type="button" class="passenger" onclick="updateTickets('numero_biglietti_bambini', 1)"><img src="./img/more.png" alt="Aggiungi un biglietto per un bambino"></button>
                                         </div>
                                     </div>
                                 </div>
