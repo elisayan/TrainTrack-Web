@@ -25,7 +25,7 @@
 .decorative-line {
     width: 80px;
     height: 3px;
-    background: linear-gradient(90deg, #3498db, rgba(52, 152, 219, 0));
+    background: linear-gradient(90deg, #2a7ab0, rgba(52, 152, 219, 0));
     border-radius: 2px;
 }
 
@@ -193,7 +193,7 @@
     color: #2c3e50;
     margin-bottom: 1.5rem;
     font-size: 1.75rem;
-    border-bottom: 2px solid #3498db;
+    border-bottom: 2px solid #2a7ab0;
     padding-bottom: 0.5rem;
     display: inline-block;
 }
@@ -219,18 +219,18 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     transition: all 0.3s ease;
-    border-left: 4px solid #3498db;
+    border-left: 4px solid #2a7ab0;
 }
 
 .welcome-list li a:hover {
     background: #3498db15;
     transform: translateX(10px);
-    color: #3498db;
+    color: #2a7ab0;
 }
 
 .welcome-list li::before {
     content: '➤';
-    color: #3498db;
+    color: #2a7ab0;
     position: absolute;
     left: -25px;
     top: 50%;
@@ -345,7 +345,7 @@ h1 {
 
 h3 {
     font-size: 1.75rem;
-    border-bottom: 2px solid #3498db;
+    border-bottom: 2px solid #2a7ab0;
     padding-bottom: 0.5rem;
     display: inline-block;
 }
@@ -448,7 +448,7 @@ nav ul li a:focus,
 }
 
 .footer-link:hover {
-    color: #3498db;
+    color: #2a7ab0;
 }
 
 .divider {
@@ -961,7 +961,7 @@ h2, h3 {
 
 h2 {
     font-size: 1.75rem;
-    border-bottom: 2px solid #3498db;
+    border-bottom: 2px solid #2a7ab0;
     padding-bottom: 5px;
     display: inline-block;
     margin-top: 20px;
