@@ -22,7 +22,7 @@
     </header>
     <nav>
         <ul>
-            <li><a href="home.php"><img src="./img/home.png" alt="Home"></a></li>
+            <li><a href="home.php"><img src="./img/home.png" alt="Home"><span>Home</span></a></li>
 
             <?php if (isUserLoggedIn()): ?>
                 <li class="dropdown">
