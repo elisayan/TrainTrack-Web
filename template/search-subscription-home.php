@@ -32,7 +32,8 @@
                     </div>
 
                     <div class="col-md-12 col-lg-6">
-                        <select class="form-select" aria-label="duration" name="duration">
+                        <label for="duration" class="form-label visually-hidden">Durata</label>
+                        <select class="form-select" aria-label="duration" name="duration" id="duration">
                             <option selected>Durata</option>
                             <?php foreach($templateParams["durate"] as $durate): ?>
                             <option value="<?php echo $durate["durate"]; ?>"><?php echo $durate["durate"]; ?></option>
@@ -41,7 +42,8 @@
                     </div>
 
                     <div class="col-md-12 col-lg-6">
-                        <select class="form-select" aria-label="train-type" name="train-type">
+                        <label for="train-type" class="form-label visually-hidden">Tipo treno</label>
+                        <select class="form-select" aria-label="train-type" name="train-type" id="train-type">
                             <option selected>Tipo treno</option>
                             <?php foreach($templateParams["tipo_treni"] as $tipo_treni): ?>
                             <option value="<?php echo $tipo_treni["tipo_treni"]; ?>"><?php echo $tipo_treni["tipo_treni"]; ?></option>

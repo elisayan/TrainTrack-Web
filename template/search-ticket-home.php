@@ -26,9 +26,11 @@
                             <div class="row justify-content-center">
                                 <div class="col-md-6 col-lg-6">
                                     <div class="row">
+                                        <label for="data_partenza" class="visually-hidden">Data di partenza</label>
                                     <input class="form-control" type="date" id="data_partenza" name="data_partenza" required>
                                     </div>
                                     <div class="row">
+                                        <label for="orario_partenza" class="visually-hidden">orario di partenza</label>
                                         <input class="form-control" type="time" id="orario_partenza" name="orario_partenza" required>
                                     </div>
                                 </div>
