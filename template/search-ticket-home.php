@@ -1,7 +1,7 @@
 <section class="search-ticket-section">
     <div class="row">
         <div class="col-12 col-md-6">
-            <form class="card shadow p-3 mb-5" action="search-tickets-results.php" method="GET">
+            <form class="card shadow p-3 mb-5" action="search-tickets-results.php" method="GET" aria-label="ricerca biglietto">
             <?php if (isset($templateParams["errore_ricerca_biglietto"])): ?>
                 <p class="error"><?php echo $templateParams["errore_ricerca_biglietto"]; ?></p>
             <?php endif; ?>
