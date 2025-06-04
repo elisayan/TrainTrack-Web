@@ -10,7 +10,7 @@
         <div class="col-md-3">
             <div class="collapse d-md-block" id="sidebarCollapse">
                 <div class="bg-light rounded p-3 sidebar">
-                    <h4 class="mb-3"><a href="profilo-macchinista.php">Azioni</a></h4>
+                    <h2 class="mb-3"><a href="profilo-macchinista.php">Azioni</a></h2>
                     <nav class="nav flex-column">
                         <a class="nav-link" href="aggiungi-percorso.php">Aggiungi Percorso</a>
                         <a class="nav-link" href="cambia-orario.php">Cambia Orario</a>
@@ -22,7 +22,7 @@
         <div class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="sidebarOffcanvas"
             aria-labelledby="sidebarOffcanvasLabel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="sidebarOffcanvasLabel">Azioni</h5>
+                <h3 class="offcanvas-title" id="sidebarOffcanvasLabel">Azioni</h3>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
                     aria-label="Chiudi"></button>
             </div>
@@ -43,7 +43,7 @@
                 <?php require($templateParams["azione"]); ?>
             <?php else: ?>
                 <div class="welcome-message p-3 ms-md-3">
-                    <h3>Benvenuto, <?= htmlspecialchars($user[0]["Nome"]) ?>!</h3>
+                    <h4>Benvenuto, <?= htmlspecialchars($user[0]["Nome"]) ?>!</h4>
                     <p>Da questa dashboard puoi:</p>
                     <ul class="welcome-list">
                         <li><a href="aggiungi-percorso.php">Creare percorsi ferroviari</a></li>
