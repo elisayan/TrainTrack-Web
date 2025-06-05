@@ -60,7 +60,37 @@ TrainTrack-Web/
 ```
 ---
 
+## Anteprima
 
+### Homepage
+![Homepage](assets/screenshots/home.png)
+
+### Pagina per ricerca biglietti
+![Ticket](assets/screenshots/ticket.png)
+
+### Pagina per ricerca abbonamenti
+![Subscrition](assets/screenshots/subscrition.png)
+
+### Pagina di Login
+![Login](assets/screenshots/login.png)
+
+### Profilo Utente
+![Profile](assets/screenshots/profile.png)
+
+### Pagina di carrello
+![Carrello](assets/screenshots/cart.png)
+
+### Pagina di acquisto
+![Acquisto](assets/screenshots/purchase.png)
+
+### Pagina di riepilogo ordini di un utente
+![Ordini](assets/screenshots/orders.png)
+
+### Pagina di notifiche
+![Notifiche](assets/screenshots/notification.png)
+
+### Pagina di buoni sconto
+![Buoni](assets/screenshots/coupon.png)
 
 ### Autori
 - [@elisayan](https://github.com/elisayan)
