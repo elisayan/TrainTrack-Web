@@ -1,7 +1,7 @@
 <div class="container-fluid mb-5">
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-            <form class="card shadow p-4 mt-5" action="#" method="post">
+            <form class="card shadow p-4 mt-5" action="#" method="post" id="registrationForm">
                 <h2 class="text-center mb-4">Registrazione</h2>
 
                 <?php if (isset($templateParams["errore_registrazione"])): ?>
@@ -20,87 +20,90 @@
 
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome</label>
-                    <input type="text" 
-                           class="form-control" 
-                           id="nome" 
-                           name="nome" 
+                    <input type="text"
+                           class="form-control"
+                           id="nome"
+                           name="nome"
                            placeholder="Inserisci il tuo nome"
                            required>
                 </div>
 
                 <div class="mb-3">
                     <label for="cognome" class="form-label">Cognome</label>
-                    <input type="text" 
-                           class="form-control" 
-                           id="cognome" 
-                           name="cognome" 
+                    <input type="text"
+                           class="form-control"
+                           id="cognome"
+                           name="cognome"
                            placeholder="Inserisci il tuo cognome"
                            required>
                 </div>
 
                 <div class="mb-3">
                     <label for="cf" class="form-label">Codice Fiscale</label>
-                    <input type="text" 
-                           class="form-control" 
-                           id="cf" 
-                           name="cf" 
+                    <input type="text"
+                           class="form-control"
+                           id="cf"
+                           name="cf"
                            placeholder="Inserisci il tuo CF"
                            required>
                 </div>
 
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" 
-                           class="form-control" 
-                           id="email" 
-                           name="email" 
+                    <input type="email"
+                           class="form-control"
+                           id="email"
+                           name="email"
                            placeholder="nome@esempio.com"
                            required>
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" 
-                           class="form-control" 
-                           id="password" 
-                           name="password" 
-                           placeholder="Inserisci una password (min. 8 caratteri)"
+                    <input type="password"
+                           class="form-control"
+                           id="password"
+                           name="password"
+                           placeholder="Inserisci una password"
                            minlength="8"
                            required>
+                    <div id="password-feedback" class="form-text"></div>
                 </div>
 
                 <div class="mb-3">
                     <label for="confirm_password" class="form-label">Conferma Password</label>
-                    <input type="password" 
-                           class="form-control" 
-                           id="confirm_password" 
-                           name="confirm_password" 
+                    <input type="password"
+                           class="form-control"
+                           id="confirm_password"
+                           name="confirm_password"
                            placeholder="Conferma la tua password"
                            required>
+                     <div id="confirm-password-feedback" class="form-text"></div> 
                 </div>
 
                 <div class="mb-3">
                     <label for="telefono" class="form-label">Numero Telefono</label>
-                    <input type="text" 
-                           class="form-control" 
-                           id="telefono" 
-                           name="telefono" 
+                    <input type="text"
+                           class="form-control"
+                           id="telefono"
+                           name="telefono"
                            placeholder="Inserisci il tuo numero di telefono">
                 </div>
 
                 <div class="mb-4">
                     <label for="indirizzo" class="form-label">Indirizzo</label>
-                    <input type="text" 
-                           class="form-control" 
-                           id="indirizzo" 
-                           name="indirizzo" 
+                    <input type="text"
+                           class="form-control"
+                           id="indirizzo"
+                           name="indirizzo"
                            placeholder="Inserisci il tuo indirizzo"
                            required>
                 </div>
 
-                <button type="submit" 
+                <button type="submit"
                         class="btn btn-primary w-100 mb-3 py-2"
-                        name="submit">
+                        name="submit"
+                        id="registerButton">
                     Registrati
                 </button>
 
