@@ -1,5 +1,5 @@
 <?php
-require_once 'bootstrap.php';
+require_once '../bootstrap.php';
 
 header('Content-Type: application/json');
 
@@ -21,3 +21,4 @@ if (isset($_POST["email"], $_POST["password"])) {
 
 echo json_encode($response);
 exit();
+?>

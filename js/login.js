@@ -1,5 +1,5 @@
 async function login(email, password) {
-    const url = 'login-controller.php';
+    const url = 'api/login-controller.php';
     const formData = new FormData();
     formData.append('email', email);
     formData.append('password', password);
