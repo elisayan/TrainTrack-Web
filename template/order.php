@@ -75,7 +75,7 @@
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-6 mt-5">
             <div class="card shadow p-4 mb-4 order-summary">
                 <h3>Riepilogo Ordine</h3>
                 <div class="order-summary-details">
