@@ -1,5 +1,5 @@
 <div class="container mt-5 mb-4">
-    <h1 class="mb-4">Le tue notifiche</h1>
+    <h2 class="mb-4 mx-3 border-bottom border-primary d-inline-block">Le tue notifiche</h2>
 
     <?php if (empty($notifiche)): ?>
         <div class="alert alert-info">Nessuna notifica da visualizzare.</div>

@@ -1,10 +1,12 @@
-<h1 class="mb-4 mx-3">I miei percorsi</h1>
+<div class="col-12 mb-4">
+    <h2 class="mb-2 mx-4 border-bottom border-primary d-inline-block">I miei percorsi</h2>
+</div>
 
 <section class="mb-5 mx-3">
     <h3 class="mb-3">Biglietti acquistati</h3>
     <?php if (!empty($ticketOrders)): ?>
         <?php
-        usort($ticketOrders, function($a, $b) {
+        usort($ticketOrders, function ($a, $b) {
             return strcmp($b['CodServizio'], $a['CodServizio']);
         });
         ?>
@@ -24,21 +26,21 @@
                 </thead>
                 <tbody>
                     <?php foreach ($ticketOrders as $order): ?>
-                    <tr>
-                        <td class="fw-bold"><?= htmlspecialchars($order['CodServizio']) ?></td>
-                        <td><?= htmlspecialchars($order['NomePasseggero'] . ' ' . $order['CognomePasseggero']) ?></td>
-                        <td><?= htmlspecialchars($order['CodPercorso']) ?></td>
-                        <td><?= htmlspecialchars($order['StazionePartenza']) ?></td>
-                        <td><?= htmlspecialchars($order['StazioneArrivo']) ?></td>
-                        <td><?= htmlspecialchars($order['TipoTreno']) ?></td>
-                        <td>
-                            <div class="d-flex flex-column">
-                                <span><?= date('d/m/Y', strtotime($order['DataPartenza'])) ?></span>
-                                <small class="text-muted"><?= date('H:i', strtotime($order['OrarioPartenza'])) ?></small>
-                            </div>
-                        </td>
-                        <td class="text-success fw-bold">€ <?= number_format($order['Prezzo'], 2) ?></td>
-                    </tr>
+                        <tr>
+                            <td class="fw-bold"><?= htmlspecialchars($order['CodServizio']) ?></td>
+                            <td><?= htmlspecialchars($order['NomePasseggero'] . ' ' . $order['CognomePasseggero']) ?></td>
+                            <td><?= htmlspecialchars($order['CodPercorso']) ?></td>
+                            <td><?= htmlspecialchars($order['StazionePartenza']) ?></td>
+                            <td><?= htmlspecialchars($order['StazioneArrivo']) ?></td>
+                            <td><?= htmlspecialchars($order['TipoTreno']) ?></td>
+                            <td>
+                                <div class="d-flex flex-column">
+                                    <span><?= date('d/m/Y', strtotime($order['DataPartenza'])) ?></span>
+                                    <small class="text-muted"><?= date('H:i', strtotime($order['OrarioPartenza'])) ?></small>
+                                </div>
+                            </td>
+                            <td class="text-success fw-bold">€ <?= number_format($order['Prezzo'], 2) ?></td>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -52,7 +54,7 @@
     <h3 class="mb-3">Abbonamenti acquistati</h3>
     <?php if (!empty($subscriptionOrders)): ?>
         <?php
-        usort($subscriptionOrders, function($a, $b) {
+        usort($subscriptionOrders, function ($a, $b) {
             return strcmp($b['CodServizio'], $a['CodServizio']);
         });
         ?>
@@ -73,19 +75,19 @@
                 </thead>
                 <tbody>
                     <?php foreach ($subscriptionOrders as $sub): ?>
-                    <tr>
-                        <td class="fw-bold"><?= htmlspecialchars($sub['CodServizio']) ?></td>
-                        <td><?= htmlspecialchars($sub['NomePasseggero'] . ' ' . $sub['CognomePasseggero']) ?></td>
-                        <td><?= htmlspecialchars($sub['StazionePartenza']) ?></td>
-                        <td><?= htmlspecialchars($sub['StazioneArrivo']) ?></td>
-                        <td><?= htmlspecialchars($sub['TipoTreno']) ?></td>
-                        <td><?= date('d/m/Y', strtotime($sub['DataInizio'])) ?></td>
-                        <td>
-                            <?= htmlspecialchars($sub['Durata']) ?>
-                        </td>
-                        <td><?= number_format($sub['Chilometraggio'], 0) ?> km</td>
-                        <td class="text-success fw-bold">€ <?= number_format($sub['Prezzo'], 2) ?></td>
-                    </tr>
+                        <tr>
+                            <td class="fw-bold"><?= htmlspecialchars($sub['CodServizio']) ?></td>
+                            <td><?= htmlspecialchars($sub['NomePasseggero'] . ' ' . $sub['CognomePasseggero']) ?></td>
+                            <td><?= htmlspecialchars($sub['StazionePartenza']) ?></td>
+                            <td><?= htmlspecialchars($sub['StazioneArrivo']) ?></td>
+                            <td><?= htmlspecialchars($sub['TipoTreno']) ?></td>
+                            <td><?= date('d/m/Y', strtotime($sub['DataInizio'])) ?></td>
+                            <td>
+                                <?= htmlspecialchars($sub['Durata']) ?>
+                            </td>
+                            <td><?= number_format($sub['Chilometraggio'], 0) ?> km</td>
+                            <td class="text-success fw-bold">€ <?= number_format($sub['Prezzo'], 2) ?></td>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
