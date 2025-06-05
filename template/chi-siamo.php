@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-lg-8">
-        <div class="mb-3">
-            <h1 class="text-primary-soft fw-normal mb-2" style="font-size: 1.8rem;">Chi Siamo</h1>
+        <div class="mb-3 text-center">
+            <h2 class="border-bottom border-primary d-inline-block mb-2" style="font-size: 1.8rem;">Chi Siamo</h2>
         </div>
 
         <div class="card border-0 shadow-sm p-4 mb-4 bg-light rounded-3">
