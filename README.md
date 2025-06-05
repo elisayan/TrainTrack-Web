@@ -19,15 +19,13 @@ Progetto universitario pensato per integrare funzionalità come notifiche, abbon
 
 3. **Importa il database:**
 
-- Accedi a [http://localhost/phpmyadmin](http://localhost/phpmyadmin)
-- Crea un nuovo database chiamato `traintrack`
-- Importa il file:
+- Importa il file, creando un nuovo database chiamato traintrack:
 
   ```
   db/traintrack.sql
   ```
 
-- Poi importa (sullo stesso database) il file:
+- Poi importa (sullo stesso database) il file per popolare il database:
 
   ```
   db/populatedb.sql
