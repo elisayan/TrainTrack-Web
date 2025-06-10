@@ -50,11 +50,9 @@ else if (isset($_POST['confirm_actual_payment'])) {
     }
 
     $_SESSION['last_purchase'] = $cartItems;
-    var_dump("enter if");
 
 
     if (isset($_SESSION['email'])) { 
-        var_dump($totalPrice);
 
         $emailUtente = $_SESSION["email"];
         $nomePas     = $passengerData['name'];
