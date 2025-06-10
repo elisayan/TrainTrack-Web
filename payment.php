@@ -40,7 +40,6 @@ if (isset($_POST['proceed_to_payment_details'])) {
         $_SESSION['passenger_details_for_payment']['phone']   = $_POST['phone']   ?? '';
     }
 
-    var_dump("proceed to payment details");
 }
 
 else if (isset($_POST['confirm_actual_payment'])) { 
