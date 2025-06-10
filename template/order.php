@@ -92,7 +92,7 @@
                         <p><strong>Sconto applicato:</strong> -<?php echo number_format($templateParams["discount"], 2); ?>€
                         </p>
                     <?php endif; ?>
-
+                    <hr>
                     <p><strong>Totale Ordine:</strong> <?php echo number_format($templateParams["total_price"], 2); ?>€
                     </p>
                 </div>
